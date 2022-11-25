@@ -1,0 +1,91 @@
+﻿@model OnlineAuctionProject.Models.Payment
+@using OnlineAuctionProject.Resources
+
+@{
+    ViewBag.Title = Resource.PayBill;
+}
+
+<h3>
+    <span class="glyphicon glyphicon-credit-card"></span>
+    @Resource.PayBill
+</h3>
+
+<hr />
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-12">
+            <p>
+                <span class="glyphicon glyphicon-credit-card"></span>
+                @Resource.PayBillInfo .
+            </p>
+            @using (Html.BeginForm("PayBill", "Auction", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PaymentValue, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.PaymentValue, new { @class = "form-control", @Readonly = "Readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CardType, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("CardTypes", null, Resource.SelectCardType, new { @class = "form-control dropDownList", Required = "Required" })
+                            @Html.ValidationMessageFor(model => model.CardType)
+                        </div>
+                    </div>              
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NameOnCard, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.NameOnCard, new { @class = "form-control", placeholder = Resource.NameOnCardPlaceholder })
+                            @Html.ValidationMessageFor(model => model.NameOnCard)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CardNumber, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.CardNumber, new { @class = "form-control", placeholder = Resource.CardNumberPlaceholder })
+                            @Html.ValidationMessageFor(model => model.CardNumber)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CardVerificationCode, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.CardVerificationCode, new { @class = "form-control", placeholder = Resource.CardVerificationCodePlaceholder })
+                            @Html.ValidationMessageFor(model => model.CardVerificationCode)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CardExpirationDate, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10 col-sm-10">
+                            <div class="form-inline">
+                                @Html.DropDownList("Month", null, Resource.Month, new { @class = "form-control dropDownList", required = "required" })
+                                @Html.DropDownList("Year", null, Resource.Year, new { @class = "form-control dropDownList", required = "required" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.CardExpirationDate)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="reset" value=@Resource.Reset class="btn btn-default" onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.ResetFields ?');" />
+                            <button type="submit" class="btn btn-success"
+                                    onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.Proceed');">
+                                <span class="glyphicon glyphicon-credit-card"></span>
+                                @Resource.Pay
+                            </button>
+
+                        </div>
+                    </div>
+                    <p class="text-center alert-danger">
+                        @ViewBag.PaymentFailed
+                    </p>
+                    @Html.ValidationSummary(true)
+                </div>
+            }
+        </div>
+    </div>
+    <img src="~/Images/credit-card-logos-transparent-eoRj.png" class="img-responsive" id="creditCardsImg" alt="@Resource.Image" />
+</div>

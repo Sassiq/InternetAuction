@@ -1,0 +1,57 @@
+﻿@using OnlineAuctionProject.Resources
+
+<!-- Extend auction time Modal -->
+<div class="modal fade" id="ExtendAuctionModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class = "modal-title" style="color:white;">
+                    <span class="glyphicon glyphicon-time"></span>
+                    @Resource.ExtendAuctionTime
+                </h4>
+            </div>
+            <div class='alert alert-danger' role='alert' style='display: none' id='AlertErrorExtend'>
+                <h4>
+                     @Resource.ErrorExtending
+                </h4>
+            </div>
+
+            @using (Html.BeginForm("ExtendAuctionTime", "Auction",  FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div >
+                        <img src="~/Images/stopwatch-1.png" class="ClockImg" alt="@Resource.Image" />
+                    </div>
+                    @Html.Hidden("FormAuctionId")
+                        @Html.Label("Days", Resource.DaysToAdd, new { @class = "lable form-inline" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            @Html.TextBox("DurationDays", 0, new { @class = "form-control", type = "Number", min = "0", placeholder = Resource.DurationDaysPlaceHolder })
+                        </div>
+                    <br />
+                        @Html.Label("Hrs", Resource.HoursToAdd, new { @class = "lable form-inline" })
+
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            @Html.TextBox("DurationHrs", 0, new { @class = "form-control", type = "Number", min = "0", placeholder = Resource.DurationHrsPlaceHolder })
+                        </div>
+
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@Resource.Cancel</button>
+                    <input type="submit" class="btn btn-success" value="@Resource.Save" onclick="return CanExtend();" />
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+

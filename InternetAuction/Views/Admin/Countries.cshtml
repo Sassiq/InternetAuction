@@ -1,0 +1,136 @@
+﻿@using OnlineAuctionProject.Resources
+@using PagedList
+@using PagedList.Mvc
+@using OnlineAuctionProject.ManageWebsiteLanguage
+@model IPagedList<OnlineAuctionProject.Models.Country>
+
+@{
+    ViewBag.Title = Resource.Countries;
+}
+
+<h3>
+    <span class="glyphicon glyphicon-globe"></span>
+    @Resource.Countries
+</h3>
+<hr />
+
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <a href="@Url.Action("AddCountry","Admin")" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                @Resource.AddCountry
+            </a>
+        </div>
+
+        <div class="col-lg-4 col-lg-push-4 col-md-6 col-md-push-2 col-sm-6 col-sm-push-2 col-xs-12">
+            @using (Html.BeginForm("Countries", "Admin", FormMethod.Get))
+            {
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
+                    @Html.TextBox("Search", null, new { @class = "form-control", placeholder = Resource.Search })
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>
+                <span class="glyphicon glyphicon-list-alt"></span>
+                @Resource.CountriesList:
+            </h3>
+
+            @if (Model.Count == 0)
+            {
+                <h3 class="text-danger text-center">
+                    @Resource.NoRecordsFound
+                </h3>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <div class="AjaxLoadingBox">
+                        <div id="DivWaiting" style="display:none;" class="text-center">
+                            <img src="~/Images/ajax-loader.gif" id="WaitingImg" />
+                        </div>
+                    </div>
+                    <table class="table customTable1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                                </th>
+                                <th colspan="3">
+                                    @Resource.Options
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                        {
+                                            case "en-US":
+                                                @m.Name
+                                                break;
+                                            case "ar-SA":
+                                            @m.Name_Ar
+                                                break;
+                                            default:
+                                            @m.Name
+                                                break;
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("EditCountry", "Admin", new { Id = m.Id })"
+                                           class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                            @Resource.Edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @using (Html.BeginForm("DeleteCountry", "Admin", new { Id = m.Id }, FormMethod.Post))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit" class="btn btn-danger"
+                                                    onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.DeleteCountry ?')">
+                                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                                @Resource.Delete
+                                            </button>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div id="divCountryVisibilityStatus_@m.Id">
+                                            @Html.Partial("_ChangeCountryVisibilityPartial", m)
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    @Html.PagedListPager(Model, page => Url.Action("Countries", "Admin", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+
+    <br />
+    <a href="@Url.Action("Index","Admin")" class="btn btn-default">
+        <span class="@Resource.BackToAdminPageGlyph"> </span>
+
+    </a>
+</div>

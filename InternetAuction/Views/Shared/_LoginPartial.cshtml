@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNet.Identity
+@using OnlineAuctionProject.Resources
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title" style="color:white;">
+                    <span class="glyphicon glyphicon-lock"></span>
+                    @Resource.Login
+                </h4>
+            </div>
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "loginform" }))
+            {
+                <div class='alert alert-danger' role='alert' style='display: none' id='alertBox'>
+                </div>
+                <div class="text-center" id="loginWaitingBox">
+                    <img src="~/Images/ajax-loader.gif" style="display:none;" id="WaitingImg" />
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div id="LoginImg">
+                        <img src="~/Images/login2.png" width="150" height="130" class="hidden-xs" style="margin-top:50px;" alt="@Resource.Image" />
+                    </div>
+                    @Html.Label("Username", @Resource.Username, new { @class = "lable form-inline" })
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        @Html.TextBox("Username",null, new { @class = "form-control", @placeholder = Resource.UsernamePlaceHolder })
+
+                    </div>
+                    <br />
+                    @Html.Label("Password",@Resource.Password, new { @class = "lable form-inline" })
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
+                        @Html.Password("Password",null, new { @class = "form-control", @placeholder = Resource.PasswordPlaceHolder })
+                    </div>
+                    <p style="font-size:9pt;">
+                        @Html.ActionLink(Resource.ForgotYourPassword, "ForgotPassword", "Account")
+                    </p>
+                    
+                    <p style="font-size:10pt;">
+                        @Resource.DontHaveAccount
+                        @Html.ActionLink(Resource.RegisterNow, "Register", "Account", new { returnUrl = "/Home/Index" }, null)
+                    </p>
+
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                        @Resource.Cancel
+                    </button>
+                    <button type="submit" id="btnLogin" class="btn btn-success">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        @Resource.Login
+                    </button>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,384 @@
+﻿@model OnlineAuctionProject.Models.Auction
+@using OnlineAuctionProject.Resources
+
+@{
+    ViewBag.Title = Resource.BidsDetails;
+
+    OnlineAuctionProject.Models.ApplicationDbContext db = new OnlineAuctionProject.Models.ApplicationDbContext();
+
+    TimeZoneInfo tzi = OnlineAuctionProject.Repository.TimeZonesManagement.GetTimeZoneInfo();
+}
+
+
+<h3>
+    <span class="glyphicon glyphicon-list"></span>
+    @Resource.BidsDetails
+</h3>
+
+<hr />
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="text-center well">
+                <h4>
+                    @Resource.Auction: @Model.Product.Name
+                </h4>
+                <h4>
+                    (
+                    @Resource.Category:
+                    @switch (OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
+                    {
+                        case "en-US":
+                            @:@Model.Product.Category.Category_Name
+                                break;
+                        case "ar-SA":
+                        @:@Model.Product.Category.Category_Name_Ar
+                                break;
+                        default:
+                        @:@Model.Product.Category.Category_Name
+                                break;
+                    }
+                    )
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            @foreach (var p in Model.Product.Images)
+            {
+                <img src="@Url.Content(p.Path)"
+                     onmouseover="$('#ProdImg').attr('src', '@Url.Content(p.Path)');"
+                     onclick="$('#ProdImg').attr('src', '@Url.Content(p.Path)');"
+                     id="AdminAuctionDetailsProdImages"
+                     alt="@Resource.Image" />
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <button type="button" id="btnAuctionOptions" title="@Resource.ShowHide" class="btn btn-primary btn-block AnimatedBtn">
+            @Resource.Options
+            <span></span>
+        </button>
+        <br />
+        <div id="AuctionOptionsPanel">
+            <div class="col-lg-12">
+                <div class="col-lg-4 col-md-4  col-sm-4">
+                    <a href="@Url.Action("Remove", "Admin", new { Id = Model.Id, returnUrl = "/Admin/AuctionsManagement/" })"
+                       class="btn btn-danger btn-block"
+                       onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.RemoveAuction ?')">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        @Resource.RemoveAuction
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    @Html.Hidden("HdnReportsCount", db.Reports.Include("Auction").Where(x => x.auction.Id == Model.Id).Count())
+                    <a href="@Url.Action("ReportDetails", "Admin", new { Id = Model.Id, returnUrl = "/Admin/BidsDetails/" + Model.Id })"
+                       class="btn btn-default  btn-block"
+                       onclick="return reportsEmpty();">
+                        <span class="glyphicon glyphicon-"></span>
+                        @Resource.Reports
+                        <span class="badge">
+                            @(db.Reports.Include("Auction").Where(x => x.auction.Id == Model.Id).Count())
+                        </span>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    @Html.Partial("_ChangeProductCategoryPatial")
+                    <a href="" data-toggle="modal" data-target="#ChangeCategoryModal"
+                       class="btn btn-success btn-block">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        @Resource.ChangeCategory
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <button type="button" id="btnAuctionDetails" title="@Resource.ShowHide" class="btn btn-primary btn-block AnimatedBtn">
+            @Resource.AuctionDetails
+            <span></span>
+        </button>
+        <div id="AuctionDetailsPanel">
+            <div class="col-lg-4 col-md-4">
+                <table class="">
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.ProductStatus
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                @(Model.Product.Status == "Used" ? Resource.Used : Resource.New)
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.ProductDescription
+                            </h5>
+                        </td>
+                        <td>
+                            <p>
+                                <ul class="ProductDescriptionList">
+                                    @foreach (var line in Model.Product.Description.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <li>
+                                            @line
+                                        </li>
+                                    }
+                                </ul>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <table>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.OpenningPrice
+                            </h5>
+                        </td>
+                        <td>
+                            <h5 class="label label-info">
+                                @Model.Product.Price @Model.Product.Currency.Name
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.CurrentBid
+                            </h5>
+                        </td>
+                        <td>
+                            <h5 class="label label-success">
+                                @Model.Current_Bid @Model.Product.Currency.Name
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.Seller
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                @Model.Seller.UserName
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.CurrentBidder
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                @(Model.Buyer == null ? Resource.None : Model.Buyer.UserName)
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.BidsCount
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                @Model.Bids.Count
+                            </h5>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <table>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.StartDate
+                            </h5>
+                        </td>
+                        <td>
+                            <h5 class="DateTime">
+                                @TimeZoneInfo.ConvertTimeFromUtc(Model.Start_Date.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                            </h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>
+                                @Resource.AuctionStatus
+                            </h5>
+                        </td>
+                        <td>
+                            <h5>
+                                @(Model.Finish_Date > DateTime.Now ? Resource.Ongoing : Resource.Finished)
+                            </h5>
+                        </td>
+                    </tr>
+                    @if (Model.Finish_Date <= DateTime.Now)
+                    {
+                        <tr>
+                            <td>
+                                <h5>
+                                    @Resource.FinishDateTime
+                                </h5>
+                            </td>
+                            <td>
+                                <h5 class="DateTime">
+                                    @TimeZoneInfo.ConvertTimeFromUtc(Model.Finish_Date.Value.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                </h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h5>
+                                    @Resource.PaymentStatus
+                                </h5>
+                            </td>
+                            <td>
+                                <h5>
+                                    @(Model.IsPaid ? Resource.Paid : Resource.NotPaid)
+                                </h5>
+                            </td>
+                        </tr>
+                        if (Model.IsPaid)
+                        {
+                            <tr>
+                                <td>
+                                    <h5>
+                                        @Resource.PaymentDateTime
+                                    </h5>
+                                </td>
+                                <td>
+                                    <h5 class="DateTime">
+                                        @TimeZoneInfo.ConvertTimeFromUtc(Model.PaymentDateTime.Value.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                    </h5>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2">
+                                <div class="text-center">
+                                    <div id="countdowntimer">
+                                        <span id="future_date"></span>
+                                    </div>
+                                    <script>
+                                    //countdown
+                                    $("#future_date").countdowntimer({
+                                            startDate: '@DateTime.Now.ToString(new System.Globalization.CultureInfo("en-US"))',
+                                            dateAndTime: '@Model.Finish_Date.Value.ToString(new System.Globalization.CultureInfo("en-US"))',
+                                            size: "sm",
+                                            regexpMatchFormat: "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",
+                                            regexpReplaceWith: "$1<sup><small>@Resource.DayAbbr</small></sup> / $2<sup><small>@Resource.HourAbbr</small></sup> / $3<sup><small>@Resource.MinuteAbbr</small></sup> / $4<sup><small>@Resource.SecondAbbr</small></sup>",
+                                            backgroundColor: '#515252',
+                                            borderColor: "#515252"
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <button type="button" id="btnBidsDetails" title="@Resource.ShowHide" class="btn btn-primary btn-block AnimatedBtn">
+            @Resource.BidsDetails
+            <span></span>
+        </button>
+        <div class="col-lg-12">
+            <div id="BidsDetailsPanel">
+                <div class="table-responsive">
+                    <table class="table table-hover customTable1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Resource.Bidder
+                                </th>
+                                <th>
+                                    @Resource.BidDateTime
+                                </th>
+                                <th>
+                                    @Resource.BidValue
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Bids.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="3">
+                                        <h3 class="text-danger text-center">
+                                            @Resource.NoRecordsFound
+                                        </h3>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                foreach (var bid in Model.Bids.OrderByDescending(x => x.BidDateTime))
+                                {
+                                    <tr>
+                                        <td>
+                                            @bid.Bidder.UserName
+                                        </td>
+                                        <td class="DateTime">
+                                            @TimeZoneInfo.ConvertTimeFromUtc(bid.BidDateTime.Value.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                        </td>
+                                        <td>
+                                            @bid.BidValue @Model.Product.Currency.Name
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <a href="@Url.Action("AuctionsManagement","Admin")" class="btn btn-default">
+        <span class="@Resource.BackToAdminPageGlyph"> </span>
+    </a>
+</div>
+
+<!-- Errors Modal -->
+<div id="errorModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-remove-circle"> </span>
+                    @Resource.Error
+                </h4>
+            </div>
+            <div class="modal-body">
+                @Resource.NoReports
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resource.Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

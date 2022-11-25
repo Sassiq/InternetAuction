@@ -1,0 +1,31 @@
+﻿@using OnlineAuctionProject.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = OnlineAuctionProject.Resources.Resource.ChangePassword;
+}
+
+<h3>
+    <span class="glyphicon glyphicon-cog"></span>
+    @ViewBag.Title
+</h3>
+<hr />
+
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="text-success">
+                @ViewBag.StatusMessage
+            </p>
+
+            @if (ViewBag.HasLocalPassword)
+            {
+                @Html.Partial("_ChangePasswordPartial")
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
