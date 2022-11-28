@@ -1,0 +1,302 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@using OnlineAuctionProject.Resources
+@using OnlineAuctionProject.ManageWebsiteLanguage
+@model IPagedList<OnlineAuctionProject.Models.Auction>
+
+@{
+    ViewBag.Title = Resource.MyAuctions;
+    TimeZoneInfo tzi = OnlineAuctionProject.Repository.TimeZonesManagement.GetTimeZoneInfo();}
+<h3>
+    <span class="glyphicon glyphicon-briefcase"> </span>
+    @Resource.MyAuctions [@ViewBag.AuctionsCount]
+</h3>
+<hr />
+
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("MyAuctions", "Auction", FormMethod.Get))
+            {
+                <div class="col-lg-4 col-md-4 col-sm-4 col-lg-push-2 col-md-push-2 col-sm-push-2">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></span>
+                        @Html.DropDownList("Category", null, Resource.All, new { @class = "form-control dropDownList", onchange = "javascript:this.form.submit();" })
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4  col-lg-push-2 col-md-push-2 col-sm-push-2">
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
+
+                        @Html.DropDownList("AuctionStatus", new List<SelectListItem>
+                         {
+                           new SelectListItem{
+                                Text = Resource.All + " (" + ViewBag.MyAuctionsCount + ")",
+                                Value = "All"
+                            },
+                            new SelectListItem{
+                                Text = Resource.Ongoing + " (" + ViewBag.MyOngoingAuctionsCount + ")",
+                                Value = "Ongoing"
+                            },
+                            new SelectListItem{
+                                Text = Resource.Finished + " (" + ViewBag.FinishedAuctionsCount + ")",
+                                Value = "Finished"
+                            },
+                            new SelectListItem{
+                                Text = Resource.Paid + " (" + ViewBag.MyPaidAuctionsCount + ")",
+                                Value = "Paid"
+                            },
+                            new SelectListItem{
+                                Text = Resource.NotPaid + " (" + ViewBag.MyNotPaidAuctionsCount + ")",
+                                Value = "NotPaid"
+                            }
+
+                       }, new { @class = "form-control dropDownList", onchange = "javascript:this.form.submit();" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-12">
+            @if (Model.Count == 0)
+            {
+                <h3 class="text-danger text-center">
+                    @Resource.NoRecordsFound
+                </h3>
+            }
+            else
+            {
+                foreach (var m in Model)
+                {
+                    <div class="MyAuctionsBox">
+                        <div class="col-lg-4 col-md-4 col-sm-4  text-center">
+                            <div class="text-center AuctioncountDownTimer">
+                                <div id="countdowntimer">
+                                    <span id="future_date_@m.Id"></span>
+                                </div>
+                                <script>
+                                    var c = true;
+                                    //countdown
+                                    $("#future_date_@m.Id").countdowntimer({
+                                        startDate: '@DateTime.Now.ToString(new System.Globalization.CultureInfo("en-US"))',
+                                        dateAndTime: '@m.Finish_Date.Value.ToString(new System.Globalization.CultureInfo("en-US"))',
+                                        size: "sm",
+                                        regexpMatchFormat: "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",
+                                        regexpReplaceWith: "$1<sup>@Resource.DayAbbr</sup> / $2<sup>@Resource.HourAbbr</sup> / $3<sup>@Resource.MinuteAbbr</sup> / $4<sup>@Resource.SecondAbbr</sup>",
+                                        backgroundColor: '#515252',
+                                        borderColor: "#515252"
+                                    });
+
+                                </script>
+                            </div>
+                            <input type="hidden" value="@m.Id" id="AuctionID" />
+                            <img src="@Url.Content(m.Product.Images[0].Path)" class="img-thumbnail img-responsive MyAuctionImg" alt="@m.Product.Name (@Resource.Image)" />
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            @Html.DisplayNameFor(model => model.FirstOrDefault().Product.Name):
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            @m.Product.Name
+                                        </h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            @Html.DisplayNameFor(model => model.FirstOrDefault().Product.Category.Category_Name):
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            @switch (SiteLanguages.GetCurrentLanguageCulture())
+                                            {
+                                                case "en-US":
+                                                    @:@m.Product.Category.Category_Name
+                                                    break;
+                                                case "ar-SA":
+                                                @:@m.Product.Category.Category_Name_Ar
+                                                    break;
+                                                default:
+                                                @:@m.Product.Category.Category_Name
+                                                    break;
+                                            }
+                                        </h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            @Html.DisplayNameFor(model => model.FirstOrDefault().Product.Status):
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            @(m.Product.Status == "Used" ? Resource.Used : Resource.New)
+                                        </h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            @Resource.OpenningPrice:
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            @m.Product.Price @m.Product.Currency.Name
+                                        </h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            @Html.DisplayNameFor(model => model.FirstOrDefault().Current_Bid):
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            @m.Current_Bid @m.Product.Currency.Name
+                                        </h5>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            @Resource.CurrentBidder:
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            @(m.Buyer != null ? m.Buyer.UserName : Resource.None)
+                                        </h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            @Resource.AuctionStatus:
+                                        </h5>
+                                    </td>
+                                    <td>
+                                        <h5>
+                                            <a href="@Url.Action("ViewAuction", "Auction", new { Id = m.Id })">
+                                                <span id="auctionStatus">
+                                                    @(m.Finish_Date > DateTime.Now ? Resource.Ongoing : Resource.Finished)
+                                                </span>
+                                            </a>
+                                        </h5>
+                                    </td>
+                                </tr>
+                                @if (m.Finish_Date <= DateTime.Now)
+                                {
+                                    <tr>
+                                        <td>
+                                            <h5>
+                                                @Resource.PaymentStatus
+                                            </h5>
+                                        </td>
+                                        <td>
+                                            @(m.IsPaid ? Resource.Paid : Resource.NotPaid)
+                                        </td>
+                                    </tr>
+
+                                }
+                                <tr>
+                                    <td colspan="2">
+                                        @if (!m.IsPaid)
+                                        {
+                                            <table>
+                                                <tr>
+                                                    <th colspan="2" class="text-info">
+                                                        @Resource.Options
+                                                    </th>
+                                                </tr>
+                                                @if (m.Buyer == null)
+                                                {
+                                                    <tr>
+                                                        <td style="padding:0;">
+                                                            @Html.Partial("_ChangeOpeningBid")
+                                                            <a href="#" data-toggle="modal" data-target="#ChangeOpeningBidModal"
+                                                               class="btn btn-sm btn-primary optionsBtn"
+                                                               onclick="$('#OpeningBidFormAuctionId').val(@m.Id); $('#CurrentBid').val(@m.Current_Bid);">
+                                                                @Resource.ChangeAuctionOpeningBid
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                                <tr>
+                                                    <td style="padding:0;">
+                                                        @Html.Partial("_ExtendAuctionTimePartial")
+                                                        <a href="#" data-toggle="modal" data-target="#ExtendAuctionModal"
+                                                           class="btn btn-sm btn-success optionsBtn"
+                                                           onclick="$('#FormAuctionId').val(@m.Id)">
+                                                            @Resource.ExtendAuctionTime
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                                @if (m.Finish_Date > DateTime.Now)
+                                                {
+                                                    <tr>
+                                                        <td style="padding:0;">
+
+                                                            <a href="@Url.Action("CloseAuction", "Auction", new { Id = m.Id })"
+                                                               class="btn btn-sm btn-danger optionsBtn"
+                                                               onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.CloseAuctionConfirmation ?');">
+                                                                @Resource.CloseAuction
+                                                            </a>
+
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </table>
+                                        }
+                                        @if (m.IsPaid)
+                                        {
+                                    <tr>
+                                        <td>
+                                            <h5>
+                                                @Html.DisplayNameFor(model => m.PaymentDateTime)
+                                            </h5>
+                                        </td>
+                                        <td class="DateTime">
+                                            @TimeZoneInfo.ConvertTimeFromUtc(m.PaymentDateTime.Value.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                        </td>
+                                    </tr>
+                                        }
+
+                                    </table>
+
+                                </div>
+                            </div>
+                }
+            }
+        </div>
+    </div>
+    @Html.PagedListPager(Model, page => Url.Action("MyAuctions", "Auction", new { page }),
+                        new PagedListRenderOptions()
+                        {
+                            Display = PagedListDisplayMode.IfNeeded,
+                            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded
+                        })
+
+
+</div>
+

@@ -1,0 +1,212 @@
+﻿html,body{
+    font-family:Arial;
+    
+}
+
+.Logo{
+   font-family:Arial;
+}
+
+#ImageHolder{
+    border:1px dashed black;
+    margin-top:5px;
+    border-radius:5px;
+    background-color:aqua;
+    float:right;
+}
+
+.thumb-image {
+    float: left;
+    width: 155px;
+    height: 155px;
+    position: relative;
+    padding: 5px;
+}
+
+
+.CategoryBox{
+    float:right;
+    margin-left:15px;
+}
+
+.EmailImg{
+    margin-right:50px;
+}
+
+#LoginImg{
+    float:left;
+}
+
+.AuctionBox{
+    float:right;
+    margin-left:15px;
+}
+
+
+#SearchImg{
+    float:left;
+}
+
+.searchBtn{
+    border-radius:10px 0;
+    float:left;
+}
+
+.ReplyMsgImg{
+    margin-right:50px;
+}
+
+.UserDetailsImg{
+    float:left;
+}
+
+.OngoingAuctionBox{
+    float:right;
+    margin-left:15px;
+}
+
+.MyAuctionsBox{
+    float:right;
+    margin-left:15px;
+}
+
+#productImagesPanel{
+    margin-right:15px;
+}
+
+.ClockImg{
+    float:left;
+}
+
+
+#FacebookPagePanel{
+    float:right;
+}
+
+@media only screen and (max-width: 700px) {
+   #MessagesAdminBtn span{
+        position:relative;
+        top:95px;
+        right:50px;
+    }
+
+
+    #UsersAdminBtn span{
+        position:relative;
+        top:90px;
+        right:48px;
+    }
+
+
+    #StatisticsAdminBtn span{
+        position:relative;
+        top:94px;
+        right:58px;
+    }
+
+
+    #ReportsAdminBtn span{
+        position:relative;
+        top:93px;
+        right:50px;
+    }
+
+     #AuctionsManagementAdminBtn span{
+        position:relative;
+        top:100px;
+        right:42px;
+    }
+ 
+     .headerUserWelcome{
+        margin-right:50px;
+    }
+   
+}
+
+@media only screen and (min-width: 700px) {
+
+    #MessagesAdminBtn span{
+        position:relative;
+        top:140px;
+        right:65px;
+    }
+
+
+    #UsersAdminBtn span{
+        position:relative;
+        top:138px;
+        right:60px;
+    }
+
+
+    #StatisticsAdminBtn span{
+        position:relative;
+        top:137px;
+        right:75px;
+    }
+
+
+    #ReportsAdminBtn span{
+        position:relative;
+        top:140px;
+        right:60px;
+    }
+  
+     #AuctionsManagementAdminBtn span{
+        position:relative;
+        top:150px;
+        right:60px;
+    }
+
+     .reportBtn {
+      float:right;
+    }
+
+
+}
+
+.AdminOptionsBtn{
+    float:right;
+}
+
+#HeaderAdminBtn{
+    float:right;
+    border-radius:0px 10px 0px 10px;
+}
+
+.LogBtn{
+    float:left;
+    left:20px;
+}
+.panel-body{
+    text-align:right;
+}
+
+.phoneNumber{
+    text-align:right;
+}
+
+.DateTime{
+    text-align:right;
+}
+
+.AdminAuctionBox{
+    float:right;
+    margin-left:15px;
+}
+
+.permissionsList{
+    text-align:right;
+}
+
+
+a.backToTop {
+	position: fixed;
+	left: 20px;
+	bottom: 20px;
+}
+
+.ProductDescriptionList{
+    padding-right:15px;
+}
+

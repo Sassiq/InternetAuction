@@ -1,0 +1,76 @@
+﻿@model List<string>
+@using OnlineAuctionProject.Resources
+@{
+    ViewBag.Title = Resource.ManageRoles;
+}
+
+<h3>
+    <span class="glyphicon glyphicon-asterisk"></span>
+    @Resource.ManageRoles
+</h3>
+
+<hr />
+
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-12">
+
+            @using (Html.BeginForm("ManageUserRoles_AddToRole", "Admin", new { Id = ViewBag.User.Id }, FormMethod.Post))
+            {
+                <h4 class="text-info">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    @Resource.Add @Resource.User ( @ViewBag.User.UserName ) @Resource.ToRole:
+                </h4>
+                @Html.DropDownList("Roles", null, Resource.SelectRole, new { @class = "form-control form-inline dropDownList" })
+                <br />
+                <input type="submit" value="@Resource.Add" class="btn btn-success" />
+            }
+
+            <br />
+            <h4 class="text-info">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                @Resource.CurrentUserRoles
+            </h4>
+            <table class="table table-responsive table-striped customTable1">
+                <thead>
+                    <tr>
+                        <th>
+                            @Resource.Role
+                        </th>
+                        <th>
+                            @Resource.RemoveFromRole
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <td>
+                                @role
+                                @Html.Hidden("role", role)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("ManageUserRoles_RemoveFromRole", "Admin", new { Id = ViewBag.User.Id, role = role })" class="btn btn-danger"
+                                   onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.RemoveFromRoleConfirmation')">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            @Html.Partial("_RolesExplanationPartial")
+        </div>
+    </div>
+
+    <br />
+    <a href="@Url.Action("ManageUsers","Admin")" class="btn btn-default">
+        <span class="@Resource.BackToAdminPageGlyph"> </span>
+    </a>
+</div>

@@ -1,0 +1,1383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>من نحن</value>
+  </data>
+  <data name="Bootstrap" xml:space="preserve">
+    <value>~/Content/bootstrap-rtl.min.css</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>المزاد الالكتروني</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>الغاء</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>المدينة</value>
+  </data>
+  <data name="CityPlaceHolder" xml:space="preserve">
+    <value>أدخل مدينتك</value>
+  </data>
+  <data name="CityReq" xml:space="preserve">
+    <value>المدينة مطلوبة</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="ConfirmPasswordError" xml:space="preserve">
+    <value>كلمة المرور غير مطابقة</value>
+  </data>
+  <data name="ConfirmPasswordPlaceHolder" xml:space="preserve">
+    <value>أعد كتابة كلمة المرور</value>
+  </data>
+  <data name="Contactus" xml:space="preserve">
+    <value>اتصل بنا</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>البلد</value>
+  </data>
+  <data name="CountryPlaceHolder" xml:space="preserve">
+    <value>أدخل بلدك</value>
+  </data>
+  <data name="CountryReq" xml:space="preserve">
+    <value>البلد مطلوب</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الالكتروني</value>
+  </data>
+  <data name="EmailPlaceHolder" xml:space="preserve">
+    <value>أدخل البريد الالكتروني الخاص بك</value>
+  </data>
+  <data name="EmailReq" xml:space="preserve">
+    <value>البريد الالكتروني مطلوب</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="FirstNamePlaceHolder" xml:space="preserve">
+    <value>أدخل اسمك الأول</value>
+  </data>
+  <data name="FirstNameReq" xml:space="preserve">
+    <value>الاسم الاول مطلوب</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>الصفحة الرئيسية</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>الاسم الأخير</value>
+  </data>
+  <data name="LastNamePlaceHolder" xml:space="preserve">
+    <value>أدخل اسمك الأخير</value>
+  </data>
+  <data name="LastNameReq" xml:space="preserve">
+    <value>الاسم الأخير مطلوب</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="Nav" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="PasswordPlaceHolder" xml:space="preserve">
+    <value>أدخل كلمة مرور</value>
+  </data>
+  <data name="PasswordReq" xml:space="preserve">
+    <value>كلمة المرور مطلوبة</value>
+  </data>
+  <data name="PhNumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="PhNumberPlaceHolder" xml:space="preserve">
+    <value>ادخل رقم الهاتف الخاص بك</value>
+  </data>
+  <data name="PhNumberReq" xml:space="preserve">
+    <value>رقم الهاتف مطلوب</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>إنشاء حساب جديد</value>
+  </data>
+  <data name="RegisterBtn" xml:space="preserve">
+    <value>تسجيل</value>
+  </data>
+  <data name="RegisterMsg" xml:space="preserve">
+    <value>الرجاء ادخال البيانات التالية لاتمام عملية التسجيل.</value>
+  </data>
+  <data name="SideBar" xml:space="preserve">
+    <value>~/Content/SideBarRight.css</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>الشارع</value>
+  </data>
+  <data name="StreetPlaceHolder" xml:space="preserve">
+    <value>أدخل اسم شارعك</value>
+  </data>
+  <data name="StreetReq" xml:space="preserve">
+    <value>الشارع مطلوب</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="UsernamePlaceHolder" xml:space="preserve">
+    <value>أدخل اسم مستخدم</value>
+  </data>
+  <data name="UsernameReq" xml:space="preserve">
+    <value>اسم المستخدم مطلوب</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>رقم المنطقة</value>
+  </data>
+  <data name="ZipCodePlaceHolder" xml:space="preserve">
+    <value>أدخل رقم منطقتك</value>
+  </data>
+  <data name="ZipCodeReq" xml:space="preserve">
+    <value>رقم المنطقة مطلوب</value>
+  </data>
+  <data name="footer" xml:space="preserve">
+    <value>الجامعة الافتراضية السورية - الهندسة المعلوماتية - المشروع 1</value>
+  </data>
+  <data name="AddAuction" xml:space="preserve">
+    <value>اضافة مزاد</value>
+  </data>
+  <data name="AddNewAuction" xml:space="preserve">
+    <value>إضافة مزاد جديد</value>
+  </data>
+  <data name="AuctionFinishDatePlaceHolder" xml:space="preserve">
+    <value>اختر تاريخ انهاء المزاد</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>الفئة</value>
+  </data>
+  <data name="CategoryReq" xml:space="preserve">
+    <value>الفئة مطلوبة</value>
+  </data>
+  <data name="FinishDate" xml:space="preserve">
+    <value>تاريخ انهاء المزاد</value>
+  </data>
+  <data name="FinishDateReq" xml:space="preserve">
+    <value>تاريخ انهاء المزاد مطلوب</value>
+  </data>
+  <data name="PleaseFillTheFollowingFormToAddaNewAuction" xml:space="preserve">
+    <value>الرجاء تعبئة النموذج التالي لاتمام عملية اضافة مزاد جديد.</value>
+  </data>
+  <data name="ProductDescription" xml:space="preserve">
+    <value>وصف المنتج</value>
+  </data>
+  <data name="ProductDescriptionPlaceHolder" xml:space="preserve">
+    <value>اكتب وصف للمنتج</value>
+  </data>
+  <data name="ProductDescriptionReq" xml:space="preserve">
+    <value>وصف المنتج مطلوب</value>
+  </data>
+  <data name="ProductImage" xml:space="preserve">
+    <value>صورة المنتج</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>اسم المنتج</value>
+  </data>
+  <data name="ProductNamePlaceHolder" xml:space="preserve">
+    <value>أدخل اسم المنتج</value>
+  </data>
+  <data name="ProductNameReq" xml:space="preserve">
+    <value>اسم المنتج مطلوب</value>
+  </data>
+  <data name="ProductPrice" xml:space="preserve">
+    <value>سعر المنتج</value>
+  </data>
+  <data name="ProductPriceCurrency" xml:space="preserve">
+    <value>سعر المنتج يجيب أن يكون عملة (رقم)</value>
+  </data>
+  <data name="ProductPricePlaceHolder" xml:space="preserve">
+    <value>أدخل السعر الابتدائي للمنتج</value>
+  </data>
+  <data name="ProductPriceReq" xml:space="preserve">
+    <value>سعر المنتج مطلوب</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>اختر فئة</value>
+  </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>اختر صور</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>المستخدم</value>
+  </data>
+  <data name="AddCategory" xml:space="preserve">
+    <value>إضافة فئة</value>
+  </data>
+  <data name="AddNewCategory" xml:space="preserve">
+    <value>إضافة فئة جديدة</value>
+  </data>
+  <data name="CategoryImage" xml:space="preserve">
+    <value>صورة</value>
+  </data>
+  <data name="CategoryNamePlaceHolder" xml:space="preserve">
+    <value>أدخل اسم الفئة باللغة الانجليزية</value>
+  </data>
+  <data name="PleaseFillThisFormToAddNewCategory" xml:space="preserve">
+    <value>الرجاء تعبئة النموذج التالي لاتمام عملية اضافة الفئة الجديدة.</value>
+  </data>
+  <data name="AuctionFinishTime" xml:space="preserve">
+    <value>توقيت انهاء المزاد</value>
+  </data>
+  <data name="DurationDays" xml:space="preserve">
+    <value>مدة المزاد (بالايام)</value>
+  </data>
+  <data name="DurationDaysPlaceHolder" xml:space="preserve">
+    <value>أدخل المدة بالايام</value>
+  </data>
+  <data name="DurationDaysRange" xml:space="preserve">
+    <value>مدة المزاد (بالايام) يجب أن تكون أكبر أو تساوي 0</value>
+  </data>
+  <data name="DurationDaysReq" xml:space="preserve">
+    <value>مدة المزاد (بالايام) مطلوبة</value>
+  </data>
+  <data name="DurationHrs" xml:space="preserve">
+    <value>مدة المزاد (بالساعات)</value>
+  </data>
+  <data name="DurationHrsPlaceHolder" xml:space="preserve">
+    <value>أدخل المدة بالساعات</value>
+  </data>
+  <data name="DurationHrsRange" xml:space="preserve">
+    <value>مدة المزاد (بالساعات) يجب أن تكون أكبر أو تساوي 0</value>
+  </data>
+  <data name="DurationHrsReq" xml:space="preserve">
+    <value>مدة المزاد (بالساعات) مطلوبة</value>
+  </data>
+  <data name="LoginFail" xml:space="preserve">
+    <value>فشل في تسجيل الدخول</value>
+  </data>
+  <data name="BadAccessMsg" xml:space="preserve">
+    <value>عذراً, يبدو أنك حاولت الدخول الى صفحة بحاجة لتصريح دخول, الرجاء تسجيل الدخول.</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>إدارة الموقع</value>
+  </data>
+  <data name="ChooseACategoryAndCheckTheOfferdAuctions" xml:space="preserve">
+    <value>اختر فئة واستعرض المزادات المعلنة:</value>
+  </data>
+  <data name="StyleSheet" xml:space="preserve">
+    <value>~/Content/SiteRight.css</value>
+  </data>
+  <data name="EnableJS" xml:space="preserve">
+    <value>الرجاء تفعيل الجافاسكربت في متصفح الويب الخاص بك!</value>
+  </data>
+  <data name="AuctionPreview" xml:space="preserve">
+    <value>عرض المزادات</value>
+  </data>
+  <data name="ChooseCurrency" xml:space="preserve">
+    <value>اختر العملة</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>العملة</value>
+  </data>
+  <data name="CurrencyReq" xml:space="preserve">
+    <value>العملة مطلوبة</value>
+  </data>
+  <data name="CurrentBid" xml:space="preserve">
+    <value>العرض الحالي</value>
+  </data>
+  <data name="DetailsAndBidding" xml:space="preserve">
+    <value>التفاصيل والمزايدة</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>تصفير</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>ليس لديك حساب؟ </value>
+  </data>
+  <data name="RegisterNow" xml:space="preserve">
+    <value>أنشئ حساب الاٌن.</value>
+  </data>
+  <data name="AddCountry" xml:space="preserve">
+    <value>إضافة بلد جديد</value>
+  </data>
+  <data name="AddCountryInfo" xml:space="preserve">
+    <value>أضف بلد الى قائمة البلدان المتاحة.</value>
+  </data>
+  <data name="AddCountryPlaceHolder" xml:space="preserve">
+    <value>أدخل اسم البلد باللغة الانجليزية</value>
+  </data>
+  <data name="BackToAdminPage" xml:space="preserve">
+    <value>عودة الى ادارة الموقع.</value>
+  </data>
+  <data name="BackToAdminPageGlyph" xml:space="preserve">
+    <value>glyphicon glyphicon-forward</value>
+  </data>
+  <data name="LoginAndStartBidding" xml:space="preserve">
+    <value>سجل دخولك الان وابدأ المزايدة!</value>
+  </data>
+  <data name="PlaceBid" xml:space="preserve">
+    <value>ضع سعرك الجديد</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>الوقت المتبقي</value>
+  </data>
+  <data name="SelectedAuction" xml:space="preserve">
+    <value>المزاد الذي قمت باختياره. ابدأ المزايدة الاُن !!</value>
+  </data>
+  <data name="AuctionFinished" xml:space="preserve">
+    <value>انتهى المزاد.</value>
+  </data>
+  <data name="BidErrorMsg" xml:space="preserve">
+    <value>يجب أن تزايد بمبلغ أكبر من المزايدة الحالية.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>موافق</value>
+  </data>
+  <data name="ViewAuction" xml:space="preserve">
+    <value>عرض المزاد</value>
+  </data>
+  <data name="AdminOptions" xml:space="preserve">
+    <value>خيارات المدير</value>
+  </data>
+  <data name="RemoveAuction" xml:space="preserve">
+    <value>إزالة المزاد</value>
+  </data>
+  <data name="RemoveAuctionConfirmMsg" xml:space="preserve">
+    <value>إزالة هذا المزاد من الموقع الالكتروني؟</value>
+  </data>
+  <data name="NoAuction" xml:space="preserve">
+    <value>عذراً, لا يوجد مزادات في هذه الفئة حالياً.</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>جديد</value>
+  </data>
+  <data name="ProductStatus" xml:space="preserve">
+    <value>حالة المنتج</value>
+  </data>
+  <data name="ProductStatusReq" xml:space="preserve">
+    <value>حالة المنتج مطلوبة</value>
+  </data>
+  <data name="Used" xml:space="preserve">
+    <value>مستعمل</value>
+  </data>
+  <data name="CurrentBidder" xml:space="preserve">
+    <value>المزايد الحالي</value>
+  </data>
+  <data name="AddCurrency" xml:space="preserve">
+    <value>إضافة عملة جديدة</value>
+  </data>
+  <data name="AddCurrencyInfo" xml:space="preserve">
+    <value>الرجاء إضافة اسم عملة لاضافة عملة جديدة الى قاعدة البيانات.</value>
+  </data>
+  <data name="AddCurrencyPlaceHolder" xml:space="preserve">
+    <value>اكتب اسم عملة جديدة</value>
+  </data>
+  <data name="AuctionStatus" xml:space="preserve">
+    <value>حالة المزاد</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>منتهي</value>
+  </data>
+  <data name="MyAuctions" xml:space="preserve">
+    <value>مزاداتي</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>لا يوجد</value>
+  </data>
+  <data name="Ongoing" xml:space="preserve">
+    <value>جاري</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>بريد الكتروني غير صالح</value>
+  </data>
+  <data name="MessageText" xml:space="preserve">
+    <value>نص الرسالة</value>
+  </data>
+  <data name="MessageTextReq" xml:space="preserve">
+    <value>نص الرسالة مطلوب</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>إرسال</value>
+  </data>
+  <data name="UserMessageTextInfo" xml:space="preserve">
+    <value>الرجاء كتابة رسالتك في صندوق نص الرسالة ثم الضغط على إرسال, وسنقوم بالرد على رسالتك عن طريق إرسال بريد الكتروني الى عنوان بريدك الالكتروني بأسرع وقت ممكن.</value>
+  </data>
+  <data name="VisitorMessageTextInfo" xml:space="preserve">
+    <value>الرجاء كتابة عنوان بريدك الالكتروني و رسالتك في صندوق نص الرسالة ثم الضغط على إرسال, وسنقوم بالرد على رسالتك عن طريق إرسال بريد الكتروني الى عنوان بريدك الالكتروني بأسرع وقت ممكن.</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>أهلاً بك </value>
+  </data>
+  <data name="ISE" xml:space="preserve">
+    <value>هندسة نظم المعلومات</value>
+  </data>
+  <data name="Project1" xml:space="preserve">
+    <value>المشروع الأول</value>
+  </data>
+  <data name="SharifQasrawi" xml:space="preserve">
+    <value>محمد شريف قصراوي</value>
+  </data>
+  <data name="SVU" xml:space="preserve">
+    <value>الجامعة الافتراضية السورية</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>المدير</value>
+  </data>
+  <data name="CannotDeleteCategory" xml:space="preserve">
+    <value>لا يمكن حذف الفئة لأنها تحوي بعض المنتجات.</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>حذف فئة منتجات</value>
+  </data>
+  <data name="DeleteCategoryInfo" xml:space="preserve">
+    <value>الرجاء اختيار فئة لحذفها من قاعدة البيانات.</value>
+  </data>
+  <data name="DeleteCountry" xml:space="preserve">
+    <value>حذف بلد</value>
+  </data>
+  <data name="DeleteCurrency" xml:space="preserve">
+    <value>حذف عملة</value>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>تعديل البيانات الشخصية</value>
+  </data>
+  <data name="EmailUsed" xml:space="preserve">
+    <value>البريد الاكتروني مسجل مسبقا</value>
+  </data>
+  <data name="UsernameUsed" xml:space="preserve">
+    <value>اسم المستخدم غير متاح</value>
+  </data>
+  <data name="UserOptions" xml:space="preserve">
+    <value>خيارات المستخدم</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>تأكيد كلمة المرور الجديدة</value>
+  </data>
+  <data name="ConfirmNewPasswordPlaceHolder" xml:space="preserve">
+    <value>أعد كتابة كلمة المرور الجديدة</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>كلمة المرور الحالية</value>
+  </data>
+  <data name="CurrentPasswordPlaceHolder" xml:space="preserve">
+    <value>أدخل كلمة المرور الحالية الخاصة بك</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>كلمة مرور جديدة</value>
+  </data>
+  <data name="NewPasswordPlaceHolder" xml:space="preserve">
+    <value>أدخل كلمة مرور جديدة</value>
+  </data>
+  <data name="NewPasswordReq" xml:space="preserve">
+    <value>كلمة المرور الجديدة مطلوبة.</value>
+  </data>
+  <data name="PasswordLength" xml:space="preserve">
+    <value>إن {0} يجب أن تكون على الأقل {2} أحرف.</value>
+  </data>
+  <data name="Bid" xml:space="preserve">
+    <value>مزايدة</value>
+  </data>
+  <data name="AuctionsManagement" xml:space="preserve">
+    <value>إدارة المزادات</value>
+  </data>
+  <data name="CannotDeleteCurrency" xml:space="preserve">
+    <value>لا يمكن حذف عملة قيد الاستخدام في المزادات.</value>
+  </data>
+  <data name="DeleteCountryInfo" xml:space="preserve">
+    <value>الرجاء اختيار بلد لحذفه من قاعدة البيانات.</value>
+  </data>
+  <data name="DeleteCurrencyInfo" xml:space="preserve">
+    <value>الرجاء اختيار عملة لحذفها من قاعدة البيانات.</value>
+  </data>
+  <data name="EditProfileInfo" xml:space="preserve">
+    <value>الرجاء تغيير المعلومات التي ترغب بتعديلها ثم الضغط على حفظ.</value>
+  </data>
+  <data name="MyOngoingBiddings" xml:space="preserve">
+    <value>مزايداتي الجارية</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>خيارات</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="SelectCountry" xml:space="preserve">
+    <value>اختر بلد</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>اختر عملة</value>
+  </data>
+  <data name="BidsCount" xml:space="preserve">
+    <value>عدد المزايدات</value>
+  </data>
+  <data name="MyWinningAuctions" xml:space="preserve">
+    <value>مزاداتي الرابحة</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>الكلمة المفتاحية</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="SearchPlaceHolder" xml:space="preserve">
+    <value>أدخل كلمة مفتاحية للبحث في الموقع الالكتروني</value>
+  </data>
+  <data name="KeywordEmptyError" xml:space="preserve">
+    <value>الرجاء ادخال الكلمة المفتاحية.</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>لم يتم العثور على أي نتائج</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>نتائج البحث عن</value>
+  </data>
+  <data name="BackToMessagesList" xml:space="preserve">
+    <value>عودة الى قائمة الرسائل</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>الرسالة</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>الرسائل</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>رد</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>الوقت</value>
+  </data>
+  <data name="ViewMessage" xml:space="preserve">
+    <value>قراءة الرسالة</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>الى</value>
+  </data>
+  <data name="NoOngoingAuctions" xml:space="preserve">
+    <value>ليس لديك أية مزادات جارية حاليا</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="Blocked" xml:space="preserve">
+    <value>محظور</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="ManageRoles" xml:space="preserve">
+    <value>إدارة صلاحيات المستخدم</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>إدارة المستخدمين</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>الصلاحيات</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="UserInfoFor" xml:space="preserve">
+    <value>معلومات المستخدم</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="CurrentUserRoles" xml:space="preserve">
+    <value>صلاحيات المستخدم الحالية</value>
+  </data>
+  <data name="RemoveFromRole" xml:space="preserve">
+    <value>إزالة المستخدم من الدور</value>
+  </data>
+  <data name="RemoveFromRoleConfirmation" xml:space="preserve">
+    <value>إزالة هذا المستخدم من هذا الدور؟</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>الصلاحية</value>
+  </data>
+  <data name="SelectRole" xml:space="preserve">
+    <value>اختر صلاحية</value>
+  </data>
+  <data name="ToRole" xml:space="preserve">
+    <value>الى الصلاحية</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>تصفية</value>
+  </data>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>عذراً, حدث خطأ ما.</value>
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>تم تغيير كلمة المرور الخاصة بك بنجاح</value>
+  </data>
+  <data name="EmailSubjectOnlineAuctionsPasswordChanged" xml:space="preserve">
+    <value>المزاد الالكتروني: تم تغيير كلمة المرور !</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>نسيت كلمة المرور الخاصة بي</value>
+  </data>
+  <data name="ForgotPasswordEnterEmail" xml:space="preserve">
+    <value>الرجاء ادخال بريدك الالكتروني وسيتم ارسال كلمة مرور جديدة خاصة بك الى عنوان بريدك الالكتروني.</value>
+  </data>
+  <data name="ForgotYourPassword" xml:space="preserve">
+    <value>هل نسيت كلمة المرور الخاصة بك؟</value>
+  </data>
+  <data name="PasswordChangedMsg" xml:space="preserve">
+    <value>تم ارسال بريد الكتروني يحوي كلمة المرور الجديدة الخاصة بك.</value>
+  </data>
+  <data name="PasswordChangedMsgEmailNotFound" xml:space="preserve">
+    <value>لم يتم العثور على البريد الالكتروني</value>
+  </data>
+  <data name="RecoverPassword" xml:space="preserve">
+    <value>استرجاع كلمة المرور</value>
+  </data>
+  <data name="SendPassword" xml:space="preserve">
+    <value>إرسال كلمة المرور الجديدة</value>
+  </data>
+  <data name="AuctionAlreadyFinished" xml:space="preserve">
+    <value>خطأ, المزاد منتهي.</value>
+  </data>
+  <data name="CloseAuction" xml:space="preserve">
+    <value>اغلاق المزاد</value>
+  </data>
+  <data name="CloseAuctionConfirmation" xml:space="preserve">
+    <value>اغلاق هذا المزاد</value>
+  </data>
+  <data name="DaysToAdd" xml:space="preserve">
+    <value>عدد الايام المراد اضافتها</value>
+  </data>
+  <data name="ExtendAuctionTime" xml:space="preserve">
+    <value>زيادة مهلة المزاد</value>
+  </data>
+  <data name="HoursToAdd" xml:space="preserve">
+    <value>عدد الساعات المراد اضافتها</value>
+  </data>
+  <data name="OpenningPrice" xml:space="preserve">
+    <value>السعر الافتتاحي</value>
+  </data>
+  <data name="ErrorExtending" xml:space="preserve">
+    <value>الرجاء ادخال البيانات بشكل صحيح</value>
+  </data>
+  <data name="Me" xml:space="preserve">
+    <value>أنا</value>
+  </data>
+  <data name="NoRecordsFound" xml:space="preserve">
+    <value>لا يوجد سجلات</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>احصائيات</value>
+  </data>
+  <data name="UserAuctionsCount" xml:space="preserve">
+    <value>عدد المزادات التي أعلنها المستخدم</value>
+  </data>
+  <data name="UserBiddingsCount" xml:space="preserve">
+    <value>عدد مزايدات المستخدم</value>
+  </data>
+  <data name="UserInfo" xml:space="preserve">
+    <value>بيانات المستخدم</value>
+  </data>
+  <data name="UserWinningAuctionsCount" xml:space="preserve">
+    <value>عدد المزادات التي ربحها المستخدم</value>
+  </data>
+  <data name="Bidding" xml:space="preserve">
+    <value>زايد</value>
+  </data>
+  <data name="BrowseAuctions" xml:space="preserve">
+    <value>تصفح</value>
+  </data>
+  <data name="BrowseTheAuctionsByCategories" xml:space="preserve">
+    <value>تصفح المزادات المعلنة حسب الفئات</value>
+  </data>
+  <data name="CheckYourPurchasedItems" xml:space="preserve">
+    <value>تحقق من المنتجات التي قمت بشرائها</value>
+  </data>
+  <data name="Congrats" xml:space="preserve">
+    <value>تهانينا</value>
+  </data>
+  <data name="SearchForAuctions" xml:space="preserve">
+    <value>ابحث</value>
+  </data>
+  <data name="SearchForAuctionsByProductNameProductDescriptionOrByCurrency" xml:space="preserve">
+    <value>ابحث عن مزاد حسب اسم المنتج, وصفه أو حسب العملة </value>
+  </data>
+  <data name="StartBiddingOnTheItemUWishToBUY" xml:space="preserve">
+    <value>ابدأ المزايدة على المنتجات التي ترغب بشرائها</value>
+  </data>
+  <data name="FindUsOnFB" xml:space="preserve">
+    <value>ابحث عنا في فيسبوك</value>
+  </data>
+  <data name="MessagesFromVisitorsAndUsers" xml:space="preserve">
+    <value>رسائل من زائري ومستخدمي الموقع</value>
+  </data>
+  <data name="Visitor" xml:space="preserve">
+    <value>زائر</value>
+  </data>
+  <data name="SenderType" xml:space="preserve">
+    <value>نوع المرسل</value>
+  </data>
+  <data name="TextAlignLeft" xml:space="preserve">
+    <value>محاذاة النص: يسار</value>
+  </data>
+  <data name="TextAlignRight" xml:space="preserve">
+    <value>محاذاة النص: يمين</value>
+  </data>
+  <data name="CurrentAdmin" xml:space="preserve">
+    <value>المدير الحالي</value>
+  </data>
+  <data name="ContentMng" xml:space="preserve">
+    <value>إدارة المحتوى</value>
+  </data>
+  <data name="CategoryNamePlaceHolderAr" xml:space="preserve">
+    <value>أدخل اسم الفئة باللغة العربية</value>
+  </data>
+  <data name="ChangeAuctionOpeningBid" xml:space="preserve">
+    <value>تغيير السعر الافتتاحي</value>
+  </data>
+  <data name="ReportToAdmin" xml:space="preserve">
+    <value>تبليغ الى مدير الموقع</value>
+  </data>
+  <data name="Auction" xml:space="preserve">
+    <value>المزاد</value>
+  </data>
+  <data name="MarkAsSeen" xml:space="preserve">
+    <value>تم الأخذ بالعلم</value>
+  </data>
+  <data name="ReportDateTime" xml:space="preserve">
+    <value>تاريخ التبليغ</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>المبلغ عن المزاد</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>التبليغات</value>
+  </data>
+  <data name="ReportsCount" xml:space="preserve">
+    <value>عدد التبليغات</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>اغلاق</value>
+  </data>
+  <data name="Reporters" xml:space="preserve">
+    <value>المبلغين</value>
+  </data>
+  <data name="ViewList" xml:space="preserve">
+    <value>اظهار القائمة</value>
+  </data>
+  <data name="CannotDelete" xml:space="preserve">
+    <value>الحذف غير ممكن</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>إدارة الفئات</value>
+  </data>
+  <data name="CategoriesList" xml:space="preserve">
+    <value>قائمة الفئات</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="EditCategory" xml:space="preserve">
+    <value>تعديل الفئة</value>
+  </data>
+  <data name="Ex" xml:space="preserve">
+    <value>مثال</value>
+  </data>
+  <data name="SearchEx" xml:space="preserve">
+    <value>اسم المنتج, وصفه, حالة المنتج, العملة</value>
+  </data>
+  <data name="AddCountryPlaceHolderAr" xml:space="preserve">
+    <value>أدخل اسم البلد باللغة العربية</value>
+  </data>
+  <data name="CategoryAlreadyExists" xml:space="preserve">
+    <value>الفئة موجودة مسبقا</value>
+  </data>
+  <data name="Countries" xml:space="preserve">
+    <value>إدارة البلدان</value>
+  </data>
+  <data name="CountriesList" xml:space="preserve">
+    <value>قائمة البلدان</value>
+  </data>
+  <data name="CountryAlreadyExists" xml:space="preserve">
+    <value>البلد موجود مسبقا</value>
+  </data>
+  <data name="EditCountry" xml:space="preserve">
+    <value>تعديل البلد</value>
+  </data>
+  <data name="EditCountryInfo" xml:space="preserve">
+    <value>قم بتغيير اسم البلد لاتمام عملية التعديل</value>
+  </data>
+  <data name="Currencies" xml:space="preserve">
+    <value>إدارة العملات</value>
+  </data>
+  <data name="CurrenciesList" xml:space="preserve">
+    <value>قائمة العملات</value>
+  </data>
+  <data name="CurrencyAlreadyExists" xml:space="preserve">
+    <value>العملة موجودة مسبقا</value>
+  </data>
+  <data name="EditCurrency" xml:space="preserve">
+    <value>تعديل العملة</value>
+  </data>
+  <data name="EditCurrencyInfo" xml:space="preserve">
+    <value>قم بتغيير اسم العملة لاتمام عملية التعديل</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>تفاصيل التبليغ</value>
+  </data>
+  <data name="ReportedAuction" xml:space="preserve">
+    <value>المزاد المبلغ عنه</value>
+  </data>
+  <data name="LoginsCount" xml:space="preserve">
+    <value>عدد مرات تسجيل الدخول</value>
+  </data>
+  <data name="UsersCount" xml:space="preserve">
+    <value>عدد المستخدمين</value>
+  </data>
+  <data name="CardExpirationDate" xml:space="preserve">
+    <value>تاريخ انتهاء صلاحية البطاقة</value>
+  </data>
+  <data name="CardExpirationDateReq" xml:space="preserve">
+    <value>تاريخ انتهاء صلاحية البطاقة مطلوب</value>
+  </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>رقم البطاقة</value>
+  </data>
+  <data name="CardNumberPlaceholder" xml:space="preserve">
+    <value>أدخل رقم البطاقة</value>
+  </data>
+  <data name="CardNumberReq" xml:space="preserve">
+    <value>رقم البطاقة مطلوب</value>
+  </data>
+  <data name="CardVerificationCode" xml:space="preserve">
+    <value>رمز التحقق من البطاقة CVC</value>
+  </data>
+  <data name="CardVerificationCodePlaceholder" xml:space="preserve">
+    <value>أدخل رمز التحقق من البطاقة CVC</value>
+  </data>
+  <data name="CardVerificationCodeReq" xml:space="preserve">
+    <value>رمز التحقق من البطاقة CVC مطلوب</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>الشهر</value>
+  </data>
+  <data name="NameOnCard" xml:space="preserve">
+    <value>الاسم على البطاقة</value>
+  </data>
+  <data name="NameOnCardPlaceholder" xml:space="preserve">
+    <value>أدخل الاسم على البطاقة</value>
+  </data>
+  <data name="NameOnCardReq" xml:space="preserve">
+    <value>الاسم على البطاقة مطلوب</value>
+  </data>
+  <data name="NoPayments" xml:space="preserve">
+    <value>لا يوجد دفعات واجبة الدفع حاليا</value>
+  </data>
+  <data name="NotPaid" xml:space="preserve">
+    <value>لم يتم الدفع</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>تم الدفع</value>
+  </data>
+  <data name="Pay" xml:space="preserve">
+    <value>اتمام الدفع</value>
+  </data>
+  <data name="PayBill" xml:space="preserve">
+    <value>دفع الفاتورة</value>
+  </data>
+  <data name="PayBillInfo" xml:space="preserve">
+    <value>أدخل البيانات التالية لاتمام عملية الدفع</value>
+  </data>
+  <data name="PaymentsByCurrency" xml:space="preserve">
+    <value>الدفعات حسب العملة</value>
+  </data>
+  <data name="PaymentStatus" xml:space="preserve">
+    <value>حالة الدفع</value>
+  </data>
+  <data name="PaymentValue" xml:space="preserve">
+    <value>قيمة الدفعة</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>السنة</value>
+  </data>
+  <data name="YourPayments" xml:space="preserve">
+    <value>الدفعات الواجبة الدفع</value>
+  </data>
+  <data name="PaidAuctions" xml:space="preserve">
+    <value>المزادات المدفوع ثمنها</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>في</value>
+  </data>
+  <data name="NoBiddingPrivilege" xml:space="preserve">
+    <value>ليس لديك صلاحية للمزايدة في المزادات</value>
+  </data>
+  <data name="LastLoginDateTime" xml:space="preserve">
+    <value>اخر تسجيل دخول</value>
+  </data>
+  <data name="RegistrationDateTime" xml:space="preserve">
+    <value>تاريخ ووقت انشاء الحساب</value>
+  </data>
+  <data name="AreYouSureYouWantTo" xml:space="preserve">
+    <value>هل أنت متأكد من أنك تريد</value>
+  </data>
+  <data name="DeleteMessage" xml:space="preserve">
+    <value>حذف الرسالة</value>
+  </data>
+  <data name="SelectMessagesToDelete" xml:space="preserve">
+    <value>الرجاء تحديد الرسائل المراد حذفها</value>
+  </data>
+  <data name="PaymentFailed" xml:space="preserve">
+    <value>عذرا, فشلت عملية الدفع, الرجاء المحاولة لاحقا.</value>
+  </data>
+  <data name="ProccessSuccess" xml:space="preserve">
+    <value>تمت العملية بنجاح</value>
+  </data>
+  <data name="Redirectingtothepreviouspagein3seconds" xml:space="preserve">
+    <value>جاري التحويل الى الصفحة السابقة خلال</value>
+  </data>
+  <data name="RedirectToPage" xml:space="preserve">
+    <value>تحويل...</value>
+  </data>
+  <data name="ThankYouforusingourwebsite" xml:space="preserve">
+    <value>شكرا لاستخدامك موقعنا الالكتروني.</value>
+  </data>
+  <data name="ErrorSendingEmail" xml:space="preserve">
+    <value>فشل الارسال. الرجاء التحقق من صحة الاتصال بالانترنت.</value>
+  </data>
+  <data name="DeleteSelceted" xml:space="preserve">
+    <value>حذف المحدد</value>
+  </data>
+  <data name="RepliedBy" xml:space="preserve">
+    <value>تم الرد من قبل</value>
+  </data>
+  <data name="ContactInfo" xml:space="preserve">
+    <value>معلومات الاتصال</value>
+  </data>
+  <data name="FBProfile" xml:space="preserve">
+    <value>حساب فيسبوك</value>
+  </data>
+  <data name="PayForYourItemsByCurrency" xml:space="preserve">
+    <value>ادفع ثمن مشترياتك حسب العملة الخاصة بها</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>مخفي</value>
+  </data>
+  <data name="Visible" xml:space="preserve">
+    <value>مرئي</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>إخفاء</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>إظهار</value>
+  </data>
+  <data name="ListOfYourPurchasedItems" xml:space="preserve">
+    <value>قائمة بالأغراض المشتراة الخاصة بك</value>
+  </data>
+  <data name="Seller" xml:space="preserve">
+    <value>معلن المزاد</value>
+  </data>
+  <data name="TheAuction" xml:space="preserve">
+    <value>المزاد</value>
+  </data>
+  <data name="WasAutomaticallyRemovedFromWebsite" xml:space="preserve">
+    <value>تم حذفه من الموقع تلقائيا بعد تلقيه 50 تبليغ من قبل المستخدمين</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>الموقع الالكتروني</value>
+  </data>
+  <data name="PayOnline" xml:space="preserve">
+    <value>سدد ثمن الاغراض الكترونيا</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>الجنس</value>
+  </data>
+  <data name="GenderReq" xml:space="preserve">
+    <value>حقل الجنس مطلوب</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>أنثى</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>ذكر</value>
+  </data>
+  <data name="UsernameLength" xml:space="preserve">
+    <value>اسم المستخدم يجب أن يكون بين 5 - 25 محارف</value>
+  </data>
+  <data name="CardType" xml:space="preserve">
+    <value>نوع بطاقة الائتمان</value>
+  </data>
+  <data name="CardTypeReq" xml:space="preserve">
+    <value>نوع بطاقة الائتمان مطلوب</value>
+  </data>
+  <data name="PaymentDateTime" xml:space="preserve">
+    <value>تاريخ ووقت الدفع</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>اتمام العملية</value>
+  </data>
+  <data name="SelectCardType" xml:space="preserve">
+    <value>اختر نوع البطاقة</value>
+  </data>
+  <data name="BidDateTime" xml:space="preserve">
+    <value>تاريخ ووقت المزايدة</value>
+  </data>
+  <data name="Bidder" xml:space="preserve">
+    <value>المزايد</value>
+  </data>
+  <data name="BidValue" xml:space="preserve">
+    <value>قيمة المزايدة</value>
+  </data>
+  <data name="BidsDetails" xml:space="preserve">
+    <value>تفاصيل المزايدات</value>
+  </data>
+  <data name="AuctionDetails" xml:space="preserve">
+    <value>تفاصيل المزاد</value>
+  </data>
+  <data name="AuctionsCount" xml:space="preserve">
+    <value>عدد المزادات:</value>
+  </data>
+  <data name="NoReports" xml:space="preserve">
+    <value>لا يوجد أية تبليغات على هذا المزاد</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>تاريخ ووقت الاعلان</value>
+  </data>
+  <data name="ChangeCategory" xml:space="preserve">
+    <value>تغيير الفئة</value>
+  </data>
+  <data name="FinishDateTime" xml:space="preserve">
+    <value>تاريخ ووقت الانتهاء</value>
+  </data>
+  <data name="DayAbbr" xml:space="preserve">
+    <value>ي</value>
+  </data>
+  <data name="HourAbbr" xml:space="preserve">
+    <value>سا</value>
+  </data>
+  <data name="MinuteAbbr" xml:space="preserve">
+    <value>د</value>
+  </data>
+  <data name="SecondAbbr" xml:space="preserve">
+    <value>ثا</value>
+  </data>
+  <data name="EmailText" xml:space="preserve">
+    <value>نص الرسالة</value>
+  </data>
+  <data name="EmailTextReq" xml:space="preserve">
+    <value>نص الرسالة مطلوب</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>الموضوع</value>
+  </data>
+  <data name="SubjectReq" xml:space="preserve">
+    <value>حقل الموضوع مطلوب</value>
+  </data>
+  <data name="SendEmailToAllUsers" xml:space="preserve">
+    <value>ارسال بريد الكتروني لجميع مستخدمي الموقع الالكتروني</value>
+  </data>
+  <data name="AAdmin" xml:space="preserve">
+    <value>مدير</value>
+  </data>
+  <data name="ASupervisor" xml:space="preserve">
+    <value>مشرف</value>
+  </data>
+  <data name="ASupport" xml:space="preserve">
+    <value>دعم فني</value>
+  </data>
+  <data name="AUser" xml:space="preserve">
+    <value>مستخدم</value>
+  </data>
+  <data name="EmailSubjectPlaceHolder" xml:space="preserve">
+    <value>أدخل موضوع البريد</value>
+  </data>
+  <data name="EmailTextPlaceHolder" xml:space="preserve">
+    <value>أدخل نص الرسالة</value>
+  </data>
+  <data name="ErrorSelectSendTo" xml:space="preserve">
+    <value>الرجاء اختيار مستقبلي هذا البريد الالكتروني</value>
+  </data>
+  <data name="ResetFields" xml:space="preserve">
+    <value>تصفير الحقول</value>
+  </data>
+  <data name="SendTo" xml:space="preserve">
+    <value>إرسال الى</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>حظر</value>
+  </data>
+  <data name="Unblock" xml:space="preserve">
+    <value>فك الحظر</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>الدفعة</value>
+  </data>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>رقم الحساب المصرفي</value>
+  </data>
+  <data name="AccountNumberPlaceHolder" xml:space="preserve">
+    <value>أدخل رقم الحساب المصرفي الخاص بك</value>
+  </data>
+  <data name="AccountNumberReq" xml:space="preserve">
+    <value>رقم الحساب المصرفي الخاص بك مطلوب</value>
+  </data>
+  <data name="AccountNumberTitle" xml:space="preserve">
+    <value>أدخل رقم الحساب المصرفي الخاص بك الذي ترغب بتحويل المال اليه عندما يتم بيع هذا الغرض</value>
+  </data>
+  <data name="AuctionsToPayCount" xml:space="preserve">
+    <value>عدد المزادات غير الدفوعة</value>
+  </data>
+  <data name="BiddersPayments" xml:space="preserve">
+    <value>دفعات المزايدين غير المدفوعة</value>
+  </data>
+  <data name="SetAsPaid" xml:space="preserve">
+    <value>تم الدفع</value>
+  </data>
+  <data name="Proceed2" xml:space="preserve">
+    <value>المتابعة</value>
+  </data>
+  <data name="BootstrapScripts" xml:space="preserve">
+    <value>~/Scripts/bootstrap-rtl.min.js</value>
+  </data>
+  <data name="LikeUs" xml:space="preserve">
+    <value>تابعنا عبر</value>
+  </data>
+  <data name="OptionalField" xml:space="preserve">
+    <value>(اختياري)</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>صورة</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>غير متاح</value>
+  </data>
+  <data name="EditCategoryInfo" xml:space="preserve">
+    <value>قم بتغيير بيانات الفئة واضغط على حفظ</value>
+  </data>
+  <data name="Biddings" xml:space="preserve">
+    <value>المزايدة</value>
+  </data>
+  <data name="BrowseAndSearchForAuctions" xml:space="preserve">
+    <value>الاستعراض والبحث عن المزادات</value>
+  </data>
+  <data name="ManageCategories" xml:space="preserve">
+    <value>ادارة فئات المزادات</value>
+  </data>
+  <data name="ManageCountries" xml:space="preserve">
+    <value>ادارة البلدان</value>
+  </data>
+  <data name="ManageCurrencies" xml:space="preserve">
+    <value>ادارة العملات</value>
+  </data>
+  <data name="ManageWebsiteMessages" xml:space="preserve">
+    <value>ادارة رسائل الموقع</value>
+  </data>
+  <data name="OnlinePaymentForAuctions" xml:space="preserve">
+    <value>الدفع الالكتروني للمزادات</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>السماحيات</value>
+  </data>
+  <data name="ReviewOngoingBiddings" xml:space="preserve">
+    <value>استعراض المزايدات الجارية</value>
+  </data>
+  <data name="ReviewPaidAuctions" xml:space="preserve">
+    <value>استعراض المزادات المدفوع ثمنها</value>
+  </data>
+  <data name="ReviewPersonalAuctions" xml:space="preserve">
+    <value>استعراض المزادات الشخصية</value>
+  </data>
+  <data name="ReviewReports" xml:space="preserve">
+    <value>استعراض التبليغات</value>
+  </data>
+  <data name="ReviewStatistics" xml:space="preserve">
+    <value>استعراض احصائيات</value>
+  </data>
+  <data name="ReviewWinningAuctions" xml:space="preserve">
+    <value>استعراض المزادات الرابحة</value>
+  </data>
+  <data name="RoleAdminDesc" xml:space="preserve">
+    <value>مدير الموقع</value>
+  </data>
+  <data name="RoleDescription" xml:space="preserve">
+    <value>وصف الدور(الصلاحية)</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>اسم الدور(الصلاحية)</value>
+  </data>
+  <data name="RolesExplanation" xml:space="preserve">
+    <value>تفسير الصلاحيات(الأدوار)</value>
+  </data>
+  <data name="RoleSupervisorDesc" xml:space="preserve">
+    <value>مشرف الموقع</value>
+  </data>
+  <data name="RoleSupportDesc" xml:space="preserve">
+    <value>موظف الدعم الفني للعملاء</value>
+  </data>
+  <data name="RoleUserDesc" xml:space="preserve">
+    <value>مستخدم الموقع العادي</value>
+  </data>
+  <data name="SendingMessagesToWebsiteAdministration" xml:space="preserve">
+    <value>ارسال الرسائل الى ادارة الموقع</value>
+  </data>
+  <data name="ClickOnAuctionToManage" xml:space="preserve">
+    <value>اضغط على مزاد لادارته</value>
+  </data>
+  <data name="ProductNameLength" xml:space="preserve">
+    <value>يجب أن يكون اسم المنتج مكون من 25 حرف على الأكثر</value>
+  </data>
+  <data name="SearchUserTitle" xml:space="preserve">
+    <value>ابحث حسب اسم المستخدم, الاسم الأول, الاسم الأخير, البريد الالكتروني أو رقم الهاتف</value>
+  </data>
+  <data name="AdminSearchAuctionBoxPlaceHolder" xml:space="preserve">
+    <value>بحث (حسب اسم المنتج)</value>
+  </data>
+  <data name="BackToTop" xml:space="preserve">
+    <value>عودة الى الأعلى</value>
+  </data>
+  <data name="OurPageOnFacebook" xml:space="preserve">
+    <value>صفحتنا على فيسبوك</value>
+  </data>
+  <data name="ImageUploadError" xml:space="preserve">
+    <value>فشل رفع الصورة. الرجاء التأكد من حجم الصورة.</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>عدد النتائج</value>
+  </data>
+  <data name="No-Description" xml:space="preserve">
+    <value>لا يوجد وصف</value>
+  </data>
+  <data name="ShowHide" xml:space="preserve">
+    <value>إظهار/إخفاء</value>
+  </data>
+</root>

@@ -1,0 +1,141 @@
+﻿@model OnlineAuctionProject.Models.AddAuctionModel
+@using OnlineAuctionProject.Resources
+@{
+    ViewBag.Title = Resource.AddNewAuction;
+}
+
+<h3>
+    <span class="glyphicon glyphicon-plus"> </span>
+    @Resource.AddNewAuction
+</h3>
+
+<hr />
+@using (Html.BeginForm("AddNewAuction", "Auction", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="Box">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="alert-danger">
+                    @ViewBag.ImageSizeError
+                </p>
+                <div class="form-horizontal" id="#addAuctionForm">
+                    <p>
+                        <span class="glyphicon glyphicon-list-alt"> </span>
+                        @Resource.PleaseFillTheFollowingFormToAddaNewAuction
+                    </p>
+                    <br>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product.Name, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Product.Name, new { @class = "form-control", placeholder = Resource.ProductNamePlaceHolder })
+                            @Html.ValidationMessageFor(model => model.Product.Name)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product.Status, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="StatusRadio" value="New">
+                                &nbsp;&nbsp;&nbsp; @Resource.New
+                            </label>
+                            <label class="radio-inline" >
+                                <input type="radio" name="StatusRadio" value="Used" >
+                                &nbsp;&nbsp;&nbsp; @Resource.Used
+                            </label>
+                            <br />
+                            @Html.ValidationMessageFor(model => model.Product.Status)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product.Description, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.Product.Description, new { @class = "form-control", placeholder = Resource.ProductDescriptionPlaceHolder })
+                            @Html.CheckBox("NoDescription", new { @class = "checkbox-inline" }) @Resource.No_Description
+                            <br />
+                            @Html.ValidationMessageFor(model => model.Product.Description)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product.Currency.Name, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Currency", null, Resource.ChooseCurrency, new { @class = "form-control dropDownList" })
+                            @Html.ValidationMessageFor(model => model.Product.Currency)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product.Price, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Product.Price, new { @class = "form-control", placeholder = Resource.ProductPricePlaceHolder })
+                            @Html.ValidationMessageFor(model => model.Product.Price)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product.Images, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="file" id="uploadFile" name="uploadFile" class="hidden" multiple="multiple" />
+                            <input type="button" id="btnUploadProductImage" value="@Resource.UploadFile" class="btn btn-default"
+                                   onclick="document.getElementById('uploadFile').click()" />
+                            <div>
+                                <div id="ImageHolder">
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Product.Images)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Product.Category.Category_Name, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Category", null, Resource.SelectCategory, new { @class = "form-control dropDownList" })
+                            @Html.ValidationMessageFor(model => model.Product.Category)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DurationDays, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.DurationDays, new { type = "number", min = 0,  @class = "form-control", placeholder = Resource.DurationDaysPlaceHolder })
+                            @Html.ValidationMessageFor(model => model.DurationDays)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DurationHrs, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.DurationHrs, new { type = "number", min = 0, @class = "form-control", placeholder = Resource.DurationHrsPlaceHolder })
+                            @Html.ValidationMessageFor(model => model.DurationHrs)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.AccountNumber, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control", placeholder = Resource.AccountNumberPlaceHolder,title = Resource.AccountNumberTitle })
+                            @Html.ValidationMessageFor(model => model.AccountNumber)
+                         </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="reset" value=@Resource.Reset class="btn btn-default" onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.ResetFields ?');" />
+                            <input type="submit" value="@Resource.AddAuction" class="btn btn-success" />
+                        </div>
+                    </div>
+                    
+                    @Html.ValidationSummary(true)
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
