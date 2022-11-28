@@ -161,18 +161,18 @@ var img = document.getElementById('ProdImg');
 var modalImg = document.getElementById("img");
 var captionText = document.getElementById("caption");
 
-img.onclick = function () {
+/*img.onclick = function () {
     modal.style.display = "block";
     modalImg.src = this.src;
     modalImg.alt = this.alt;
     captionText.innerHTML = this.alt;
-}
+}*/
 
 var span = document.getElementsByClassName("close")[0];
 
-span.onclick = function () {
+/*span.onclick = function () {
     modal.style.display = "none";
-}
+}*/
 
 //Check bidding
 function canBid() {

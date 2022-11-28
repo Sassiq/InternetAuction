@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using OnlineAuctionProject.Resources;
+using System.ComponentModel;
 
 namespace OnlineAuctionProject.Models
 {
@@ -18,7 +19,7 @@ namespace OnlineAuctionProject.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmNewPassword", ResourceType = typeof(Resource))]
-        [Compare("NewPassword", ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "ConfirmPasswordError")]
+        [System.Web.Mvc.Compare("NewPassword", ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "ConfirmPasswordError")]
         public string ConfirmPassword { get; set; }
     }
 

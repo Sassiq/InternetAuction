@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace OnlineAuctionProject
 {
@@ -12,16 +11,14 @@ namespace OnlineAuctionProject
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
-                        "~/Scripts/jquery.validate.unobtrusive.min.js"
-                        ));
-
+                        "~/Scripts/jquery.validate.unobtrusive.min.js"));
+            
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       Resources.Resource.BootstrapScripts,
-                      "~/Scripts/respond.js"));
-
+                      "~/Scripts/respond.js")); 
         }
     }
 }

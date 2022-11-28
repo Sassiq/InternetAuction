@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(OnlineAuctionProject.Startup))]
+[assembly: OwinStartupAttribute(typeof(OnlineAuctionProject.Startup))]
 namespace OnlineAuctionProject
 {
     public partial class Startup

@@ -30,7 +30,7 @@
 
 </head>
 <body>
-    <div class="loader-wrapper"><div class="loader spunner" ></div></div>
+    <div class="loader-wrapper"><div class="loader spunner"></div></div>
     <noscript>
         <div class="alert-danger">
             <h2 class="text-danger text-center">
@@ -38,7 +38,7 @@
             </h2>
         </div>
     </noscript>
-    @Html.Hidden("WebsiteLanguage",OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
+    @Html.Hidden("WebsiteLanguage", OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
     @Html.Partial("_SearchPartial")
     @if (!Request.IsAuthenticated)
     {
@@ -65,7 +65,7 @@
                                 @if (User.IsInRole("Admin") || User.IsInRole("Supervisor") || User.IsInRole("Support"))
                                 {
                                     @:@Resource.Admin
-                                 }
+                                }
                                 else
                                 {
                                     @:@Resource.User
@@ -76,8 +76,9 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">
-                                @Resource.LastLoginDateTime: 
-                                @if (Session["LastLoginDateTime"] != null) { 
+                                @Resource.LastLoginDateTime:
+                                @if (Session["LastLoginDateTime"] != null)
+                                {
                                     @:@TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(Session["LastLoginDateTime"]).ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
                                 }
                                 else
@@ -202,11 +203,11 @@
 
             @if (User.Identity.IsAuthenticated)
             {
-                
+
                 <a class="LogBtn" href="@Url.Action("LogOff","Account")" title="@Resource.Logout">
                     <span class="glyphicon glyphicon-off"></span>
                 </a>
-                
+
             }
             else
             {
@@ -217,7 +218,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-                        @if(User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <p>
                                 <div class="dropdown headerUserWelcome" title="@Resource.UserOptions">
@@ -250,8 +251,8 @@
                                     <span class="glyphicon glyphicon-wrench"></span>
                                 </a>
                             }
-                            @if(User.IsInRole("User") || !User.Identity.IsAuthenticated)
-                            { 
+                            @if (User.IsInRole("User") || !User.Identity.IsAuthenticated)
+                            {
                                 <a href="#" data-toggle="modal" data-target="#SearchModal" title="@Resource.Search">
                                     <div class="searchBtn text-center">
                                         <span class="glyphicon glyphicon-search"></span>
@@ -284,7 +285,7 @@
                         </footer>
                     </div>
                 </div>
-                <a href="#" class="backToTop" title="@Resource.BackToTop" >@Resource.BackToTop</a>
+                <a href="#" class="backToTop" title="@Resource.BackToTop">@Resource.BackToTop</a>
             </div>
             <!-- /#page-content-wrapper -->
         </div>

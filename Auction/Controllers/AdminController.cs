@@ -5,14 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using OnlineAuctionProject.Models;
 using System.IO;
-using PagedList;
-using PagedList.Mvc;
-using System.Net.Mail;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OnlineAuctionProject.ManageWebsiteLanguage;
 using OnlineAuctionProject.Resources;
 using OnlineAuctionProject.Repository;
+using PagedList;
 
 namespace OnlineAuctionProject.Controllers
 {

@@ -8,7 +8,7 @@
 @{
     ViewBag.Title = Resource.Home;
     ApplicationDbContext db = new ApplicationDbContext();
-    string currentUserId = Guid.NewGuid().ToString();//User.Identity.GetUserId();
+    string currentUserId = User.Identity.GetUserId();
 }
 <div id="fb-root"></div>
 <script type="text/javascript">

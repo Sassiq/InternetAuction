@@ -20,7 +20,6 @@ using OnlineAuctionProject.Repository;
 
 namespace OnlineAuctionProject.Controllers
 {
-    //Account controller
     [Authorize]
     public class AccountController : BaseController
     {

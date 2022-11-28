@@ -6,6 +6,7 @@ using System.Data.Entity;
 
 namespace OnlineAuctionProject.Models
 {
+    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
         [Display(Name = "FirstName", ResourceType = typeof(Resource))]
@@ -56,25 +57,16 @@ namespace OnlineAuctionProject.Models
             : base("DefaultConnection")
         {
         }
-
         public DbSet<Category> Categories { get; set; }
-
         public DbSet<Product> Products { get; set; }
-
         public DbSet<Auction> Auctions { get; set; }
-
         public DbSet<Country> Countries { get; set; }
-
         public DbSet<Currency> Currencies { get; set; }
-
         public DbSet<Bid> Bids { get; set; }
-
         public DbSet<Message> Messages { get; set; }
-
         public DbSet<ProductPhoto> Images { get; set; }
-
         public DbSet<Statistic> Statistics { get; set; }
-
         public DbSet<Report> Reports { get; set; }
     }
+
 }
