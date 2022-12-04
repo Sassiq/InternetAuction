@@ -133,29 +133,14 @@
                 }
                 else
                 {
-                    if (User.IsInRole("User"))
+                    if (User.IsInRole("User") || User.IsInRole("Admin"))
                     {
-                        <li>
-                            <a href="@Url.Action("AddNewAuction", "Auction")">
-                                <span class="glyphicon glyphicon-plus-sign"> </span>
-                                @Resource.AddNewAuction
-                            </a>
-                        </li>
                         <li>
                             <a href="@Url.Action("MyOngoingBiddings", "Auction")">
                                 <span class="glyphicon glyphicon-time"> </span>
                                 @Resource.MyOngoingBiddings
                                 <span class="badge">
                                     @db.Bids.Where(x => x.Bidder.Id == currentUser.Id && x.Auction.Finish_Date > DateTime.Now).Select(x => x.Auction).Distinct().Count()
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("MyAuctions", "Auction")">
-                                <span class="glyphicon glyphicon-briefcase"> </span>
-                                @Resource.MyAuctions
-                                <span class="badge">
-                                    @db.Auctions.Where(x => x.Seller.Id == currentUser.Id).Count()
                                 </span>
                             </a>
                         </li>
@@ -170,6 +155,24 @@
                                 </span>
                             </a>
                         </li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a href="@Url.Action("AddNewAuction", "Auction")">
+                                    <span class="glyphicon glyphicon-plus-sign"> </span>
+                                    @Resource.AddNewAuction
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MyAuctions", "Auction")">
+                                    <span class="glyphicon glyphicon-briefcase"> </span>
+                                    @Resource.MyAuctions
+                                    <span class="badge">
+                                        @db.Auctions.Where(x => x.Seller.Id == currentUser.Id).Count()
+                                    </span>
+                                </a>
+                            </li>
+                        }
                     }
                     <li>
                         <a href="@Url.Action("LogOff", "Account")">
