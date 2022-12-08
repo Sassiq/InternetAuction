@@ -31,14 +31,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Category_Name_Ar, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Category_Name_Ar, new { @class = "form-control", placeholder = Resource.CategoryNamePlaceHolderAr })
-                            @Html.ValidationMessageFor(model => model.Category_Name_Ar)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <input type="file" id="uploadFile" name="uploadFile" class="hidden" />

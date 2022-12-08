@@ -1,13 +1,12 @@
 ﻿@model IPagedList<OnlineAuctionProject.Models.Category>
 @using OnlineAuctionProject.Resources
 @using OnlineAuctionProject.Models
-@using OnlineAuctionProject.ManageWebsiteLanguage
 @using PagedList
 @using PagedList.Mvc
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = Resource.Home;
-    ApplicationDbContext db = new ApplicationDbContext();
+    var db = new AuctionContext();
     string currentUserId = User.Identity.GetUserId();
 }
 <div id="fb-root"></div>
@@ -40,15 +39,7 @@
             <div class="col-lg-8 col-md-7 col-sm-7 alert-info">
                 <div class="">
                     <h4>
-                        @switch (OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
-                        {
-                            case "en-US":
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                                break;
-                            case "ar-SA":
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                                break;
-                        }
+                        <span class="glyphicon glyphicon-chevron-right"></span>
                         @Resource.ChooseACategoryAndCheckTheOfferdAuctions
                     </h4>
                 </div>
@@ -88,18 +79,7 @@
                         <img src="@Url.Content(m.Image)" class="img-thumbnail CategoryImg img-responsive" alt="@m.Category_Name (@Resource.Image)" />
                         <p>
                             <a href="@Url.Action("Index", "Auction", new { Id = m.Id })" class="text-info btn btn-default">
-                                @switch (SiteLanguages.GetCurrentLanguageCulture())
-                                {
-                                    case "en-US":
-                                        @:@m.Category_Name
-                                    break;
-                                    case "ar-SA":
-                                    @:@m.Category_Name_Ar
-                                    break;
-                                    default:
-                                    @:@m.Category_Name
-                                    break;
-                                }
+                                @m.Category_Name
                                 <span class="badge"> @auctionsCount</span>
                             </a>
                         </p>

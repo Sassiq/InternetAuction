@@ -241,6 +241,15 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to onlineauctiontst@gmail.com.
+        /// </summary>
+        public static string AdminEmail {
+            get {
+                return ResourceManager.GetString("AdminEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Website administration.
         /// </summary>
         public static string Administration {
@@ -255,6 +264,15 @@ namespace OnlineAuctionProject.Resources {
         public static string AdminOptions {
             get {
                 return ResourceManager.GetString("AdminOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12345678-A.
+        /// </summary>
+        public static string AdminPassword {
+            get {
+                return ResourceManager.GetString("AdminPassword", resourceCulture);
             }
         }
         
@@ -1582,7 +1600,7 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sending failed. Please check your internet connection..
+        ///   Looks up a localized string similar to Admin will contact your soon as it possible.
         /// </summary>
         public static string ErrorSendingEmail {
             get {
@@ -3522,6 +3540,15 @@ namespace OnlineAuctionProject.Resources {
         public static string TheAuction {
             get {
                 return ResourceManager.GetString("TheAuction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ~/Images/Items/no-thumbnail.png.
+        /// </summary>
+        public static string ThumbnailPath {
+            get {
+                return ResourceManager.GetString("ThumbnailPath", resourceCulture);
             }
         }
         

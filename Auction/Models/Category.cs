@@ -15,10 +15,6 @@ namespace OnlineAuctionProject.Models
         [Required(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "CategoryReq")]
         public string Category_Name { get; set; }
 
-        [Display(Name = "Category", ResourceType = typeof(Resource))]
-        [Required(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "CategoryReq")]
-        public string Category_Name_Ar { get; set; }
-
         [Display(Name = "CategoryImage", ResourceType = typeof(Resource))]
         public string Image { get; set; }
         public virtual List<Product> Products { get; set; }

@@ -57,16 +57,7 @@
             else
             {
                 <h4>
-                   @switch (OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
-                    {
-                        case "en-US":
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            break;
-                        case "ar-SA":
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                            break;
-                    }
-                    @Resource.ClickOnAuctionToManage
+                    <span class="glyphicon glyphicon-chevron-right"></span>
                 </h4>
                 <hr />
                 foreach (var m in Model)

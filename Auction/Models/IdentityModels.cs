@@ -51,9 +51,9 @@ namespace OnlineAuctionProject.Models
         public string PreferredInterfaceLanguage { get; set; }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class AuctionContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
+        public AuctionContext()
             : base("DefaultConnection")
         {
         }

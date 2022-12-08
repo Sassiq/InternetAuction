@@ -4,7 +4,7 @@
 @using OnlineAuctionProject.Models
 @{
     ViewBag.Title = Resource.Administration;
-    ApplicationDbContext db = new ApplicationDbContext();
+    var db = new AuctionContext();
     var userStore = new UserStore<ApplicationUser>(db);
     var userManager = new UserManager<ApplicationUser>(userStore);
 }

@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Microsoft.AspNet.Identity;
 using OnlineAuctionProject.Models;
 using PagedList;
-using PagedList.Mvc;
-using Microsoft.AspNet.Identity;
-using OnlineAuctionProject.ManageWebsiteLanguage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OnlineAuctionProject.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        AuctionContext db = new AuctionContext();
         
         //GET //All categories
         [HttpGet]
@@ -25,22 +22,8 @@ namespace OnlineAuctionProject.Controllers
 
             IPagedList<Category> orderedCategories = null;
 
-            //Display and order categories according to current website language
-            switch (SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    orderedCategories = categories.Where(x => x.Category_Name.ToLower().Contains(Search.ToLower()))
+            orderedCategories = categories.Where(x => x.Category_Name.ToLower().Contains(Search.ToLower()))
                                                   .OrderBy(x => x.Category_Name).ToPagedList(page ?? 1, 12);
-                    break;
-                case "ar-SA":
-                    orderedCategories = categories.Where(x => x.Category_Name_Ar.Contains(Search))
-                                                  .OrderBy(x => x.Category_Name_Ar).ToPagedList(page ?? 1, 12);
-                    break;
-                default:
-                    orderedCategories = categories.Where(x => x.Category_Name.ToLower().Contains(Search.ToLower()))
-                                                  .OrderBy(x => x.Category_Name).ToPagedList(page ?? 1, 12);
-                    break;
-            }
 
             return View(orderedCategories);
         }

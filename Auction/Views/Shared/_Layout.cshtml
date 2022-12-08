@@ -3,9 +3,8 @@
 @using OnlineAuctionProject.Models
 @using Microsoft.AspNet.Identity
 @{
-    ApplicationDbContext db = new ApplicationDbContext();
+    var db = new AuctionContext();
     ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
-    TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("Syria Standard Time");
 }
 <html>
 <head>
@@ -38,7 +37,7 @@
             </h2>
         </div>
     </noscript>
-    @Html.Hidden("WebsiteLanguage", OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
+    @Html.Hidden("WebsiteLanguage", System.Threading.Thread.CurrentThread.CurrentCulture.Name.ToString())
     @Html.Partial("_SearchPartial")
     @if (!Request.IsAuthenticated)
     {
@@ -79,7 +78,7 @@
                                 @Resource.LastLoginDateTime:
                                 @if (Session["LastLoginDateTime"] != null)
                                 {
-                                    @:@TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(Session["LastLoginDateTime"]).ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                    @:@TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(Session["LastLoginDateTime"]).ToUniversalTime(), TimeZoneInfo.Local).ToString(new System.Globalization.CultureInfo("en-US"))
                                 }
                                 else
                                 {
@@ -133,7 +132,7 @@
                 }
                 else
                 {
-                    if (User.IsInRole("User") || User.IsInRole("Admin"))
+                    if (User.IsInRole("User"))
                     {
                         <li>
                             <a href="@Url.Action("MyOngoingBiddings", "Auction")">
@@ -155,24 +154,25 @@
                                 </span>
                             </a>
                         </li>
-                        if (User.IsInRole("Admin"))
-                        {
-                            <li>
-                                <a href="@Url.Action("AddNewAuction", "Auction")">
-                                    <span class="glyphicon glyphicon-plus-sign"> </span>
-                                    @Resource.AddNewAuction
-                                </a>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("MyAuctions", "Auction")">
-                                    <span class="glyphicon glyphicon-briefcase"> </span>
-                                    @Resource.MyAuctions
-                                    <span class="badge">
-                                        @db.Auctions.Where(x => x.Seller.Id == currentUser.Id).Count()
-                                    </span>
-                                </a>
-                            </li>
-                        }
+
+                    }
+                    else if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a href="@Url.Action("AddNewAuction", "Auction")">
+                                <span class="glyphicon glyphicon-plus-sign"> </span>
+                                @Resource.AddNewAuction
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("MyAuctions", "Auction")">
+                                <span class="glyphicon glyphicon-briefcase"> </span>
+                                @Resource.MyAuctions
+                                <span class="badge">
+                                    @db.Auctions.Where(x => x.Seller.Id == currentUser.Id).Count()
+                                </span>
+                            </a>
+                        </li>
                     }
                     <li>
                         <a href="@Url.Action("LogOff", "Account")">
@@ -275,16 +275,6 @@
                             <p class="text-center">
                                 &copy; @DateTime.Now.Year - @Resource.footer
                             </p>
-
-                            <div class="languageChoices">
-                                <span class="glyphicon glyphicon-globe"></span>
-                                @foreach (var l in OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.AvailableLanguages)
-                                {
-                                    @Html.ActionLink(l.LanguageName, "ChangeLanguage", "Home", new { lang = l.LanguageAbbr }, null)
-                                    <span> &nbsp; </span>
-                                }
-                            </div>
-
                         </footer>
                     </div>
                 </div>

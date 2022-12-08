@@ -1,149 +1,131 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using OnlineAuctionProject.Models;
+using OnlineAuctionProject.Resources;
+using PagedList;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OnlineAuctionProject.Models;
-using Microsoft.AspNet.Identity;
-using System.IO;
-using PagedList;
-using PagedList.Mvc;
-using OnlineAuctionProject.ManageWebsiteLanguage;
-using System.Data.Entity.Validation;
-using OnlineAuctionProject.Resources;
-using System.Net.Mail;
-using OnlineAuctionProject.Repository;
 
 namespace OnlineAuctionProject.Controllers
 {
-    [Authorize(Roles = "User")]
-    public class AuctionController : BaseController
+    [Authorize(Roles = "User, Admin")]
+    public class AuctionController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private AuctionContext _dbContext;
 
-        //GET //All auctions in a category, can be filterd by product status and currency
+        public AuctionController()
+        {
+            _dbContext = new AuctionContext();
+        }
+
+
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Index(int? page, int Id, string ProductStatus, int? Currency)
+        public async Task<ActionResult> Index(int? page, int Id, string ProductStatus, int? Currency)
         {
-            //Getting current user
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
 
-            //getting list of ongoing auctions
-            IEnumerable<Auction> auctions = db.Auctions.Include("Seller")
-                                                    .Include("Buyer")
-                                                    .Include("Product")
-                                                    .Include("Product.Currency")
-                                                    .Include("Product.Images")
-                                                    .Include("Product.Images.Product")
-                                                    .Where(x => x.Product.Category.Id == Id
-                                                                && x.Finish_Date > DateTime.Now
-                                                                && !x.IsPaid
-                                                                && (x.Product.Status == ProductStatus
-                                                                    || ProductStatus == "All"
-                                                                    || String.IsNullOrEmpty(ProductStatus)))
-                                                    .ToList();
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var auctions = await _dbContext.Auctions
+                .AsNoTracking()
+                .Include("Seller")
+                .Include("Buyer")
+                .Include("Product")
+                .Include("Product.Currency")
+                .Include("Product.Images")
+                .Include("Product.Images.Product")
+                .Where(x => x.Product.Category.Id == Id
+                        && x.Finish_Date > DateTime.Now
+                        && !x.IsPaid
+                        && (x.Product.Status == ProductStatus || ProductStatus == "All" || string.IsNullOrEmpty(ProductStatus)))
+                .ToListAsync();
 
             if (User.Identity.IsAuthenticated)
-                auctions = auctions.Where(x => x.Seller.Id != user.Id).ToList();
+            { 
+                auctions = auctions.Where(x => x.Seller.Id != user.Id).ToList(); 
+            }
 
             ViewBag.AuctionsCount = auctions.Count();
 
-            auctions = auctions.ToPagedList(page ?? 1, 12);
-            //Filtering by currency
+            var pagedAuctions = auctions.ToPagedList(page ?? 1, 12);
             if(Currency != null)
             {
-                auctions = auctions.Where(x => x.Product.Currency.Id == Currency).ToList().ToPagedList(page ?? 1, 12);
-            }
-            //Displaying category 
-            switch (SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.CategoryName = db.Categories.Find(Id).Category_Name.ToString();
-                    break;
-                case "ar-SA":
-                    ViewBag.CategoryName = db.Categories.Find(Id).Category_Name_Ar.ToString();
-                    break;
-                default:
-                    ViewBag.CategoryName = db.Categories.Find(Id).Category_Name.ToString();
-                    break;
+                pagedAuctions = auctions.Where(x => x.Product.Currency.Id == Currency).ToList().ToPagedList(page ?? 1, 12);
             }
 
-            //Getting list of currencies
-            ViewBag.Currency = new SelectList(db.Currencies.Where(x => x.Visible).ToList(), "Id", "Name");
-            
+            ViewBag.CategoryName = (await _dbContext.Categories.FindAsync(Id)).Category_Name.ToString();
+            var currencies = await _dbContext.Currencies
+                .AsNoTracking()
+                .Where(x => x.Visible)
+                .ToListAsync();
+            ViewBag.Currency = new SelectList(currencies, "Id", "Name");
 
-            return View(auctions);
+            return View(pagedAuctions);
         }
 
-        //GET //View an auction
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ViewAuction(int Id)
+        public async Task<ActionResult> ViewAuction(int Id)
         {
-            //Getting the auction
-            Auction auction = db.Auctions.Include("Seller")
-                                                .Include("Buyer")
-                                                .Include("Product")
-                                                .Include("Product.Currency")
-                                                .Include("Product.Category")
-                                                .Include("Bids")
-                                                .SingleOrDefault(x => x.Id == Id);
+            var auction = await _dbContext.Auctions
+                .AsNoTracking()
+                .Include("Seller")
+                .Include("Buyer")
+                .Include("Product")
+                .Include("Product.Currency")
+                .Include("Product.Category")
+                .Include("Bids")
+                .SingleOrDefaultAsync(x => x.Id == Id);
 
             return View(auction);
         }
 
-        //POST //Bidding on auction
         [HttpPost]
-        public ActionResult Bid(int Id, double value,string returnUrl)
+        public async Task<ActionResult> Bid(int Id, double value, string returnUrl)
         {
-            //Getting the auction
-            Auction auction = db.Auctions.Include("Buyer")
-                                         .Include("Seller")
-                                         .Include("Product.Category")
-                                         .SingleOrDefault(x => x.Id == Id);
-            //Getting the current user
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-            //Getting the new bid value
-            value = double.Parse(Request["Current_Bid"]);
-
-            //Checking if the new value is greater than the current value
-            if (value > auction.Current_Bid && auction.Seller.Id != User.Identity.GetUserId())
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var auction = await _dbContext.Auctions
+                .Include("Buyer")
+                .Include("Seller")
+                .Include("Product.Category")
+                .SingleOrDefaultAsync(x => x.Id == Id);
+            value = (int)double.Parse(Request["Current_Bid"]);
+            if (auction != null && value > auction.Current_Bid && auction.Seller.Id != User.Identity.GetUserId())
             {
-                //Setting the new buyer and the new bid
                 auction.Buyer = user;
                 auction.Current_Bid = value;
 
-                //Saving bidding operation to DB
                 Bid bid = new Bid()
-                    {
-                        Auction = auction,
-                        Bidder = user,
-                        BidDateTime = DateTime.Now,
-                        BidValue = value
-                    };
-                db.Bids.Add(bid);
-
-                db.SaveChanges();
+                {
+                    Auction = auction,
+                    Bidder = user,
+                    BidDateTime = DateTime.Now,
+                    BidValue = value
+                };
+                _dbContext.Bids.Add(bid);
+                await _dbContext.SaveChangesAsync();
 
                 return Redirect(returnUrl);
             }
-            //if the new value is less or equal than the current value, display an error message.
-            ViewBag.ErrorBidding = Resource.Error + ": "+ Resource.BidErrorMsg.ToString();
 
-            //Bidding from the my ongoing auctions page
+            ViewBag.ErrorBidding = Resource.Error + ": "+ Resource.BidErrorMsg.ToString();
             if (returnUrl == "/Auction/MyOngoingBiddings")
             {
-                IEnumerable<Bid> bids = db.Bids.Include("Auction")
-                                          .Include("Auction.Product")
-                                          .Include("Auction.Product.Category")
-                                          .Include("Auction.Product.Currency")
-                                          .Include("Auction.Buyer")
-                                          .Where(x => x.Bidder.Id == user.Id
-                                                   && x.Auction.Finish_Date > DateTime.Now)
-                                          .ToList();
+                var bids = await _dbContext.Bids
+                    .AsNoTracking()
+                    .Include("Auction")
+                    .Include("Auction.Product")
+                    .Include("Auction.Product.Category")
+                    .Include("Auction.Product.Currency")
+                    .Include("Auction.Buyer")
+                    .Where(x => x.Bidder.Id == user.Id && x.Auction.Finish_Date > DateTime.Now)
+                    .ToListAsync();
 
-                IPagedList<Auction> auctions = bids.Select(x => x.Auction).Distinct().ToPagedList(1, 12);
+                var auctions = bids.Select(x => x.Auction).Distinct().ToPagedList(1, 12);
 
                 return View("MyOngoingBiddings", auctions);
             }
@@ -151,66 +133,48 @@ namespace OnlineAuctionProject.Controllers
             return Redirect(returnUrl);
         }
 
-
-        //GET //Add a new auction
         [HttpGet]
-        public ActionResult AddNewAuction()
+        public async Task<ActionResult> AddNewAuction()
         {
-            //Getting list of categories
-            List<Category> categories = db.Categories.Where(x => x.Visible).ToList();
-            //Getting list of currencies
-            List<Currency> currencies = db.Currencies.Where(x => x.Visible).ToList();
+            var categories = await _dbContext.Categories
+                .AsNoTracking()
+                .Where(x => x.Visible)
+                .OrderBy(x => x.Category_Name)
+                .ToListAsync();
+            var currencies = await _dbContext.Currencies
+                .AsNoTracking()
+                .Where(x => x.Visible)
+                .ToListAsync();
             ViewBag.Currency = new SelectList(currencies, "Id", "Name");
-
-            //Displaying categories according to current website language
-            switch(SiteLanguages.GetCurrentLanguageCulture())
+            ViewBag.Category = new SelectList(categories, "Id", "Category_Name");
+            var model = new AddAuctionModel()
             {
-                case "en-US":
-                    ViewBag.Category = new SelectList(categories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-                case "ar-SA":
-                    ViewBag.Category = new SelectList(categories.OrderBy(x => x.Category_Name_Ar).ToList(), "Id", "Category_Name_Ar");
-                    break;
-                default:
-                    ViewBag.Category = new SelectList(categories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-            }
-
-            AddAuctionModel model = new AddAuctionModel()
-            {
-                AccountNumber = db.Users.Find(User.Identity.GetUserId()).AccountNumber
+                AccountNumber = _dbContext.Users.Find(User.Identity.GetUserId()).AccountNumber
             };
-            
 
             return View(model);
         }
 
-        //POST //Add a new auction
         [HttpPost]
-        public ActionResult AddNewAuction(AddAuctionModel model, HttpPostedFileBase[] uploadFile)
+        public async Task<ActionResult> AddNewAuction(AddAuctionModel model, HttpPostedFileBase[] uploadFile)
         {
             try
             {
-                //If no image uploaded, then save a default image
                 string path = "~/Images/Items/no-thumbnail.png";
                 string fileName = "";
-
-                //Creating a list of images
-                List<ProductPhoto> Images = new List<ProductPhoto>();
-
-                //Uploading multiple images
+                var images = new List<ProductPhoto>();
                 if (uploadFile[0] != null)
                 {
                     try
                     {
                         foreach (HttpPostedFileBase file in uploadFile)
                         {
-                            if (file != null && checkFileType(file.FileName))
+                            if (file != null && CheckMimeType(file.FileName))
                             {
                                 fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff") + "_" + file.FileName;
                                 path = "~/Images/Items/" + fileName;
                                 file.SaveAs(Server.MapPath(path));
-                                Images.Add(new ProductPhoto() { Path = path });
+                                images.Add(new ProductPhoto() { Path = path });
                             }
                         }
                     }
@@ -222,33 +186,31 @@ namespace OnlineAuctionProject.Controllers
                 }
                 else
                 {
-                    Images.Add(new ProductPhoto() { Path = path });
+                    images.Add(new ProductPhoto() { Path = path });
                 }
-                //Creating a new product
-                Product product = new Product()
+
+                var product = new Product()
                 {
                     Name = model.Product.Name,
                     Description = model.Product.Description,
-                    Currency = db.Currencies.Find(Convert.ToInt32(Request["Currency"].ToString())),
+                    Currency = _dbContext.Currencies.Find(Convert.ToInt32(Request["Currency"].ToString())),
                     Price = model.Product.Price,
-                    Category = db.Categories.Find(Convert.ToInt32(Request["Category"].ToString())),
+                    Category = _dbContext.Categories.Find(Convert.ToInt32(Request["Category"].ToString())),
                     Status = Request["StatusRadio"].ToString()
                 };
-                //Setting the product images
-                foreach (var p in Images)
+
+                foreach (var p in images)
                 {
                     p.Product = product;
                 }
 
-                product.Images = Images;
+                product.Images = images;
 
-                //Adding the new product to DB
-                db.Products.Add(product);
+                _dbContext.Products.Add(product);
 
-
-                ApplicationUser seller = db.Users.Find(User.Identity.GetUserId());
-                //Creating a new auction
-                Auction auction = new Auction()
+                var seller = _dbContext.Users.Find(User.Identity.GetUserId());
+                seller.AccountNumber = model.AccountNumber;
+                var auction = new Auction()
                 {
                     Seller = seller,
                     Buyer = null,
@@ -258,62 +220,42 @@ namespace OnlineAuctionProject.Controllers
                     Finish_Date = DateTime.Now.AddDays(model.DurationDays).AddHours(model.DurationHrs),
                     IsPaid = false
                 };
-                seller.AccountNumber = model.AccountNumber;
 
-                //Adding the auction to DB
-                db.Auctions.Add(auction);
-
-                db.SaveChanges();
+                _dbContext.Auctions.Add(auction);
+                await _dbContext.SaveChangesAsync();
 
                 return RedirectToAction("MyAuctions", "Auction");
             }
             catch { }
 
-            List<Category> categories = db.Categories.ToList();
-            List<Currency> currencies = db.Currencies.ToList();
-
-            //Displaying categories according to current website language
-            switch(SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.Category = new SelectList(categories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-                case "ar-SA":
-                    ViewBag.Category = new SelectList(categories.OrderBy(x => x.Category_Name_Ar).ToList(), "Id", "Category_Name_Ar");
-                    break;
-                default:
-                    ViewBag.Category = new SelectList(categories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-            }
+            var categories = await _dbContext.Categories
+                .AsNoTracking()
+                .OrderBy(x => x.Category_Name)
+                .ToListAsync();
+            var currencies = await _dbContext.Currencies.ToListAsync();
+            ViewBag.Category = new SelectList(categories, "Id", "Category_Name");
             ViewBag.Currency = new SelectList(currencies, "Id", "Name");
 
             return View(model);
         }
 
-        //GET //My auctions
         [HttpGet]
-        public ActionResult MyAuctions(int? page, string AuctionStatus, int? Category)
+        public async Task<ActionResult> MyAuctions(int? page, string AuctionStatus, int? Category)
         {
-            //Get the current user
-            ApplicationUser me = db.Users.Find(User.Identity.GetUserId());
-
-            //Get list of user's auctions
-            IEnumerable<Auction> myAuctions = db.Auctions.Include("Product")
-                                                        .Include("Product.Category")
-                                                        .Include("Buyer")
-                                                        .Include("Product.Currency")
-                                                        .Where(x => x.Seller.Id == me.Id
-                                                                 && (x.Product.Category.Id == Category
-                                                                 || Category == null))
-                                                        .OrderBy(x => (x.Finish_Date > DateTime.Now ? "A" : "B"))
-                                                        .ThenBy(x => x.IsPaid)
-                                                        .ToList();
+            var me = _dbContext.Users.Find(User.Identity.GetUserId());
+            var myAuctions = await _dbContext.Auctions
+                .AsNoTracking()
+                .Include("Product")
+                .Include("Product.Category")
+                .Include("Buyer")
+                .Include("Product.Currency")
+                .Where(x => x.Seller.Id == me.Id && (x.Product.Category.Id == Category || Category == null))
+                .OrderBy(x => (x.Finish_Date > DateTime.Now ? "A" : "B"))
+                .ThenBy(x => x.IsPaid)
+                .ToListAsync();
 
             ViewBag.AuctionsCount = myAuctions.Count();
-
-            //Filtering auctions by: Ongoing, Finished, Paid, Not paid
-            IPagedList<Auction> filterd = null;
-
+            IPagedList<Auction> filterd;
             switch (AuctionStatus)
             {
                 case "Ongoing":
@@ -339,126 +281,108 @@ namespace OnlineAuctionProject.Controllers
             ViewBag.MyPaidAuctionsCount = myAuctions.Where(x => x.IsPaid).Count();
             ViewBag.MyNotPaidAuctionsCount = myAuctions.Where(x => x.Finish_Date <= DateTime.Now && !x.IsPaid).Count();
 
-            List<Category> myAuctionsCategories = db.Auctions.Where(x => x.Seller.Id == me.Id)
-                                                             .Select(x => x.Product.Category)
-                                                             .Distinct()
-                                                             .ToList();
-
-            switch (SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.Category = new SelectList(myAuctionsCategories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-                case "ar-SA":
-                    ViewBag.Category = new SelectList(myAuctionsCategories.OrderBy(x => x.Category_Name_Ar).ToList(), "Id", "Category_Name_Ar");
-                    break;
-                default:
-                    ViewBag.Category = new SelectList(myAuctionsCategories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-            }
+            var myAuctionsCategories = _dbContext.Auctions
+                .AsNoTracking()
+                .Where(x => x.Seller.Id == me.Id)
+                .Select(x => x.Product.Category)
+                .Distinct();
+            ViewBag.Category = new SelectList(await myAuctionsCategories.OrderBy(x => x.Category_Name).ToListAsync(), "Id", "Category_Name");
 
             return View(filterd);
         }
 
-       
-
-        //GET //User's ongoing biddings
         [HttpGet]
-        public ActionResult MyOngoingBiddings(int? page, string Search)
+        public async Task<ActionResult> MyOngoingBiddings(int? page, string Search)
         {
-            //Getting the current user
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var bids = await _dbContext.Bids
+                .AsNoTracking()
+                .Include("Auction")
+                .Include("Auction.Product")
+                .Include("Auction.Product.Category")
+                .Include("Auction.Product.Currency")
+                .Include("Auction.Buyer")
+                .Where(x => x.Bidder.Id == user.Id 
+                        && x.Auction.Finish_Date > DateTime.Now
+                        &&(x.Auction.Product.Name.Contains(Search)
+                        || String.IsNullOrEmpty(Search)))
+                .ToListAsync();
 
-            //Getting the auctions that the logged in user are currently bidding in.
-
-            IEnumerable<Bid> bids = db.Bids.Include("Auction")
-                                          .Include("Auction.Product")
-                                          .Include("Auction.Product.Category")
-                                          .Include("Auction.Product.Currency")
-                                          .Include("Auction.Buyer")
-                                          .Where(x => x.Bidder.Id == user.Id 
-                                                   && x.Auction.Finish_Date > DateTime.Now
-                                                   &&(x.Auction.Product.Name.Contains(Search)
-                                                   || String.IsNullOrEmpty(Search)))
-                                          .ToList();
-
-            IEnumerable<Auction> auctions = bids.Select(x => x.Auction).Distinct();
+            var auctions = bids.Select(x => x.Auction).Distinct();
             ViewBag.AuctionsCount = auctions.Count();
 
             return View(auctions.ToPagedList(page ?? 1, 12));
         }
 
-        //GET //User's winning auctions
         [HttpGet]
-        public ActionResult MyWinningAuctions()
+        public async Task<ActionResult> MyWinningAuctions()
         {
             Session["AuctionsToPay"] = null;
-            //Getting the current user
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-
-            //Getting user's winning auctions by currency
-            List<Currency> currencies = db.Auctions.Include("Product")
-                                                             .Include("Product.Category")
-                                                             .Include("Product.Currency")
-                                                             .Where(x => x.Buyer.Id == user.Id
-                                                                      && x.Finish_Date <= DateTime.Now
-                                                                      && x.IsPaid == false)
-                                                             .Select(x => x.Product.Currency)
-                                                             .Distinct()
-                                                             .ToList();
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var currencies = await _dbContext.Auctions
+                .AsNoTracking()
+                .Include("Product")
+                .Include("Product.Category")
+                .Include("Product.Currency")
+                .Where(x => x.Buyer.Id == user.Id
+                        && x.Finish_Date <= DateTime.Now
+                        && x.IsPaid == false)
+                .Select(x => x.Product.Currency)
+                .Distinct()                   
+                .ToListAsync();
 
             ViewBag.Currencies = currencies;
             int firstCurrency = (currencies.Count > 0 ? currencies[0].Id : -1);
 
-            IEnumerable<Auction> winningAuctions = db.Auctions.Include("Product")
-                                                            .Include("Product.Category")
-                                                            .Include("Product.Currency")
-                                                            .Where(x => x.Buyer.Id == user.Id
-                                                                     && x.Finish_Date <= DateTime.Now
-                                                                     && x.IsPaid == false
-                                                                     && (x.Product.Currency.Id == firstCurrency
-                                                                     || firstCurrency == -1))
-                                                            .ToList();
-            //Getting the overall value 
+            var winningAuctions = await _dbContext.Auctions
+                .Include("Product")
+                .Include("Product.Category")
+                .Include("Product.Currency")
+                .Where(x => x.Buyer.Id == user.Id
+                        && x.Finish_Date <= DateTime.Now
+                        && x.IsPaid == false
+                        && (x.Product.Currency.Id == firstCurrency || firstCurrency == -1))
+                .ToListAsync();
             if (winningAuctions.Count() > 0)
-                ViewBag.Payment = winningAuctions.Sum(x => x.Current_Bid).ToString() +
-                                                " " + winningAuctions.FirstOrDefault().Product.Currency.Name;
-            //Saving the auction to pay in a session
+            {
+                ViewBag.Payment = winningAuctions.Sum(x => x.Current_Bid).ToString() + " " + winningAuctions.FirstOrDefault().Product.Currency.Name;
+            }
             Session.Add("AuctionsToPay", winningAuctions);
 
             return View(winningAuctions);
         }
 
-        //GET //User's winning auctions by currencu
         [HttpGet]
-        public PartialViewResult WinningAuctions(int currency)
+        public async Task<PartialViewResult> WinningAuctions(int currency)
         {
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var winningAuctions = await _dbContext.Auctions
+                .AsNoTracking()
+                .Include("Product")
+                .Include("Product.Category")
+                .Include("Product.Currency")
+                .Where(x => x.Buyer.Id == user.Id
+                        && x.Finish_Date <= DateTime.Now
+                        && x.IsPaid == false
+                        && (x.Product.Currency.Id == currency))
+                .ToListAsync();
 
-            IEnumerable<Auction> winningAuctions = db.Auctions.Include("Product")
-                                                             .Include("Product.Category")
-                                                             .Include("Product.Currency")
-                                                             .Where(x => x.Buyer.Id == user.Id
-                                                                      && x.Finish_Date <= DateTime.Now
-                                                                      && x.IsPaid == false
-                                                                      && (x.Product.Currency.Id == currency
-                                                                      || currency == null))
-                                                             .ToList();
-
-            ViewBag.Payment = winningAuctions.Sum(x => x.Current_Bid).ToString() +
-                                           " " + winningAuctions.FirstOrDefault().Product.Currency.Name;
+            var winAuction = winningAuctions.FirstOrDefault();
+            if (winAuction != null)
+            {
+                ViewBag.Payment = winningAuctions.Sum(x => x.Current_Bid).ToString() +
+                                 " " + winningAuctions.FirstOrDefault().Product.Currency.Name;
+            }
 
             Session.Add("AuctionsToPay", winningAuctions);
 
             return PartialView("_WinningAuctionsPartial", winningAuctions);
         }
 
-        //GET //Payment Page
         [HttpGet]
         public ActionResult PayBill()
         {
-            //Getting the auctions list that the user must pay for.
-            List<Auction> auctions = null;
+            List<Auction> auctions;
             if (Session["AuctionsToPay"] != null)
             {
                 auctions = Session["AuctionsToPay"] as List<Auction>;
@@ -468,8 +392,7 @@ namespace OnlineAuctionProject.Controllers
                 return RedirectToAction("MyWinningAuctions");
             }
 
-            //List of available credit cards
-            List<string> cardsList = new List<string>();
+            var cardsList = new List<string>();
             cardsList.Add("Visa");
             cardsList.Add("Master Card");
             cardsList.Add("American Express");
@@ -477,7 +400,6 @@ namespace OnlineAuctionProject.Controllers
 
             ViewBag.CardTypes = new SelectList(cardsList);
 
-            //Setting the payment value
             Payment payment = new Payment();
             payment.PaymentValue = auctions.Sum(x => x.Current_Bid) + " " + auctions.FirstOrDefault().Product.Currency.Name;
 
@@ -496,12 +418,11 @@ namespace OnlineAuctionProject.Controllers
             return View(payment);
         }
 
-        //POST //Payment
         [HttpPost]
-        public ActionResult PayBill(Payment payment)
+        public async Task<ActionResult> PayBill(Payment payment)
         {
             bool paymentSuccess = false;
-            List<Auction> auctions = null;
+            List<Auction> auctions;
             if (Session["AuctionsToPay"] != null)
             {
                 auctions = Session["AuctionsToPay"] as List<Auction>;
@@ -511,8 +432,7 @@ namespace OnlineAuctionProject.Controllers
                 return RedirectToAction("MyWinningAuctions");
             }
 
-            //List of available credit cards
-            List<string> cardsList = new List<string>();
+            var cardsList = new List<string>();
             cardsList.Add("Visa");
             cardsList.Add("Master Card");
             cardsList.Add("American Express");
@@ -530,7 +450,7 @@ namespace OnlineAuctionProject.Controllers
             {
                 foreach (Auction auction in auctions)
                 {
-                    Auction auc = db.Auctions.Include("Seller").SingleOrDefault(x => x.Id == auction.Id);
+                    Auction auc = _dbContext.Auctions.Include("Seller").SingleOrDefault(x => x.Id == auction.Id);
                     payment.SellerAccountNumber = auc.Seller.AccountNumber;
                     /*
                         Payment Proccess goes here
@@ -540,9 +460,9 @@ namespace OnlineAuctionProject.Controllers
                     {
                         auction.IsPaid = true;
                         auction.PaymentDateTime = DateTime.Now;
-                        db.Auctions.Find(auction.Id).IsPaid = auction.IsPaid;
-                        db.Auctions.Find(auction.Id).PaymentDateTime = auction.PaymentDateTime;
-                        db.SaveChanges();
+                        (await _dbContext.Auctions.FindAsync(auction.Id)).IsPaid = auction.IsPaid;
+                        (await _dbContext.Auctions.FindAsync(auction.Id)).PaymentDateTime = auction.PaymentDateTime;
+                        await _dbContext.SaveChangesAsync();
                     }
                     else
                     {
@@ -568,155 +488,124 @@ namespace OnlineAuctionProject.Controllers
             return View(payment);
         }
 
-
-        //Search for auctions
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Search(int? page, string Keyword, int? Category)
+        public async Task<ActionResult> Search(int? page, string Keyword, int? Category)
         {
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-            IEnumerable<Auction> auctions = db.Auctions.Include("Product")
-                                                       .Include("Seller")
-                                                      .Include("Product.Category")
-                                                      .Include("Product.Currency")
-                                                      .Where(x => ((x.Product.Name.Contains(Keyword.Trim())
-                                                               || x.Product.Description.Contains(Keyword.Trim())
-                                                               || x.Product.Currency.Name.Contains(Keyword.Trim())
-                                                               || x.Product.Status.Contains(Keyword.Trim())
-                                                               || String.IsNullOrEmpty(Keyword))
-                                                               && (x.Product.Category.Id == Category
-                                                                     || Category == null))
-                                                               && x.Finish_Date > DateTime.Now)
-                                                               .ToList();
-                                                               
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var auctions = await _dbContext.Auctions
+                .AsNoTracking()
+                .Include("Product")
+                .Include("Seller")
+                .Include("Product.Category")
+                .Include("Product.Currency")
+                .Where(x => ((x.Product.Name.Contains(Keyword.Trim())
+                       || x.Product.Description.Contains(Keyword.Trim())
+                       || x.Product.Currency.Name.Contains(Keyword.Trim())
+                       || x.Product.Status.Contains(Keyword.Trim())
+                       || String.IsNullOrEmpty(Keyword))
+                       & (x.Product.Category.Id == Category || Category == null))
+                       && x.Finish_Date > DateTime.Now)
+                .ToListAsync();
+
             if (User.Identity.IsAuthenticated)
+            {
                 auctions = auctions.Where(x => x.Seller.Id != user.Id).ToList();
+            }
 
             ViewBag.AuctionsCount = auctions.Count();
-
             ViewBag.SearchKeyword = "[ " + Keyword + " ]";
-            if (Category != null)
-            {
-                switch(SiteLanguages.GetCurrentLanguageCulture())
-                {
-                    case"en-US":
-                        ViewBag.SearchKeyword = "[ " + Keyword + " ] " + Resource.In +" : [ " + db.Categories.Find(Category).Category_Name + " ]";
-                        break;
-                    case "ar-SA":
-                        ViewBag.SearchKeyword = "[ " + Keyword + " ] " + Resource.In +" : [ " + db.Categories.Find(Category).Category_Name_Ar + " ]";
-                        break;
-                    default:
-                        ViewBag.SearchKeyword = "[ " + Keyword + " ] " + Resource.In +" : [ " + db.Categories.Find(Category).Category_Name + " ]";
-                        break;
-                }
-            }
+            ViewBag.SearchKeyword = "[ " + Keyword + " ] " + Resource.In + " : [ " + _dbContext.Categories.Find(Category).Category_Name + " ]";
+
             return View(auctions.ToPagedList(page ?? 1, 12));
         }
 
-        //GET //Manually close an auction
         [HttpGet]
-        public ActionResult CloseAuction(int Id)
+        public async Task<ActionResult> CloseAuction(int Id)
         {
-            try
+            var auction = await _dbContext.Auctions.FindAsync(Id);
+            if (auction != null)
             {
-                Auction auction = db.Auctions.Find(Id);
                 auction.Finish_Date = DateTime.Now;
-                db.SaveChanges();
-            }
-            catch
-            {
-
+                await _dbContext.SaveChangesAsync();
             }
 
             return RedirectToAction("MyAuctions", "Auction");
         }
 
-        //POST //Manually extend auction time
         [HttpPost]
-        public ActionResult ExtendAuctionTime()
+        public async Task<ActionResult> ExtendAuctionTime()
         {
             try
             {
-                int auctionID = int.Parse(Request["FormAuctionId"].ToString());
-                Auction auction = db.Auctions.Where(x => !x.IsPaid)
-                                             .SingleOrDefault(x => x.Id == auctionID);
-
-                DateTime dt = Convert.ToDateTime(auction.Finish_Date);
-
-                //If auction is already finished, extend time by adding to current date and time
+                int auctionId = int.Parse(Request["FormAuctionId"].ToString());
+                var auction = await _dbContext.Auctions.SingleOrDefaultAsync(x => x.Id == auctionId && !x.IsPaid);
+                var time = Convert.ToDateTime(auction.Finish_Date);
                 if (auction.Finish_Date <= DateTime.Now)
                 {
                     auction.Finish_Date = DateTime.Now.AddDays(Convert.ToInt32(Request["DurationDays"].ToString()))
                                            .AddHours(Convert.ToInt32(Request["DurationHrs"].ToString()));
                 }
-                else // else extend by adding to auction stored finish date and time
+                else
                 {
-                    auction.Finish_Date = dt.AddDays(Convert.ToInt32(Request["DurationDays"].ToString()))
+                    auction.Finish_Date = time.AddDays(Convert.ToInt32(Request["DurationDays"].ToString()))
                                             .AddHours(Convert.ToInt32(Request["DurationHrs"].ToString()));
                 }
-                db.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
-            catch
-            {
+            catch { }
 
-            }
             return RedirectToAction("MyAuctions", "Auction");
         }
 
-
-        //POST //Change auction openning bid
         [HttpPost]
-        public ActionResult ChangeOpeningBid()
+        public async Task<ActionResult> ChangeOpeningBid()
         {
             try
             {
                 int id = Convert.ToInt32(Request["OpeningBidFormAuctionId"].ToString());
-
-                Auction auction = db.Auctions.Include("Product")
-                                             .Include("Product.Category")
-                                             .Include("Product.Currency")
-                                             .Where(x => x.Buyer == null)
-                                             .SingleOrDefault(x => x.Id == id);
+                var auction = await _dbContext.Auctions
+                    .Include("Product")
+                    .Include("Product.Category")
+                    .Include("Product.Currency")   
+                    .Where(x => x.Buyer == null)
+                    .SingleOrDefaultAsync(x => x.Id == id);
                 if (auction.Buyer == null)
                 {
-                    //Changing the openning bid price
                     auction.Product.Price = Convert.ToDouble(Request["CurrentBid"].ToString());
                     auction.Current_Bid = auction.Product.Price;
 
-                    db.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                 }
             }
-            catch
-            {
+            catch { }
 
-            }
             return RedirectToAction("MyAuctions", "Auction");
         }
 
-        //GET //Reporting an auction to administration
         [HttpGet]
-        public ActionResult ReportToAdmin(int Id)
+        public async Task<ActionResult> ReportToAdmin(int Id)
         {
-            Auction auction = db.Auctions.Find(Id);
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-
-
-            Report report = new Report()
+            var auction = await _dbContext.Auctions.FindAsync(Id);
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var report = new Report()
             {
                 auction = auction,
                 Seen = false,
                 Reporter = user,
                 ReportDateAndTime = DateTime.Now
             };
-            db.Reports.Add(report);
 
-            db.SaveChanges();
+            _dbContext.Reports.Add(report);
 
+            await _dbContext.SaveChangesAsync();
 
-            //Automatically remove auction when it gets 50 reports
-            int reportsCount = db.Reports.Include("Auction").Where(x => x.auction.Id == Id).Count();
+            int reportsCount = _dbContext.Reports
+                .AsNoTracking()
+                .Include("Auction")
+                .Count(x => x.auction.Id == Id);
             
-            if(reportsCount >= 50)
+            if (reportsCount >= 50)
             {
                 Session.Add("AllowAuctionRemove", true);
                 return RedirectToAction("AutomaticRemove", new { Id = Id });
@@ -725,22 +614,36 @@ namespace OnlineAuctionProject.Controllers
             return RedirectToAction("ViewAuction", "Auction", new { Id = Id });
         }
 
-        //GET //User's paid auctions
         [HttpGet]
-        public ActionResult PaidAuctions(int? page)
+        public async Task<ActionResult> PaidAuctions(int? page)
         {
-            //Getting the current users
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-
-            //Get the list of already paid auction
-            IEnumerable<Auction> paidAuctions = db.Auctions.Include("Product")
-                                                          .Include("Product.Currency")
-                                                          .Include("Product.Category")
-                                                          .Where(x => x.Buyer.Id == user.Id && x.IsPaid)
-                                                          .ToList();
+            var user = _dbContext.Users.Find(User.Identity.GetUserId());
+            var paidAuctions = await _dbContext.Auctions
+                .AsNoTracking()
+                .Include("Product")
+                .Include("Product.Currency")
+                .Include("Product.Category")
+                .Where(x => x.Buyer.Id == user.Id && x.IsPaid)
+                .ToListAsync();
 
             return View(paidAuctions.ToPagedList(page ?? 1, 6));
         }
 
-	}
+        private bool CheckMimeType(string fileName)
+        {
+            string fileExtention = Path.GetExtension(fileName);
+
+            switch (fileExtention.ToLower())
+            {
+                case ".png":
+                    return true;
+                case ".jpg":
+                    return true;
+                case ".jpeg":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
 }

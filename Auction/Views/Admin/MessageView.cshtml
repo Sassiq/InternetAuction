@@ -4,7 +4,7 @@
     ViewBag.Title = Resource.Message;
     System.Globalization.CultureInfo en = new System.Globalization.CultureInfo("en-US");
     System.Threading.Thread.CurrentThread.CurrentCulture = en;
-    TimeZoneInfo tzi = OnlineAuctionProject.Repository.TimeZonesManagement.GetTimeZoneInfo();}
+    TimeZoneInfo tzi = TimeZoneInfo.Local;}
 
 <h3>
     <span class="glyphicon glyphicon-envelope"></span>

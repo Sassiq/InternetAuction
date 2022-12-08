@@ -5,7 +5,7 @@
 @model IPagedList<Currency>
 @{
     ViewBag.Title = Resource.Currencies;
-    ApplicationDbContext db = new ApplicationDbContext();
+    var db = new AuctionContext();
 }
 
 <h3>

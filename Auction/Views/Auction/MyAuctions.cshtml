@@ -1,12 +1,11 @@
 ﻿@using PagedList
 @using PagedList.Mvc
 @using OnlineAuctionProject.Resources
-@using OnlineAuctionProject.ManageWebsiteLanguage
 @model IPagedList<OnlineAuctionProject.Models.Auction>
 
 @{
     ViewBag.Title = Resource.MyAuctions;
-    TimeZoneInfo tzi = OnlineAuctionProject.Repository.TimeZonesManagement.GetTimeZoneInfo();}
+    TimeZoneInfo tzi = TimeZoneInfo.Local;}
 <h3>
     <span class="glyphicon glyphicon-briefcase"> </span>
     @Resource.MyAuctions [@ViewBag.AuctionsCount]
@@ -118,18 +117,7 @@
                                     </td>
                                     <td>
                                         <h5>
-                                            @switch (SiteLanguages.GetCurrentLanguageCulture())
-                                            {
-                                                case "en-US":
-                                                    @:@m.Product.Category.Category_Name
-                                                    break;
-                                                case "ar-SA":
-                                                @:@m.Product.Category.Category_Name_Ar
-                                                    break;
-                                                default:
-                                                @:@m.Product.Category.Category_Name
-                                                    break;
-                                            }
+                                            @m.Product.Category.Category_Name
                                         </h5>
                                     </td>
                                 </tr>

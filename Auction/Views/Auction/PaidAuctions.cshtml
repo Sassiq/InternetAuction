@@ -1,7 +1,6 @@
 ﻿@using PagedList
 @using PagedList.Mvc
 @using OnlineAuctionProject.Resources
-@using OnlineAuctionProject.ManageWebsiteLanguage
 @using Microsoft.AspNet.Identity
 @using OnlineAuctionProject.Models
 @model IPagedList<Auction>
@@ -9,7 +8,7 @@
 
 @{
     ViewBag.Title = Resource.PaidAuctions;
-    ApplicationDbContext db = new ApplicationDbContext();
+    var db = new AuctionContext();
     ApplicationUser user = new ApplicationUser();
 }
 
@@ -80,18 +79,7 @@
                                     </td>
                                     <td>
                                         <h5>
-                                            @switch (SiteLanguages.GetCurrentLanguageCulture())
-                                            {
-                                                case "en-US":
-                                                    @:@m.Product.Category.Category_Name
-                                                    break;
-                                                case "ar-SA":
-                                                @:@m.Product.Category.Category_Name_Ar
-                                                    break;
-                                                default:
-                                                @:@m.Product.Category.Category_Name
-                                                    break;
-                                            }
+                                            @m.Product.Category.Category_Name
                                         </h5>
                                     </td>
                                 </tr>

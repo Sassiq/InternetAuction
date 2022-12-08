@@ -147,23 +147,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Configurations\BundleConfig.cs" />
+    <Compile Include="Configurations\FilterConfig.cs" />
+    <Compile Include="Configurations\RouteConfig.cs" />
+    <Compile Include="Configurations\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuctionController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HelperExtensions\HelperExtensions.cs" />
-    <Compile Include="ManageWebsiteLanguage\SiteLanguages.cs" />
+    <Compile Include="HelperExtensions.cs" />
     <Compile Include="Migrations\202211281750423_Initial.cs" />
     <Compile Include="Migrations\202211281750423_Initial.designer.cs">
       <DependentUpon>202211281750423_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212081138486_RemoveArabicCategory.cs" />
+    <Compile Include="Migrations\202212081138486_RemoveArabicCategory.designer.cs">
+      <DependentUpon>202212081138486_RemoveArabicCategory.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -180,8 +182,6 @@
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Statistic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\Email.cs" />
-    <Compile Include="Repository\TimeZonesManagement.cs" />
     <Compile Include="Resources\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -190,8 +190,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-OnlineAuctionProject-20160611112604.mdf" />
-    <Content Include="App_Data\aspnet-OnlineAuctionProject-20160611112604_log.ldf">
+    <Content Include="AppData\aspnet-OnlineAuctionProject-20160611112604.mdf" />
+    <Content Include="AppData\aspnet-OnlineAuctionProject-20160611112604_log.ldf">
       <DependentUpon>aspnet-OnlineAuctionProject-20160611112604.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-rtl.css" />
@@ -399,6 +399,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202211281750423_Initial.resx">
       <DependentUpon>202211281750423_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212081138486_RemoveArabicCategory.resx">
+      <DependentUpon>202212081138486_RemoveArabicCategory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

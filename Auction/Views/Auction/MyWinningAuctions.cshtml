@@ -1,12 +1,11 @@
 ﻿@using OnlineAuctionProject.Resources
-@using OnlineAuctionProject.ManageWebsiteLanguage
 @using OnlineAuctionProject.Models
 @using Microsoft.AspNet.Identity
 @model IEnumerable<Auction>
 
 @{
     ViewBag.Title = Resource.MyWinningAuctions;
-    ApplicationDbContext db = new ApplicationDbContext();
+    var db = new AuctionContext();
     ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
 }
 

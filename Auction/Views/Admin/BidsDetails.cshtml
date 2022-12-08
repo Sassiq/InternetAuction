@@ -4,9 +4,7 @@
 @{
     ViewBag.Title = Resource.BidsDetails;
 
-    OnlineAuctionProject.Models.ApplicationDbContext db = new OnlineAuctionProject.Models.ApplicationDbContext();
-
-    TimeZoneInfo tzi = OnlineAuctionProject.Repository.TimeZonesManagement.GetTimeZoneInfo();
+    var db = new OnlineAuctionProject.Models.AuctionContext();
 }
 
 
@@ -25,19 +23,7 @@
                 </h4>
                 <h4>
                     (
-                    @Resource.Category:
-                    @switch (OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
-                    {
-                        case "en-US":
-                            @:@Model.Product.Category.Category_Name
-                                break;
-                        case "ar-SA":
-                        @:@Model.Product.Category.Category_Name_Ar
-                                break;
-                        default:
-                        @:@Model.Product.Category.Category_Name
-                                break;
-                    }
+                    @Resource.Category: @Model.Product.Category.Category_Name
                     )
                 </h4>
             </div>
@@ -211,7 +197,7 @@
                         </td>
                         <td>
                             <h5 class="DateTime">
-                                @TimeZoneInfo.ConvertTimeFromUtc(Model.Start_Date.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                @TimeZoneInfo.ConvertTimeFromUtc(Model.Start_Date.ToUniversalTime(), TimeZoneInfo.Local).ToString(new System.Globalization.CultureInfo("en-US"))
                             </h5>
                         </td>
                     </tr>
@@ -237,7 +223,7 @@
                             </td>
                             <td>
                                 <h5 class="DateTime">
-                                    @TimeZoneInfo.ConvertTimeFromUtc(Model.Finish_Date.Value.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                    @TimeZoneInfo.ConvertTimeFromUtc(Model.Finish_Date.Value.ToUniversalTime(), TimeZoneInfo.Local).ToString(new System.Globalization.CultureInfo("en-US"))
                                 </h5>
                             </td>
                         </tr>
@@ -263,7 +249,7 @@
                                 </td>
                                 <td>
                                     <h5 class="DateTime">
-                                        @TimeZoneInfo.ConvertTimeFromUtc(Model.PaymentDateTime.Value.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                        @TimeZoneInfo.ConvertTimeFromUtc(Model.PaymentDateTime.Value.ToUniversalTime(), TimeZoneInfo.Local).ToString(new System.Globalization.CultureInfo("en-US"))
                                     </h5>
                                 </td>
                             </tr>
@@ -341,7 +327,7 @@
                                             @bid.Bidder.UserName
                                         </td>
                                         <td class="DateTime">
-                                            @TimeZoneInfo.ConvertTimeFromUtc(bid.BidDateTime.Value.ToUniversalTime(), tzi).ToString(new System.Globalization.CultureInfo("en-US"))
+                                            @TimeZoneInfo.ConvertTimeFromUtc(bid.BidDateTime.Value.ToUniversalTime(), TimeZoneInfo.Local).ToString(new System.Globalization.CultureInfo("en-US"))
                                         </td>
                                         <td>
                                             @bid.BidValue @Model.Product.Currency.Name

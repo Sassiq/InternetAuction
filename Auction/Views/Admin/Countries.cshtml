@@ -1,7 +1,6 @@
 ﻿@using OnlineAuctionProject.Resources
 @using PagedList
 @using PagedList.Mvc
-@using OnlineAuctionProject.ManageWebsiteLanguage
 @model IPagedList<OnlineAuctionProject.Models.Country>
 
 @{
@@ -76,18 +75,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @switch (SiteLanguages.GetCurrentLanguageCulture())
-                                        {
-                                            case "en-US":
-                                                @m.Name
-                                                break;
-                                            case "ar-SA":
-                                            @m.Name_Ar
-                                                break;
-                                            default:
-                                            @m.Name
-                                                break;
-                                        }
+                                        @m.Name
                                     </td>
                                     <td>
                                         <a href="@Url.Action("EditCountry", "Admin", new { Id = m.Id })"

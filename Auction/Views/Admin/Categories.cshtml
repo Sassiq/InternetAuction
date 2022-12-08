@@ -1,5 +1,4 @@
 ﻿@using OnlineAuctionProject.Resources
-@using OnlineAuctionProject.ManageWebsiteLanguage
 @using PagedList
 @using PagedList.Mvc
 @model IPagedList<OnlineAuctionProject.Models.Category>
@@ -76,18 +75,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @switch (SiteLanguages.GetCurrentLanguageCulture())
-                                        {
-                                            case "en-US":
-                                                @:@m.Category_Name
-                                    break;
-                                            case "ar-SA":
-                                            @:@m.Category_Name_Ar
-                                    break;
-                                            default:
-                                            @:@m.Category_Name
-                                    break;
-                                        }
+                                        @m.Category_Name
                                     </td>
                                     <td>
 

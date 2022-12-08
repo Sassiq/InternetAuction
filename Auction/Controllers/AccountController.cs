@@ -1,43 +1,39 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
+using OnlineAuctionProject.Models;
+using OnlineAuctionProject.Resources;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
-using OnlineAuctionProject.Models;
-using System.Web.Security;
-using Microsoft.AspNet.Identity.Owin;
-using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
-using OnlineAuctionProject.ManageWebsiteLanguage;
-using OnlineAuctionProject.Resources;
-using OnlineAuctionProject.Repository;
 
 
 namespace OnlineAuctionProject.Controllers
 {
     [Authorize]
-    public class AccountController : BaseController
+    public class AccountController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private AuctionContext _db;
+
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new AuctionContext())))
         {
+            _db = new AuctionContext();
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
+            _db = new AuctionContext();
         }
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
-        //
-        // GET: /Account/Login
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -45,8 +41,6 @@ namespace OnlineAuctionProject.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Login //Modal Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -54,32 +48,25 @@ namespace OnlineAuctionProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Finding a user with the provided username and password
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
-
-                //Checking if the user was found and it's active
                 if (user != null && user.Active)
                 {
-                    //Signing in
                     await SignInAsync(user, isPersistent: false);
 
-                    //Calculating logins count and saving last login date and time
-                    ApplicationUser CurrentUser = db.Users.Find(user.Id);
-                    CurrentUser.LoginCount++;
-                    Session.Add("LastLoginDateTime", CurrentUser.LastLoginDateTime);
-                    CurrentUser.LastLoginDateTime = DateTime.Now;
-                    db.SaveChanges();
+                    var currentUser = _db.Users.Find(user.Id);
+                    currentUser.LoginCount++;
+                    currentUser.LastLoginDateTime = DateTime.Now;
+                    await _db.SaveChangesAsync();
 
+                    Session.Add("LastLoginDateTime", currentUser.LastLoginDateTime);
 
                     return Json(true);
-
                 }
             }
 
             return Json(false);
         }
 
-        //Normal page Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -87,20 +74,16 @@ namespace OnlineAuctionProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Finding a user with the provided username and password
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
-                //Checking if the user was found and it's active
                 if (user != null && user.Active)
                 {
-                    //Singing in
                     await SignInAsync(user, isPersistent: false);
 
-                    //Calculating logins count and saving last login date and time
-                    ApplicationUser CurrentUser = db.Users.Find(user.Id);
+                    var CurrentUser = _db.Users.Find(user.Id);
                     Session.Add("LastLoginDateTime", CurrentUser.LastLoginDateTime);
                     CurrentUser.LoginCount++;
                     CurrentUser.LastLoginDateTime = DateTime.Now;
-                    db.SaveChanges();
+                    _db.SaveChanges();
 
                     
                     return Redirect(returnUrl);
@@ -111,7 +94,6 @@ namespace OnlineAuctionProject.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View("Login", model); 
         }
 
@@ -120,27 +102,14 @@ namespace OnlineAuctionProject.Controllers
         [AllowAnonymous]
         public ActionResult Register(string returnUrl)
         {
-            try
+            if (Uri.IsWellFormedUriString(returnUrl, UriKind.Relative))
             {
-                //Getting list of countries
-                List<Country> countries = db.Countries.Where(x => x.Visible).ToList();
+                var countries = _db.Countries.Where(x => x.Visible).ToList();
 
-                //Displaying countries in current website language
-                switch(SiteLanguages.GetCurrentLanguageCulture())
-                {
-                    case "en-US":
-                        ViewBag.Country = new SelectList(countries, "Name", "Name");
-                        break;
-                    case "ar-SA":
-                        ViewBag.Country = new SelectList(countries, "Name", "Name_Ar");
-                        break;
-                    default:
-                        ViewBag.Country = new SelectList(countries, "Name", "Name");
-                        break;
-                }
+                ViewBag.Country = new SelectList(countries, "Name", "Name");
                 ViewBag.ReturnUrl = returnUrl;
             }
-            catch { }
+
             return View();
         }
 
@@ -154,13 +123,12 @@ namespace OnlineAuctionProject.Controllers
             ViewBag.ReturnUrl = returnUrl;
             returnUrl = ViewBag.ReturnUrl;
 
-            //Getting list of countries to display if registration failed
-            List<Country> countries = db.Countries.ToList();
+            var countries = _db.Countries.ToList();
            
             if (ModelState.IsValid)
             {
                 //Checking if the email is already used
-                var user = db.Users.Where(x => x.Email == model.Email).SingleOrDefault();
+                var user = _db.Users.Where(x => x.Email == model.Email).SingleOrDefault();
                 if(user != null)
                 {
                     ViewBag.Country = new SelectList(countries, "Name", "Name");
@@ -169,7 +137,7 @@ namespace OnlineAuctionProject.Controllers
                 }
 
                 //Checking if the username is already used
-                user = db.Users.Where(x => x.UserName == model.UserName).SingleOrDefault();
+                user = _db.Users.Where(x => x.UserName == model.UserName).SingleOrDefault();
                 if(user != null)
                 {
                     ViewBag.Country = new SelectList(countries, "Name", "Name");
@@ -197,35 +165,15 @@ namespace OnlineAuctionProject.Controllers
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-                var roleStore = new RoleStore<IdentityRole>(db);
+                var roleStore = new RoleStore<IdentityRole>(_db);
                 var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                var userStore = new UserStore<ApplicationUser>(db);
+                var userStore = new UserStore<ApplicationUser>(_db);
                 var userManager = new UserManager<ApplicationUser>(userStore);
 
-                switch(SiteLanguages.GetCurrentLanguageCulture())
-                {
-                    case "en-US":
-                        user.PreferredInterfaceLanguage = "English";
-                        break;
-                    case "ar-SA":
-                        user.PreferredInterfaceLanguage = "Arabic";
-                        break;
-                    default:
-                        user.PreferredInterfaceLanguage = "English";
-                        break;
-                }
-                db.SaveChanges();
-                /*
-                if (!roleManager.RoleExists("User"))
-                {
-                    var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                    role.Name = "User";
-                    roleManager.Create(role);
-                }
-                */
-                
-                //assigning user to role [User]
+                user.PreferredInterfaceLanguage = "English";
+                await _db.SaveChangesAsync();
+
                 if (result.Succeeded)
                 {
                     userManager.AddToRole(user.Id, "User");
@@ -238,19 +186,8 @@ namespace OnlineAuctionProject.Controllers
                 }
             }
 
-            //Displaying countries in current website language
-            switch (SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.Country = new SelectList(countries, "Name", "Name");
-                    break;
-                case "ar-SA":
-                    ViewBag.Country = new SelectList(countries, "Name", "Name_Ar");
-                    break;
-                default:
-                    ViewBag.Country = new SelectList(countries, "Name", "Name");
-                    break;
-            }
+            ViewBag.Country = new SelectList(countries, "Name", "Name");
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -321,7 +258,6 @@ namespace OnlineAuctionProject.Controllers
             return View(model);
         }
 
-        //GET //Forgot password
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -329,85 +265,28 @@ namespace OnlineAuctionProject.Controllers
             return View();
         }
 
-        //GET // Forgot password
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            //Finding user by their email
-            ApplicationUser user = db.Users.SingleOrDefault(x => x.Email == model.Email);
-            try
+            var user = await _db.Users.SingleOrDefaultAsync(x => x.Email == model.Email);
+            if (user != null)
             {
-                if (user != null)
-                {
-                    //Creating a new password for user
-                    string newPassword = "";
-                    int passwordSize = 10;
-                    char[] chars = new char[62];
-                    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
-                    byte[] data = new byte[1];
+                var password = model.Email.GetHashCode().ToString();
+                var hashPassword =  UserManager.PasswordHasher.HashPassword(password);
+                user.PasswordHash = hashPassword;
+                await _db.SaveChangesAsync();
+                var subject = "Online Auctions: Password Changed!";
+                var body = "Dear User: " + user.UserName + ". \n" +
+                       "Your new password is:\n [ " + password + " ] \n" +
+                       "for a safer account, please change it when you login to your account.\n" +
+                       "\n\n\n Online auctions team.";
 
-                    using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
-                    {
-                        crypto.GetNonZeroBytes(data);
-                        data = new byte[passwordSize];
-                        crypto.GetNonZeroBytes(data);
-                    }
-                    StringBuilder result = new StringBuilder(passwordSize);
-                    foreach (byte b in data)
-                    {
-                        result.Append(chars[b % (chars.Length)]);
-                    }
-                    newPassword = result.ToString();
-
-                    //Hashing the new password
-                    string newPasswordHashed = UserManager.PasswordHasher.HashPassword(newPassword);
-                    user.PasswordHash = newPasswordHashed;
-                    db.SaveChanges();
-
-                    //Sending the new password to user by email
-                    string subject = "", body = "";
-                    switch(user.PreferredInterfaceLanguage)
-                    {
-                        case "English":
-                            subject = "Online Auctions - Password Changed!";
-                            body = "Dear User: " + user.UserName + ". \n" +
-                                   "Your new password is:\n [ " + newPassword + " ] \n" +
-                                   "for a safer account, please change it when you login to your account.\n" +
-                                   "\n\n\n Online auctions team.";
-                            break;
-                        case "Arabic":
-                            subject = "المزاد الالكتروني - تم تغيير كلمة المرور";
-                            body = "المستخدم العزيز: " + user.UserName + ". \n" +
-                                   "كلمة المرور الجديدة الخاصة بك هي: \n[ " + newPassword + " ] \n" +
-                                   "الرجاء تغييرها عند تسجيل دخولك القادم من أجل حساب اكثر امانا.\n" +
-                                   "\n\n\n فريق ادارة موقع المزاد العلني الالكتروني.";
-                            break;
-                        default:
-                            subject = "Online Auctions: Password Changed!";
-                            body = "Dear User: " + user.UserName + ". \n" +
-                                   "Your new password is:\n [ " + newPassword + " ] \n" +
-                                   "for a safer account, please change it when you login to your account.\n" +
-                                   "\n\n\n Online auctions team.";
-                            break;
-                    }
-
-                    Email email = new Email(model.Email, subject, body);
-                    email.Send();
-
-                    ViewBag.PasswordChangedMsg = Resource.PasswordChangedMsg;
-                    return View();
-
-                }
-                ViewBag.PasswordChangedMsg = Resource.PasswordChangedMsgEmailNotFound;
+                ViewBag.PasswordChangedMsg = Resource.ErrorSendingEmail;
                 return View(model);
             }
-            catch
-            {
 
-            }
-            //If something went wrong, stay on page and display error message
-            ViewBag.PasswordChangedMsg = Resource.ErrorSendingEmail;
+            ViewBag.PasswordChangedMsg = Resource.PasswordChangedMsgEmailNotFound;
             return View(model);
         }
 
@@ -417,9 +296,9 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult EditProfile()
         {
             //Getting list of countries
-            List<Country> countries = db.Countries.Where(x => x.Visible).ToList();
+            List<Country> countries = _db.Countries.Where(x => x.Visible).ToList();
             //Finding user
-            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+            ApplicationUser user = _db.Users.Find(User.Identity.GetUserId());
 
             EditProfileModel editProfileModel = new EditProfileModel()
             {
@@ -434,20 +313,9 @@ namespace OnlineAuctionProject.Controllers
                 ZipCode = user.ZipCode,
                 AccountNumber = user.AccountNumber
             };
-            Country country = db.Countries.SingleOrDefault(x => x.Name == user.Country);
+            Country country = _db.Countries.SingleOrDefault(x => x.Name == user.Country);
+            ViewBag.Country = new SelectList(countries, "Id", "Name", country.Id);
 
-            switch (SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.Country = new SelectList(countries, "Id", "Name", country.Id);
-                    break;
-                case "ar-SA":
-                    ViewBag.Country = new SelectList(countries, "Id", "Name_Ar", country.Id);
-                    break;
-                default:
-                    ViewBag.Country = new SelectList(countries, "Id", "Name", country.Id);
-                    break;
-            }
             return View(editProfileModel);
         }
 
@@ -455,49 +323,38 @@ namespace OnlineAuctionProject.Controllers
         // POST // Editing user profile
         [HttpPost]
         [Authorize(Roles = "Admin, User, Support, Supervisor")]
-        public ActionResult EditProfile(EditProfileModel model)
+        public async Task<ActionResult> EditProfile(EditProfileModel model)
         {
-            List<Country> countries = db.Countries.Where(x => x.Visible).ToList();
-            ApplicationUser Me = db.Users.Find(User.Identity.GetUserId());
+            var countries = await _db.Countries.Where(x => x.Visible).ToListAsync();
+            var me = _db.Users.Find(User.Identity.GetUserId());
             try
             {
                 if (ModelState.IsValid)
                 {
-                    ApplicationUser user = db.Users.SingleOrDefault(x => x.Email == model.Email && x.Id != Me.Id);
+                    var user = await _db.Users.SingleOrDefaultAsync(x => x.Email == model.Email && x.Id != me.Id);
                     if(user != null)
                     {
                         ViewBag.EmailUsed = Resource.EmailUsed;
-                        switch (SiteLanguages.GetCurrentLanguageCulture())
-                        {
-                            case "en-US":
-                                ViewBag.Country = new SelectList(countries, "Id", "Name");
-                                break;
-                            case "ar-SA":
-                                ViewBag.Country = new SelectList(countries, "Id", "Name_Ar");
-                                break;
-                            default:
-                                ViewBag.Country = new SelectList(countries, "Id", "Name");
-                                break;
-                        }
+                        ViewBag.Country = new SelectList(countries, "Id", "Name");
 
                         return View(model);
                     }
 
                     //Changing user information
-                    if (Me != null)
+                    if (me != null)
                     {
-                        Me.FirstName = model.FirstName;
-                        Me.LastName = model.LastName;
-                        Me.Gender = model.Gender;
-                        Me.Email = model.Email;
-                        Me.PhoneNumber = model.PhoneNumber;
-                        Me.Country = db.Countries.Find(int.Parse(Request["Country"].ToString())).Name;
-                        Me.City = model.City;
-                        Me.Street = model.Street;
-                        Me.ZipCode = model.ZipCode;
+                        me.FirstName = model.FirstName;
+                        me.LastName = model.LastName;
+                        me.Gender = model.Gender;
+                        me.Email = model.Email;
+                        me.PhoneNumber = model.PhoneNumber;
+                        me.Country = _db.Countries.Find(int.Parse(Request["Country"].ToString())).Name;
+                        me.City = model.City;
+                        me.Street = model.Street;
+                        me.ZipCode = model.ZipCode;
                     }
 
-                    db.SaveChanges();
+                    await _db.SaveChangesAsync();
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -505,34 +362,17 @@ namespace OnlineAuctionProject.Controllers
             {
                 
             }
-            switch (SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.Country = new SelectList(countries, "Id", "Name");
-                    break;
-                case "ar-SA":
-                    ViewBag.Country = new SelectList(countries, "Id", "Name_Ar");
-                    break;
-                default:
-                    ViewBag.Country = new SelectList(countries, "Id", "Name");
-                    break;
-            }
+            ViewBag.Country = new SelectList(countries, "Id", "Name");
 
             return View(model);
         }
 
-
-
-        //
-        // POST: /Account/LogOff
         [AllowAnonymous]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
-
-        ///////////////////////////////////////////////////////////////////
 
         #region Helpers
 

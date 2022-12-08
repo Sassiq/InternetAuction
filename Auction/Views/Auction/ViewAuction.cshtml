@@ -6,7 +6,7 @@
 @{
     ViewBag.Title = Resource.ViewAuction;
 
-    ApplicationDbContext db = new ApplicationDbContext();
+    var db = new AuctionContext();
     Report report = null;
     if (User.Identity.IsAuthenticated)
     {

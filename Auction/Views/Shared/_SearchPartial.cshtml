@@ -1,18 +1,7 @@
 ﻿@using OnlineAuctionProject.Resources
 @{
-    OnlineAuctionProject.Models.ApplicationDbContext db = new OnlineAuctionProject.Models.ApplicationDbContext();
-    switch (OnlineAuctionProject.ManageWebsiteLanguage.SiteLanguages.GetCurrentLanguageCulture())
-    {
-        case "en-US":
-            ViewBag.Category = new SelectList(db.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-            break;
-        case "ar-SA":
-            ViewBag.Category = new SelectList(db.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name_Ar).ToList(), "Id", "Category_Name_Ar");
-            break;
-        default:
-            ViewBag.Category = new SelectList(db.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-            break;
-    }
+    var db = new OnlineAuctionProject.Models.AuctionContext();
+    ViewBag.Category = new SelectList(db.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
 }
 <!-- Search Modal -->
 <div class="modal fade" id="SearchModal" role="dialog">

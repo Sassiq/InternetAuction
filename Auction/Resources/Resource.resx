@@ -1069,7 +1069,7 @@
     <value>Thank you for using our website.</value>
   </data>
   <data name="ErrorSendingEmail" xml:space="preserve">
-    <value>Sending failed. Please check your internet connection.</value>
+    <value>Admin will contact your soon as it possible</value>
   </data>
   <data name="DeleteSelceted" xml:space="preserve">
     <value>Delete selected</value>
@@ -1376,5 +1376,14 @@
   </data>
   <data name="ShowHide" xml:space="preserve">
     <value>Show/Hide</value>
+  </data>
+  <data name="AdminEmail" xml:space="preserve">
+    <value>onlineauctiontst@gmail.com</value>
+  </data>
+  <data name="AdminPassword" xml:space="preserve">
+    <value>12345678-A</value>
+  </data>
+  <data name="ThumbnailPath" xml:space="preserve">
+    <value>~/Images/Items/no-thumbnail.png</value>
   </data>
 </root>

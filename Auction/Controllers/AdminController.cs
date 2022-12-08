@@ -1,25 +1,28 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using OnlineAuctionProject.Models;
+using OnlineAuctionProject.Resources;
+using PagedList;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OnlineAuctionProject.Models;
-using System.IO;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using OnlineAuctionProject.ManageWebsiteLanguage;
-using OnlineAuctionProject.Resources;
-using OnlineAuctionProject.Repository;
-using PagedList;
 
 namespace OnlineAuctionProject.Controllers
 {
-    public class AdminController : BaseController
+    public class AdminController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        private AuctionContext _dbContext;
 
+        public AdminController()
+        {
+            _dbContext = new AuctionContext();
+        }
 
-        //GET // Administraion page
         [HttpGet]
         [Authorize(Roles = "Admin,Support,Supervisor")]
         public ActionResult Index()
@@ -27,36 +30,18 @@ namespace OnlineAuctionProject.Controllers
             return View();
         }
 
-        //GET // Auctions Categories
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult Categories(int? page, string Search)
+        public async Task<ActionResult> Categories(int? page, string Search)
         {
-            //Getting list of categories
-            IEnumerable<Category> categories = db.Categories.Where(x => x.Category_Name.Contains(Search.Trim())
-                                                                    || x.Category_Name_Ar.Contains(Search.Trim())
-                                                                    || String.IsNullOrEmpty(Search));
+            var categories = _dbContext.Categories.AsNoTracking()
+                .Where(x => x.Category_Name.Contains(Search.Trim()) || string.IsNullOrEmpty(Search));
 
+            var ordered = await categories.OrderBy(x => x.Category_Name).ToListAsync();
 
-            IPagedList<Category> ordered = null;
-            //Ordering the categories
-            switch(SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ordered = categories.OrderBy(x => x.Category_Name).ToList().ToPagedList(page ?? 1, 6);
-                    break;
-                case "ar-SA":
-                    ordered = categories.OrderBy(x => x.Category_Name_Ar).ToList().ToPagedList(page ?? 1, 6);
-                    break;
-                default:
-                    ordered = categories.OrderBy(x => x.Category_Name).ToList().ToPagedList(page ?? 1, 6);
-                    break;
-            }
-
-            return View(ordered);
+            return View(ordered.ToPagedList(page ?? 1, 6));
         }
 
-        //GET // Add new category
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public ActionResult AddCategory()
@@ -64,15 +49,13 @@ namespace OnlineAuctionProject.Controllers
             return View();
         }
 
-        //POST // Add new category
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult AddCategory(Category model, HttpPostedFileBase uploadFile)
+        public async Task<ActionResult> AddCategory(Category model, HttpPostedFileBase uploadFile)
         {
             try
             {
-                //Checking if the category already exists
-                Category category = db.Categories.SingleOrDefault(x => x.Category_Name == model.Category_Name || x.Category_Name_Ar == model.Category_Name_Ar);
+                var category = await _dbContext.Categories.SingleOrDefaultAsync(x => x.Category_Name == model.Category_Name);
 
                 if (category != null)
                 {
@@ -83,34 +66,32 @@ namespace OnlineAuctionProject.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        //If the admin did not upload an image, set a default image
-                        string path = "~/Images/Items/no-thumbnail.png";
-                        string fileName = "";
+                        string path = Resource.ThumbnailPath;
 
                         //Saving uploaded image
                         if (uploadFile != null && uploadFile.ContentLength > 0)
                         {
                             if (checkFileType(uploadFile.FileName))
                             {
-                                fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff") + "_" + Path.GetFileName(uploadFile.FileName);
+                                var fileName = DateTime.Now.ToString("yyyyMMddHHmmssffff") + "_" + Path.GetFileName(uploadFile.FileName);
                                 path = "~/Images/Categories/" + fileName;
                                 uploadFile.SaveAs(Server.MapPath(path));
                             }
                             else
                             {
-                                path = "~/Images/Items/no-thumbnail.png";
+                                path = Resource.ThumbnailPath;
                             }
                         }
-                        //Creating a new category
+
                         category = new Category()
                         {
                             Category_Name = model.Category_Name,
-                            Category_Name_Ar = model.Category_Name_Ar,
                             Image = path,
                             Visible = true
                         };
-                        db.Categories.Add(category);
-                        db.SaveChanges();
+
+                        _dbContext.Categories.Add(category);
+                        await _dbContext.SaveChangesAsync();
 
                         return RedirectToAction("Categories", "Admin");
                     }
@@ -123,32 +104,23 @@ namespace OnlineAuctionProject.Controllers
             return View(model);   
         }
 
-        //GET // Edit category
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult EditCategory(int Id)
+        public async Task<ActionResult> EditCategory(int Id)
         {
-            Category category = db.Categories.Find(Id);
+            var category = await _dbContext.Categories.FindAsync(Id);
 
             return View(category);
         }
 
-        //POST // Edit category
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult EditCategory(Category model, HttpPostedFileBase uploadFile)
+        public async Task<ActionResult> EditCategory(Category model, HttpPostedFileBase uploadFile)
         {
             try
             {
-                //Getting  category to edit
-                Category category = db.Categories.Find(model.Id);
-                
-                //Checking if a category with the same name already exists
-                Category c = db.Categories.SingleOrDefault(x => (x.Category_Name == model.Category_Name
-                                                             || x.Category_Name_Ar == model.Category_Name_Ar
-                                                             || x.Category_Name == model.Category_Name_Ar
-                                                             || x.Category_Name_Ar == model.Category_Name)
-                                                             && x.Id != category.Id);
+                var category = _dbContext.Categories.Find(model.Id);
+                var c = await _dbContext.Categories.SingleOrDefaultAsync(x => (x.Category_Name == model.Category_Name) && x.Id != category.Id);
                 if (c != null)
                 {
                     ViewBag.CategoryAlreadyExists = Resource.CategoryAlreadyExists;
@@ -156,7 +128,6 @@ namespace OnlineAuctionProject.Controllers
                 }
                 else
                 {
-                    //Editing the cateogry
                     string path = "";
                     string fileName = "";
 
@@ -178,11 +149,9 @@ namespace OnlineAuctionProject.Controllers
                     {
                         path = category.Image;
                     }
-                    category.Category_Name = model.Category_Name;
-                    category.Category_Name_Ar = model.Category_Name_Ar;
                     category.Image = path;
 
-                    db.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
 
                     return RedirectToAction("Categories", "Admin");
                 }
@@ -194,26 +163,21 @@ namespace OnlineAuctionProject.Controllers
             return View(model);
         }
 
-        //POST //Delete category
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult DeleteCategory(int Id)
+        public async Task<ActionResult> DeleteCategory(int Id)
         {
             try
             {
-                //Getting category to delete
-                Category category = db.Categories.Find(Id);
-                //Checking if the category contains product, if so, cannot delete.
+                Category category = await _dbContext.Categories.FindAsync(Id);
                 if (category.Products.Count == 0)
                 {
                     var CategoryImagePath = Server.MapPath(category.Image);
 
-                    //Delete category image from the server
                     if (System.IO.File.Exists(CategoryImagePath) && CategoryImagePath != "~/Images/Items/no-thumbnail.png")
                         System.IO.File.Delete(CategoryImagePath);
-                    //Deleting the category from DB
-                    db.Categories.Remove(category);
-                    db.SaveChanges();
+                    _dbContext.Categories.Remove(category);
+                    await _dbContext.SaveChangesAsync();
 
                     return RedirectToAction("Categories", "Admin");
                 }
@@ -231,43 +195,32 @@ namespace OnlineAuctionProject.Controllers
             return RedirectToAction("Categories", "Admin");
         }
 
-        //GET // Change category visibilty on website (Hide, Show)
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public PartialViewResult ChangeCategoryVisibility(int Id)
+        public async Task<PartialViewResult> ChangeCategoryVisibility(int Id)
         {
-            Category category = db.Categories.Find(Id);
-
-            if(category.Visible)
-            {
-                category.Visible = false;
-            }
-            else
-            {
-                category.Visible = true;
-            }
-            db.SaveChanges();
+            var category = await _dbContext.Categories.FindAsync(Id);
+            category.Visible = !category.Visible;
+            await _dbContext.SaveChangesAsync();
 
             return PartialView("_ChangeCategoryVisibilityPartial", category);
         }
 
-        //GET // Countries
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult Countries(int? page, string Search)
+        public async Task<ActionResult> Countries(int? page, string Search)
         {
-            //Getting list of categories
-            IPagedList<Country> countries = db.Countries.Where(x => x.Name.Contains(Search.Trim())
-                                                                 || x.Name_Ar.Contains(Search.Trim())
-                                                                 || String.IsNullOrEmpty(Search))
-                                                        .OrderBy(x => x.Name)
-                                                        .ToList()
-                                                        .ToPagedList(page ?? 1, 6);
+            var countries = await _dbContext.Countries
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(Search.Trim())
+                       || x.Name_Ar.Contains(Search.Trim())
+                       || string.IsNullOrEmpty(Search))
+                .OrderBy(x => x.Name)
+                .ToListAsync();
 
-            return View(countries);
+            return View(countries.ToPagedList(page ?? 1, 6));
         }
 
-        //GET // Add new country
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public ActionResult AddCountry()
@@ -275,13 +228,11 @@ namespace OnlineAuctionProject.Controllers
             return View();
         }
 
-        //POST // Add new country
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult AddCountry(Country model)
+        public async Task<ActionResult> AddCountry(Country model)
         {
-            //Checking if country already exists
-            Country country = db.Countries.SingleOrDefault(x => x.Name == model.Name || x.Name_Ar == model.Name_Ar);
+            var country = await _dbContext.Countries.SingleOrDefaultAsync(x => x.Name == model.Name || x.Name_Ar == model.Name_Ar);
             if (country != null)
             {
                 ViewBag.ErrorAddingCountry = Resource.CountryAlreadyExists;
@@ -291,41 +242,36 @@ namespace OnlineAuctionProject.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //Creating a new country
                     country = new Country()
                     {
                         Name = model.Name,
                         Name_Ar = model.Name_Ar,
                         Visible = true
                     };
-                    //Adding country to DB
-                    db.Countries.Add(country);
-                    db.SaveChanges();
+
+                    _dbContext.Countries.Add(country);
+                    await _dbContext.SaveChangesAsync();
                     return RedirectToAction("Countries", "Admin");
                 }
             }
             return View(model);
         }
 
-        //GET // Edit country
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult EditCountry(int Id)
+        public async Task<ActionResult> EditCountry(int Id)
         {
+            var country = await _dbContext.Countries.FindAsync(Id);
 
-            return View(db.Countries.Find(Id));
+            return View(country);
         }
 
-        //POST // Edit country
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult EditCountry(Country model)
+        public async Task<ActionResult> EditCountry(Country model)
         {
-            //Getting country to edit
-            Country country = db.Countries.Find(model.Id);
-
-            //Checking if a country with the same name exists
-            Country c = db.Countries.SingleOrDefault(x => (x.Name == model.Name
+            var country = await _dbContext.Countries.FindAsync(model.Id);
+            var c = await _dbContext.Countries.SingleOrDefaultAsync(x => (x.Name == model.Name
                                                        || x.Name_Ar == model.Name_Ar
                                                        || x.Name == model.Name_Ar
                                                        || x.Name_Ar == model.Name)
@@ -337,76 +283,55 @@ namespace OnlineAuctionProject.Controllers
             }
             else
             {
-                //Editing country
                 country.Name = model.Name;
                 country.Name_Ar = model.Name_Ar;
-                db.SaveChanges();
+                await _dbContext.SaveChangesAsync();
 
                 return RedirectToAction("Countries", "Admin");
             }
         }
 
-        //POST // Delete country
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult DeleteCountry(int Id)
+        public async Task<ActionResult> DeleteCountry(int Id)
         {
             try
             {
-                //Getting country to delete
-                Country country = db.Countries.Find(Id);
-                //Delete country from DB
-                db.Countries.Remove(country);
-                db.SaveChanges();
+                Country country = await _dbContext.Countries.FindAsync(Id);
+                _dbContext.Countries.Remove(country);
+                await _dbContext.SaveChangesAsync();
 
                 return RedirectToAction("Countries", "Admin");
             }
-            catch
-            {
-
-            }
+            catch { }
 
             return RedirectToAction("Countries", "Admin");
         }
 
-        //GET // Change country visibility in website (Hide, Show)
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public PartialViewResult ChangeCountryVisibility(int Id)
+        public async Task<PartialViewResult> ChangeCountryVisibility(int Id)
         {
-            //Getting the country
-            Country country = db.Countries.Find(Id);
-
-            if (country.Visible)
-            {
-                country.Visible = false;
-            }
-            else
-            {
-                country.Visible = true;
-            }
-            db.SaveChanges();
+            var country = await _dbContext.Countries.FindAsync(Id);
+            country.Visible = !country.Visible;
+            await _dbContext.SaveChangesAsync();
 
             return PartialView("_ChangeCountryVisibilityPartial", country);
         }
 
-
-        //GET // Currencies used in website
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult Currencies(int? page, string Search)
+        public async Task<ActionResult> Currencies(int? page, string Search)
         {
-            //Getting list of currencies
-            IPagedList<Currency> currencies = db.Currencies.Where(x => x.Name.Contains(Search.Trim())
-                                                                    || String.IsNullOrEmpty(Search))
-                                                           .OrderBy(x => x.Name)
-                                                           .ToList()
-                                                           .ToPagedList(page ?? 1, 6);
+            var currencies = await _dbContext.Currencies
+                .Where(x => x.Name.Contains(Search.Trim())
+                       || string.IsNullOrEmpty(Search))
+                .OrderBy(x => x.Name)
+                .ToListAsync();
 
-            return View(currencies);
+            return View(currencies.ToPagedList(page ?? 1, 6));
         }
 
-        //GET // Add a new currency
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public ActionResult AddCurrency()
@@ -414,13 +339,11 @@ namespace OnlineAuctionProject.Controllers
             return View();
         }
 
-        //POST // Add a new currency
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult AddCurrency(Currency model)
+        public async Task<ActionResult> AddCurrency(Currency model)
         {
-            //Checking if the currency already exists
-            Currency currency = db.Currencies.SingleOrDefault(x => x.Name == model.Name);
+            var currency = await _dbContext.Currencies.SingleOrDefaultAsync(x => x.Name == model.Name);
 
             if (currency != null)
             {
@@ -431,15 +354,13 @@ namespace OnlineAuctionProject.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //Creating a new currency
                     currency = new Currency()
                     {
                         Name = model.Name,
                         Visible = true
                     };
-                    //Adding currency to DB
-                    db.Currencies.Add(currency);
-                    db.SaveChanges();
+                    _dbContext.Currencies.Add(currency);
+                    await _dbContext.SaveChangesAsync();
                     return RedirectToAction("Currencies", "Admin");
                 }
 
@@ -447,24 +368,22 @@ namespace OnlineAuctionProject.Controllers
             }
         }
 
-        //GET //Edit currency
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult EditCurrency(int Id)
+        public async Task<ActionResult> EditCurrency(int Id)
         {
-            return View(db.Currencies.Find(Id));
+            var currency = await _dbContext.Currencies.FindAsync(Id);
+
+            return View(currency);
         }
 
-        //POST //Edit Currency
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult EditCurrency(Currency model)
+        public async Task<ActionResult> EditCurrency(Currency model)
         {
-            //Getting currency to edit.
-            Currency currency = db.Currencies.Find(model.Id);
-            //Checking if a currency with same name already exists
-            Currency c = db.Currencies.SingleOrDefault(x => x.Name == model.Name
-                                                         && x.Id != currency.Id);
+            var currency = await _dbContext.Currencies.FindAsync(model.Id);
+            var c = await _dbContext.Currencies
+                .SingleOrDefaultAsync(x => x.Name == model.Name && x.Id != currency.Id);
             if (c != null)
             {
                 ViewBag.ErrorAddingCurrency = Resource.CurrencyAlreadyExists;
@@ -472,25 +391,21 @@ namespace OnlineAuctionProject.Controllers
             }
             else
             {
-                //Editing currency
                 currency.Name = model.Name;
-                db.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
             return RedirectToAction("Currencies", "Admin");
         }
 
-        //GET //Delete currency
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult DeleteCurrency(int Id)
+        public async Task<ActionResult> DeleteCurrency(int Id)
         {
             try
             {
-                //Getting currency to delete
-                Currency currency = db.Currencies.Find(Id);
-                //Delete currency from DB
-                db.Currencies.Remove(currency);
-                db.SaveChanges();
+                Currency currency = _dbContext.Currencies.Find(Id);
+                _dbContext.Currencies.Remove(currency);
+                _dbContext.SaveChanges();
 
                 return RedirectToAction("Currencies", "Admin");
             }
@@ -508,7 +423,7 @@ namespace OnlineAuctionProject.Controllers
         public PartialViewResult ChangeCurrencyVisibility(int Id)
         {
             //Getting the currency
-            Currency currency = db.Currencies.Find(Id);
+            Currency currency = _dbContext.Currencies.Find(Id);
 
             if (currency.Visible)
             {
@@ -518,7 +433,7 @@ namespace OnlineAuctionProject.Controllers
             {
                 currency.Visible = true;
             }
-            db.SaveChanges();
+            _dbContext.SaveChanges();
 
             return PartialView("_ChangeCurrencyVisibilityPartial", currency);
         }
@@ -529,7 +444,7 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult Messages(int? page, string Sender)
         {
             //Get list of messages
-            IEnumerable<Message> messagesFromDB = db.Messages.ToList();
+            IEnumerable<Message> messagesFromDB = _dbContext.Messages.ToList();
             IPagedList messages = null;
 
             //Filtering messages by sender type (User, Visitor,Website)
@@ -571,11 +486,11 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult MessageView(int Id)
         {
             //Get the message
-            Message message = db.Messages.Include("RepliedBy").SingleOrDefault(x => x.Id == Id);
+            Message message = _dbContext.Messages.Include("RepliedBy").SingleOrDefault(x => x.Id == Id);
             //Marking the message as seen
             message.IsSeen = true;
            
-            db.SaveChanges();
+            _dbContext.SaveChanges();
             return View(message);
         }
 
@@ -602,15 +517,12 @@ namespace OnlineAuctionProject.Controllers
         {
             try
             {
-                Email email = new Email(model.Email, "Reply from Online Auctions", model.MessageText);
-                email.Send();
-
                 if (Id != null)
                 {
                     //Saving the admin who replied the message
-                    Message msg = db.Messages.Find(Id);
-                    msg.RepliedBy = db.Users.Find(User.Identity.GetUserId());
-                    db.SaveChanges();
+                    Message msg = _dbContext.Messages.Find(Id);
+                    msg.RepliedBy = _dbContext.Users.Find(User.Identity.GetUserId());
+                    _dbContext.SaveChanges();
                 }
                 return RedirectToAction("Messages", "Admin");
             }
@@ -632,12 +544,12 @@ namespace OnlineAuctionProject.Controllers
             try
             {
                 //Getting list of messages to delete
-                IEnumerable<Message> messagesToDelete = db.Messages.Where(x => MessageIdsToDelete.Contains(x.Id)).ToList();
+                IEnumerable<Message> messagesToDelete = _dbContext.Messages.Where(x => MessageIdsToDelete.Contains(x.Id)).ToList();
                 foreach (Message msg in messagesToDelete)
                 {
-                    db.Messages.Remove(msg);
+                    _dbContext.Messages.Remove(msg);
                 }
-                db.SaveChanges();
+                _dbContext.SaveChanges();
 
                 return RedirectToAction("Messages", "Admin");
             }
@@ -655,9 +567,9 @@ namespace OnlineAuctionProject.Controllers
         {
             try
             {
-                Message message = db.Messages.Find(Id);
-                db.Messages.Remove(message);
-                db.SaveChanges();
+                Message message = _dbContext.Messages.Find(Id);
+                _dbContext.Messages.Remove(message);
+                _dbContext.SaveChanges();
 
                 return RedirectToAction("Messages", "Admin");
             }
@@ -673,10 +585,10 @@ namespace OnlineAuctionProject.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult ManageUsers(int? page, string Search)
         {
-            ApplicationUser user = db.Users.Find( User.Identity.GetUserId());
+            ApplicationUser user = _dbContext.Users.Find( User.Identity.GetUserId());
          
             //Getting list of users (all users or by searching)
-            IPagedList<ApplicationUser> users = db.Users.Where(x => x.Id != user.Id 
+            IPagedList<ApplicationUser> users = _dbContext.Users.Where(x => x.Id != user.Id 
                                                                 && (x.UserName.Contains(Search.Trim())
                                                                 || x.FirstName.Contains(Search.Trim())
                                                                 || x.LastName.Contains(Search.Trim())
@@ -698,7 +610,7 @@ namespace OnlineAuctionProject.Controllers
         {
             try
             {
-                ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+                ApplicationUser user = _dbContext.Users.Find(User.Identity.GetUserId());
 
                 var status = false;
                 if (Status == "All")
@@ -717,7 +629,7 @@ namespace OnlineAuctionProject.Controllers
                             break;
                     }
 
-                    IPagedList<ApplicationUser> users = db.Users.Where(x => x.Active.Equals(status)
+                    IPagedList<ApplicationUser> users = _dbContext.Users.Where(x => x.Active.Equals(status)
                                                                              && x.Id != user.Id)
                                                           .ToList()
                                                           .ToPagedList(page ?? 1, 10);
@@ -733,7 +645,7 @@ namespace OnlineAuctionProject.Controllers
         [Authorize(Roles = "Admin")]
         public PartialViewResult BlockUnblockUser(string Id)
         {
-            ApplicationUser user = db.Users.Find(Id);
+            ApplicationUser user = _dbContext.Users.Find(Id);
             if (user.Active)
             {
                 user.Active = false;
@@ -742,7 +654,7 @@ namespace OnlineAuctionProject.Controllers
             {
                 user.Active = true;
             }
-            db.SaveChanges();
+            _dbContext.SaveChanges();
 
 
             return PartialView("_UserAccountStatusPartial", user);
@@ -755,15 +667,15 @@ namespace OnlineAuctionProject.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult ManageUserRoles(string Id)
         {
-            var userStore = new UserStore<ApplicationUser>(db);
+            var userStore = new UserStore<ApplicationUser>(_dbContext);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
             //Getting list of user's roles
             var userRoles = userManager.GetRoles(Id).ToList();
 
-            ViewBag.User = db.Users.Find(Id);
+            ViewBag.User = _dbContext.Users.Find(Id);
             //Getting list of all available roles
-            ViewBag.Roles = new SelectList(db.Roles.OrderBy(x => x.Name).ToList(), "Name", "Name");
+            ViewBag.Roles = new SelectList(_dbContext.Roles.OrderBy(x => x.Name).ToList(), "Name", "Name");
 
             return View(userRoles);
         }
@@ -778,10 +690,10 @@ namespace OnlineAuctionProject.Controllers
                 //Getting the requested role
                 string role = Request["Roles"].ToString();
 
-                var roleStore = new RoleStore<IdentityRole>(db);
+                var roleStore = new RoleStore<IdentityRole>(_dbContext);
                 var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                var userStore = new UserStore<ApplicationUser>(db);
+                var userStore = new UserStore<ApplicationUser>(_dbContext);
                 var userManager = new UserManager<ApplicationUser>(userStore);
 
                 //Adding the user to the role
@@ -803,10 +715,10 @@ namespace OnlineAuctionProject.Controllers
         {
             try
             {
-                var roleStore = new RoleStore<IdentityRole>(db);
+                var roleStore = new RoleStore<IdentityRole>(_dbContext);
                 var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-                var userStore = new UserStore<ApplicationUser>(db);
+                var userStore = new UserStore<ApplicationUser>(_dbContext);
                 var userManager = new UserManager<ApplicationUser>(userStore);
 
                 userManager.RemoveFromRole(Id, role);
@@ -826,7 +738,7 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult UserDetails(string Id)
         {
             //Getting the user
-            ApplicationUser user = db.Users.Find(Id);
+            ApplicationUser user = _dbContext.Users.Find(Id);
 
             return View(user);
         }
@@ -844,37 +756,37 @@ namespace OnlineAuctionProject.Controllers
             //User's paid auctions count
             //User's login to website count
             Statistic statistic;
-            foreach (ApplicationUser user in db.Users.ToList())
+            foreach (ApplicationUser user in _dbContext.Users.ToList())
             {
-                statistic = db.Statistics.SingleOrDefault(x => x.User.Id == user.Id);
+                statistic = _dbContext.Statistics.SingleOrDefault(x => x.User.Id == user.Id);
 
                 if (statistic == null)
                 {
                     statistic = new Statistic();
 
                     statistic.User = user;
-                    statistic.UserAuctionsCount = db.Auctions.Where(x => x.Seller.Id == user.Id).Count();
-                    statistic.UserWinningAuctionsCount = db.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now).Count();
-                    statistic.UserBiddingsCount = db.Bids.Where(x => x.Bidder.Id == user.Id).Select(x => x.Auction).Distinct().Count();
-                    statistic.PaidAuctions = db.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now && x.IsPaid).Count();
+                    statistic.UserAuctionsCount = _dbContext.Auctions.Where(x => x.Seller.Id == user.Id).Count();
+                    statistic.UserWinningAuctionsCount = _dbContext.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now).Count();
+                    statistic.UserBiddingsCount = _dbContext.Bids.Where(x => x.Bidder.Id == user.Id).Select(x => x.Auction).Distinct().Count();
+                    statistic.PaidAuctions = _dbContext.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now && x.IsPaid).Count();
                     statistic.LoginsCount = statistic.User.LoginCount;
 
-                    db.Statistics.Add(statistic);
+                    _dbContext.Statistics.Add(statistic);
                 }
                 else
                 {
-                    statistic.UserAuctionsCount = db.Auctions.Where(x => x.Seller.Id == user.Id).Count();
-                    statistic.UserWinningAuctionsCount = db.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now).Count();
-                    statistic.UserBiddingsCount = db.Bids.Where(x => x.Bidder.Id == user.Id).Select(x => x.Auction).Distinct().Count();
-                    statistic.PaidAuctions = db.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now && x.IsPaid).Count();
+                    statistic.UserAuctionsCount = _dbContext.Auctions.Where(x => x.Seller.Id == user.Id).Count();
+                    statistic.UserWinningAuctionsCount = _dbContext.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now).Count();
+                    statistic.UserBiddingsCount = _dbContext.Bids.Where(x => x.Bidder.Id == user.Id).Select(x => x.Auction).Distinct().Count();
+                    statistic.PaidAuctions = _dbContext.Auctions.Where(x => x.Buyer.Id == user.Id && x.Finish_Date <= DateTime.Now && x.IsPaid).Count();
                     statistic.LoginsCount = statistic.User.LoginCount;
                 }
             }
 
-            db.SaveChanges();
+            _dbContext.SaveChanges();
 
             //Ordering the results
-            IPagedList<Statistic> statistics = db.Statistics.OrderByDescending(x => x.UserAuctionsCount)
+            IPagedList<Statistic> statistics = _dbContext.Statistics.OrderByDescending(x => x.UserAuctionsCount)
                                                             .ThenByDescending(x => x.UserBiddingsCount)
                                                             .ThenByDescending(x => x.UserWinningAuctionsCount)
                                                             .Where(x => x.User.UserName.Contains(Search.Trim()) 
@@ -882,7 +794,7 @@ namespace OnlineAuctionProject.Controllers
                                                             .ToList()
                                                             .ToPagedList(page ?? 1, 10);
             //Getting all users count
-            ViewBag.UsersCount = Resource.UsersCount + ": " + db.Users.Count().ToString();
+            ViewBag.UsersCount = Resource.UsersCount + ": " + _dbContext.Users.Count().ToString();
             return View(statistics);
         }
 
@@ -892,7 +804,7 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult Reports(int? page, string Search)
         {
             //Getting list of reports
-            IPagedList<Auction> reports = db.Reports.Include("Auction")
+            IPagedList<Auction> reports = _dbContext.Reports.Include("Auction")
                                                      .Include("Auction.Product")
                                                      .Select(x => x.auction)
                                                      .Where(x => x.Product.Name.Contains(Search.Trim())
@@ -911,7 +823,7 @@ namespace OnlineAuctionProject.Controllers
         [Authorize(Roles = "Admin,Supervisor")]
         public ActionResult ReportDetails(int? page, int Id, string returnUrl)
         {
-            IPagedList<Report> reports = db.Reports.Include("Auction")
+            IPagedList<Report> reports = _dbContext.Reports.Include("Auction")
                                                    .Include("Auction.Product")
                                                   .Where(x => x.auction.Id == Id)
                                                   .ToList()
@@ -922,7 +834,7 @@ namespace OnlineAuctionProject.Controllers
                 report.Seen = true;
             }
 
-            db.SaveChanges();
+            _dbContext.SaveChanges();
 
             ViewBag.ReturnUrl = returnUrl;
 
@@ -936,7 +848,7 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult BidsDetails(int Id)
         {
             //Getting auction
-            Auction auction = db.Auctions.Include("Product")
+            Auction auction = _dbContext.Auctions.Include("Product")
                                          .Include("Product.Currency")
                                          .Include("Product.Category")
                                          .Include("Seller")
@@ -945,18 +857,7 @@ namespace OnlineAuctionProject.Controllers
                                          .Include("Bids.Bidder")
                                          .SingleOrDefault(x => x.Id == Id);
 
-            switch(SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.Category = new SelectList(db.Categories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name", auction.Product.Category.Id);
-                    break;
-                case "ar-SA":
-                    ViewBag.Category = new SelectList(db.Categories.OrderBy(x => x.Category_Name_Ar).ToList(), "Id", "Category_Name_Ar", auction.Product.Category.Id);
-                    break;
-                default:
-                    ViewBag.Category = new SelectList(db.Categories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name", auction.Product.Category.Id);
-                    break;
-            }
+            ViewBag.Category = new SelectList(_dbContext.Categories.OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name", auction.Product.Category.Id);
 
             return View(auction);
         }
@@ -966,7 +867,7 @@ namespace OnlineAuctionProject.Controllers
         [Authorize(Roles = "Admin, Supervisor")]
         public ActionResult AuctionsManagement(int? page, int? Category, string Search)
         {
-            IEnumerable<Auction> auctions = db.Auctions.Include("Product")
+            IEnumerable<Auction> auctions = _dbContext.Auctions.Include("Product")
                                                        .Where(x => (x.Product.Category.Id == Category
                                                                 || Category == null)
                                                                 && (x.Product.Name.Contains(Search)
@@ -975,18 +876,7 @@ namespace OnlineAuctionProject.Controllers
                                                        .OrderBy(x => (x.Finish_Date > DateTime.Now ? "A" : "B"))
                                                        .ToList();
 
-            switch (SiteLanguages.GetCurrentLanguageCulture())
-            {
-                case "en-US":
-                    ViewBag.Category = new SelectList(db.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-                case "ar-SA":
-                    ViewBag.Category = new SelectList(db.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name_Ar).ToList(), "Id", "Category_Name_Ar");
-                    break;
-                default:
-                    ViewBag.Category = new SelectList(db.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
-                    break;
-            }
+            ViewBag.Category = new SelectList(_dbContext.Categories.Where(x => x.Visible).OrderBy(x => x.Category_Name).ToList(), "Id", "Category_Name");
 
             ViewBag.AuctionsCount = auctions.Count();
 
@@ -998,10 +888,10 @@ namespace OnlineAuctionProject.Controllers
         [Authorize(Roles = "Admin, Supervisor")]
         public ActionResult ChangeProductCategory(int Id, int Category)
         {
-            Auction auction = db.Auctions.Include("Product").Include("Product.Category").SingleOrDefault(x => x.Id == Id);
-            Category category = db.Categories.Find(Category);
+            Auction auction = _dbContext.Auctions.Include("Product").Include("Product.Category").SingleOrDefault(x => x.Id == Id);
+            Category category = _dbContext.Categories.Find(Category);
             auction.Product.Category = category;
-            db.SaveChanges();
+            _dbContext.SaveChanges();
 
             return RedirectToAction("BidsDetails", "Admin", new { Id = Id });
         }
@@ -1020,7 +910,7 @@ namespace OnlineAuctionProject.Controllers
         {
             List<ApplicationUser> users = new List<ApplicationUser>();
 
-            var userStore = new UserStore<ApplicationUser>(db);
+            var userStore = new UserStore<ApplicationUser>(_dbContext);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
             if(roles == null)
@@ -1029,7 +919,7 @@ namespace OnlineAuctionProject.Controllers
                 return View(model);
             }
            
-                foreach (var user in db.Users)
+                foreach (var user in _dbContext.Users)
                 {
                     foreach (var role in roles)
                     {
@@ -1043,11 +933,6 @@ namespace OnlineAuctionProject.Controllers
             
             try
             {
-                foreach (var user in users)
-                {
-                    Email email = new Email(user.Email, model.Subject, model.EmailText);
-                    email.Send();
-                }
                 return RedirectToAction("Messages", "Admin");
             }
             catch
@@ -1063,18 +948,18 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult Remove(int Id, string returnUrl)
         {
             //Getting the auction
-            Auction auction = db.Auctions.Include("Product")
+            Auction auction = _dbContext.Auctions.Include("Product")
                                            .Include("Product.Category")
                                            .Include("Seller")
                                            .SingleOrDefault(x => x.Id == Id);
             //Getting the product
-            Product prodcut = db.Products.Find(auction.Product.Id);
+            Product prodcut = _dbContext.Products.Find(auction.Product.Id);
             //Getting list of bids on the auction
-            List<Bid> bids = db.Bids.Where(x => x.Auction.Id == auction.Id).ToList();
+            List<Bid> bids = _dbContext.Bids.Where(x => x.Auction.Id == auction.Id).ToList();
             //Get the list of reports on the auctions
-            List<Report> reports = db.Reports.Where(x => x.auction.Id == auction.Id).ToList();
+            List<Report> reports = _dbContext.Reports.Where(x => x.auction.Id == auction.Id).ToList();
             //Get the list of product images
-            List<ProductPhoto> images = db.Images.Where(x => x.Product.Id == prodcut.Id).ToList();
+            List<ProductPhoto> images = _dbContext.Images.Where(x => x.Product.Id == prodcut.Id).ToList();
 
             //Creating an email to send to auction seller
             string subject = "", body = "";
@@ -1103,10 +988,6 @@ namespace OnlineAuctionProject.Controllers
                     break;
             }
 
-
-
-            Email email = new Email(auction.Seller.Email, subject, body);
-
             try
             {
                 var categoryId = auction.Product.Category.Id;
@@ -1124,28 +1005,27 @@ namespace OnlineAuctionProject.Controllers
                 //Deleting bids operations from DB
                 foreach (var bid in bids)
                 {
-                    db.Bids.Remove(bid);
+                    _dbContext.Bids.Remove(bid);
                 }
                 //Deleting images from DB
                 foreach (var p in images)
                 {
-                    db.Images.Remove(p);
+                    _dbContext.Images.Remove(p);
                 }
                 //Deleteing Reports from DB
                 foreach (var r in reports)
                 {
-                    db.Reports.Remove(r);
+                    _dbContext.Reports.Remove(r);
                 }
                 //Deleting the auction from DB
-                db.Auctions.Remove(auction);
+                _dbContext.Auctions.Remove(auction);
                 //Deleting the product from DB
-                db.Products.Remove(prodcut);
-                db.SaveChanges();
+                _dbContext.Products.Remove(prodcut);
+                _dbContext.SaveChanges();
 
                 //Sending email to seller
                 try
                 {
-                    email.Send();
                 }
                 catch
                 {
@@ -1164,18 +1044,18 @@ namespace OnlineAuctionProject.Controllers
         public ActionResult AutomaticRemove(int Id)
         {
             //Getting the auction
-            Auction auction = db.Auctions.Include("Seller")
+            Auction auction = _dbContext.Auctions.Include("Seller")
                                          .Include("Product")
                                          .Include("Product.Category")
                                          .SingleOrDefault(x => x.Id == Id);
             //Getting the product
-            Product prodcut = db.Products.Find(auction.Product.Id);
+            Product prodcut = _dbContext.Products.Find(auction.Product.Id);
             //Getting list of bids on the auction
-            List<Bid> bids = db.Bids.Where(x => x.Auction.Id == auction.Id).ToList();
+            List<Bid> bids = _dbContext.Bids.Where(x => x.Auction.Id == auction.Id).ToList();
             //Getting list of reports on the auction
-            List<Report> reports = db.Reports.Where(x => x.auction.Id == auction.Id).ToList();
+            List<Report> reports = _dbContext.Reports.Where(x => x.auction.Id == auction.Id).ToList();
             //Getting product images
-            List<ProductPhoto> images = db.Images.Where(x => x.Product.Id == prodcut.Id).ToList();
+            List<ProductPhoto> images = _dbContext.Images.Where(x => x.Product.Id == prodcut.Id).ToList();
 
             //Creating an email to send to seller
             //Creating an email to send to auction seller
@@ -1205,8 +1085,6 @@ namespace OnlineAuctionProject.Controllers
                     break;
             }
 
-            Email email = new Email(auction.Seller.Email, subject, body);
-
             //Sending a message to the administation
             Message msg = new Message();
             msg.Email = "Automatic@Email.website";
@@ -1215,7 +1093,7 @@ namespace OnlineAuctionProject.Controllers
             msg.IsSeen = false;
             msg.RepliedBy = null;
 
-            switch (db.Users.Find(User.Identity.GetUserId()).PreferredInterfaceLanguage)
+            switch (_dbContext.Users.Find(User.Identity.GetUserId()).PreferredInterfaceLanguage)
             {
                 case "English":
                     msg.MessageText = "The auction: [ " + auction.Product.Name + " ] was removed from website after getting 50 reports from other users. ";
@@ -1248,29 +1126,27 @@ namespace OnlineAuctionProject.Controllers
                     //Deleting bids operations from DB
                     foreach (var bid in bids)
                     {
-                        db.Bids.Remove(bid);
+                        _dbContext.Bids.Remove(bid);
                     }
                     //Deleting images from DB
                     foreach (var p in images)
                     {
-                        db.Images.Remove(p);
+                        _dbContext.Images.Remove(p);
                     }
                     //Deleting reports from DB
                     foreach (var r in reports)
                     {
-                        db.Reports.Remove(r);
+                        _dbContext.Reports.Remove(r);
                     }
                     //Deleting the auction from DB
-                    db.Auctions.Remove(auction);
+                    _dbContext.Auctions.Remove(auction);
                     //Deleting the product from DB
-                    db.Products.Remove(prodcut);
+                    _dbContext.Products.Remove(prodcut);
 
-                    db.Messages.Add(msg);
-                    db.SaveChanges();
+                    _dbContext.Messages.Add(msg);
+                    _dbContext.SaveChanges();
 
                     //Sending an email to the user telling them that their auction was removed
-
-                    email.Send();
 
                     return RedirectToAction("Index", "Auction", new { Id = categoryId });
                 }
@@ -1282,5 +1158,23 @@ namespace OnlineAuctionProject.Controllers
             //If something went wrong, stay on page
             return View("Error");
         }
-	}
+
+        //Check if the uploaded file i an image file
+        private bool checkFileType(string fileName)
+        {
+            string fileExtention = Path.GetExtension(fileName);
+
+            switch (fileExtention.ToLower())
+            {
+                case ".png":
+                    return true;
+                case ".jpg":
+                    return true;
+                case ".jpeg":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
 }

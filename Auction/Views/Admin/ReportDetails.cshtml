@@ -6,7 +6,8 @@
 
 @{
     ViewBag.Title = Resource.ReportDetails;
-    TimeZoneInfo tzi = OnlineAuctionProject.Repository.TimeZonesManagement.GetTimeZoneInfo();}
+    TimeZoneInfo tzi = TimeZoneInfo.Local;
+    }
 
 <h3>
     <span class="glyphicon glyphicon-exclamation-sign"></span>
