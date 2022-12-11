@@ -256,7 +256,7 @@
     <value>Zip code is required</value>
   </data>
   <data name="footer" xml:space="preserve">
-    <value>SVU - ISE - Project1</value>
+    <value>Internet Auction</value>
   </data>
   <data name="AddAuction" xml:space="preserve">
     <value>Add auction</value>
@@ -525,17 +525,11 @@
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>
-  <data name="ISE" xml:space="preserve">
-    <value>Information Systems Engineering</value>
-  </data>
   <data name="Project1" xml:space="preserve">
-    <value>Project 1</value>
+    <value>InternetAuction</value>
   </data>
-  <data name="SharifQasrawi" xml:space="preserve">
-    <value>Mohammad Sharif Qasrawi</value>
-  </data>
-  <data name="SVU" xml:space="preserve">
-    <value>Syrian Virtual University</value>
+  <data name="Authors" xml:space="preserve">
+    <value>Strelets and Chekhovich</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
@@ -853,7 +847,7 @@
     <value>Content management</value>
   </data>
   <data name="CategoryNamePlaceHolderAr" xml:space="preserve">
-    <value>Enter category name in Arabic</value>
+    <value>Enter category name</value>
   </data>
   <data name="ChangeAuctionOpeningBid" xml:space="preserve">
     <value>Change opening bid</value>
@@ -910,7 +904,7 @@
     <value>Product name, Description, Product Status, Currency</value>
   </data>
   <data name="AddCountryPlaceHolderAr" xml:space="preserve">
-    <value>Enter country name in Arabic</value>
+    <value>Enter country name</value>
   </data>
   <data name="CategoryAlreadyExists" xml:space="preserve">
     <value>Category already exists</value>

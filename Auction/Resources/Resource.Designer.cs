@@ -178,7 +178,7 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter country name in Arabic.
+        ///   Looks up a localized string similar to Enter country name.
         /// </summary>
         public static string AddCountryPlaceHolderAr {
             get {
@@ -426,6 +426,15 @@ namespace OnlineAuctionProject.Resources {
         public static string AUser {
             get {
                 return ResourceManager.GetString("AUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strelets and Chekhovich.
+        /// </summary>
+        public static string Authors {
+            get {
+                return ResourceManager.GetString("Authors", resourceCulture);
             }
         }
         
@@ -817,7 +826,7 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter category name in Arabic.
+        ///   Looks up a localized string similar to Enter category name.
         /// </summary>
         public static string CategoryNamePlaceHolderAr {
             get {
@@ -1726,7 +1735,7 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SVU - ISE - Project1.
+        ///   Looks up a localized string similar to Internet Auction.
         /// </summary>
         public static string footer {
             get {
@@ -1857,15 +1866,6 @@ namespace OnlineAuctionProject.Resources {
         public static string InvalidEmail {
             get {
                 return ResourceManager.GetString("InvalidEmail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Information Systems Engineering.
-        /// </summary>
-        public static string ISE {
-            get {
-                return ResourceManager.GetString("ISE", resourceCulture);
             }
         }
         
@@ -2797,7 +2797,7 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project 1.
+        ///   Looks up a localized string similar to InternetAuction.
         /// </summary>
         public static string Project1 {
             get {
@@ -3382,15 +3382,6 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mohammad Sharif Qasrawi.
-        /// </summary>
-        public static string SharifQasrawi {
-            get {
-                return ResourceManager.GetString("SharifQasrawi", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show.
         /// </summary>
         public static string Show {
@@ -3504,15 +3495,6 @@ namespace OnlineAuctionProject.Resources {
         public static string SubjectReq {
             get {
                 return ResourceManager.GetString("SubjectReq", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Syrian Virtual University.
-        /// </summary>
-        public static string SVU {
-            get {
-                return ResourceManager.GetString("SVU", resourceCulture);
             }
         }
         
