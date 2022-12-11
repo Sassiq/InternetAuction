@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using OnlineAuctionProject.Models;
 using OnlineAuctionProject.Resources;
+using OnlineAuctionProject.Services;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -398,12 +399,9 @@ namespace OnlineAuctionProject.Controllers
             cardsList.Add("American Express");
             cardsList.Add("Discover Network");
 
-            ViewBag.CardTypes = new SelectList(cardsList);
-
             Payment payment = new Payment();
             payment.PaymentValue = auctions.Sum(x => x.Current_Bid) + " " + auctions.FirstOrDefault().Product.Currency.Name;
 
-            //Creating a list of months and years
             List<int> months = new List<int>();
             for (int i = 01; i <= 12; i++)
                 months.Add(i);
@@ -412,6 +410,7 @@ namespace OnlineAuctionProject.Controllers
             for (int i = DateTime.Now.Year; i <= DateTime.Now.AddYears(10).Year; i++)
                 years.Add(i);
 
+            ViewBag.CardTypes = new SelectList(cardsList);
             ViewBag.Month = new SelectList(months);
             ViewBag.Year = new SelectList(years);
 
@@ -446,12 +445,23 @@ namespace OnlineAuctionProject.Controllers
             for (int i = DateTime.Now.Year; i <= DateTime.Now.AddYears(10).Year; i++)
                 years.Add(i);
 
+            payment.PaymentValue = auctions.Sum(x => x.Current_Bid).ToString();
+
+            var redirectUrl = Request.Url.ToString().Replace("PayBill", "PaidAuctions");
+
+            var paymentPayPal = PayPalPaymentService.CreatePayment(redirectUrl, payment);
+
+            var url = paymentPayPal.GetApprovalUrl();
+
+            return Redirect(url);
+
             try
             {
                 foreach (Auction auction in auctions)
                 {
                     Auction auc = _dbContext.Auctions.Include("Seller").SingleOrDefault(x => x.Id == auction.Id);
                     payment.SellerAccountNumber = auc.Seller.AccountNumber;
+
                     /*
                         Payment Proccess goes here
                      */
@@ -614,9 +624,14 @@ namespace OnlineAuctionProject.Controllers
             return RedirectToAction("ViewAuction", "Auction", new { Id = Id });
         }
 
-        [HttpGet]
-        public async Task<ActionResult> PaidAuctions(int? page)
+        [HttpGet()]
+        public async Task<ActionResult> PaidAuctions(string paymentId)
         {
+            //FAWSFN48H8LJ8
+            var payment = PayPalPaymentService.ExecutePayment(paymentId, "FAWSFN48H8LJ8");
+
+
+
             var user = _dbContext.Users.Find(User.Identity.GetUserId());
             var paidAuctions = await _dbContext.Auctions
                 .AsNoTracking()
@@ -626,7 +641,12 @@ namespace OnlineAuctionProject.Controllers
                 .Where(x => x.Buyer.Id == user.Id && x.IsPaid)
                 .ToListAsync();
 
-            return View(paidAuctions.ToPagedList(page ?? 1, 6));
+            return View(paidAuctions.ToPagedList(1, 6));
+        }
+
+        private Uri GetBaseUrl()
+        {
+            return Request.Url;
         }
 
         private bool CheckMimeType(string fileName)

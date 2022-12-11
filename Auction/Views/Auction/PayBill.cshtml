@@ -34,7 +34,7 @@
                             @Html.DropDownList("CardTypes", null, Resource.SelectCardType, new { @class = "form-control dropDownList", Required = "Required" })
                             @Html.ValidationMessageFor(model => model.CardType)
                         </div>
-                    </div>              
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.NameOnCard, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -71,12 +71,10 @@
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="reset" value=@Resource.Reset class="btn btn-default" onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.ResetFields ?');" />
-                            <button type="submit" class="btn btn-success"
-                                    onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.Proceed');">
+                            <button type="submit" class="btn btn-success">
                                 <span class="glyphicon glyphicon-credit-card"></span>
                                 @Resource.Pay
                             </button>
-
                         </div>
                     </div>
                     <p class="text-center alert-danger">
@@ -84,6 +82,18 @@
                     </p>
                     @Html.ValidationSummary(true)
                 </div>
+            }
+
+            @using (Html.BeginForm("PayBill", "Auction", FormMethod.Post))
+            {
+                 <div class="form-group">
+                     <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.Proceed');">
+                                <span class="glyphicon glyphicon-credit-card"></span>
+                                @Resource.PayPal
+                            </button>
+                        </div>
+                    </div>
             }
         </div>
     </div>

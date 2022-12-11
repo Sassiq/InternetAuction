@@ -94,6 +94,12 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalCoreSDK, Version=1.7.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>packages\PayPalCoreSDK.1.7.1\lib\net451\PayPalCoreSDK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -149,6 +155,7 @@
   <ItemGroup>
     <Compile Include="Configurations\BundleConfig.cs" />
     <Compile Include="Configurations\FilterConfig.cs" />
+    <Compile Include="Configurations\PayPalConfiguration.cs" />
     <Compile Include="Configurations\RouteConfig.cs" />
     <Compile Include="Configurations\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -187,6 +194,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\PayPalPaymentService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +279,7 @@
     <Content Include="Images\fb.png" />
     <Content Include="Images\MetroUI.png" />
     <Content Include="Images\online_auction.png" />
+    <Content Include="Images\paypal.png" />
     <Content Include="Images\report3.png" />
     <Content Include="Images\Search2.png" />
     <Content Include="Images\PleaseWait.gif" />
@@ -391,6 +400,7 @@
   <ItemGroup>
     <Folder Include="Images\Categories\" />
     <Folder Include="Images\Items\" />
+    <Folder Include="Views\PayPal\" />
     <Folder Include="Views\World\" />
   </ItemGroup>
   <ItemGroup>

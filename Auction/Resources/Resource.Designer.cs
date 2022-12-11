@@ -2563,6 +2563,15 @@ namespace OnlineAuctionProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PayPal Pay.
+        /// </summary>
+        public static string PayPal {
+            get {
+                return ResourceManager.GetString("PayPal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Permissions.
         /// </summary>
         public static string Permissions {
