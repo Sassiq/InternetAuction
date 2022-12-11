@@ -32,7 +32,6 @@ namespace OnlineAuctionProject.Controllers
 
             var user = _dbContext.Users.Find(User.Identity.GetUserId());
             var auctions = await _dbContext.Auctions
-                .AsNoTracking()
                 .Include("Seller")
                 .Include("Buyer")
                 .Include("Product")
