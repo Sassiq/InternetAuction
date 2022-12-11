@@ -1,0 +1,1386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Bootstrap" xml:space="preserve">
+    <value>~/Content/bootstrap.min.css</value>
+  </data>
+  <data name="Brand" xml:space="preserve">
+    <value>Online Auctions</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="CityPlaceHolder" xml:space="preserve">
+    <value>Enter your city</value>
+  </data>
+  <data name="CityReq" xml:space="preserve">
+    <value>City is required</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="ConfirmPasswordError" xml:space="preserve">
+    <value>Password doesn't match</value>
+  </data>
+  <data name="ConfirmPasswordPlaceHolder" xml:space="preserve">
+    <value>Repeat password</value>
+  </data>
+  <data name="Contactus" xml:space="preserve">
+    <value>Contact us</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="CountryPlaceHolder" xml:space="preserve">
+    <value>Enter your country</value>
+  </data>
+  <data name="CountryReq" xml:space="preserve">
+    <value>Country is required</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailPlaceHolder" xml:space="preserve">
+    <value>Enter your email</value>
+  </data>
+  <data name="EmailReq" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="FirstNamePlaceHolder" xml:space="preserve">
+    <value>Enter your first name</value>
+  </data>
+  <data name="FirstNameReq" xml:space="preserve">
+    <value>First name is required</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="LastNamePlaceHolder" xml:space="preserve">
+    <value>Enter your last name</value>
+  </data>
+  <data name="LastNameReq" xml:space="preserve">
+    <value>Last name is required</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="Nav" xml:space="preserve">
+    <value>Navigation Menu</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PasswordPlaceHolder" xml:space="preserve">
+    <value>Enter a password</value>
+  </data>
+  <data name="PasswordReq" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="PhNumber" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+  <data name="PhNumberPlaceHolder" xml:space="preserve">
+    <value>Enter your phone number</value>
+  </data>
+  <data name="PhNumberReq" xml:space="preserve">
+    <value>Phone number is required</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register new account</value>
+  </data>
+  <data name="RegisterBtn" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterMsg" xml:space="preserve">
+    <value>Please fill this form to complete registration.</value>
+  </data>
+  <data name="SideBar" xml:space="preserve">
+    <value>~/Content/SideBarLeft.css</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="StreetPlaceHolder" xml:space="preserve">
+    <value>Enter your street</value>
+  </data>
+  <data name="StreetReq" xml:space="preserve">
+    <value>Street is required</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsernamePlaceHolder" xml:space="preserve">
+    <value>Enter a username</value>
+  </data>
+  <data name="UsernameReq" xml:space="preserve">
+    <value>Username is required</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>ZipCode</value>
+  </data>
+  <data name="ZipCodePlaceHolder" xml:space="preserve">
+    <value>Enter Zip code</value>
+  </data>
+  <data name="ZipCodeReq" xml:space="preserve">
+    <value>Zip code is required</value>
+  </data>
+  <data name="footer" xml:space="preserve">
+    <value>Internet Auction</value>
+  </data>
+  <data name="AddAuction" xml:space="preserve">
+    <value>Add auction</value>
+  </data>
+  <data name="AddNewAuction" xml:space="preserve">
+    <value>Add a new auction</value>
+  </data>
+  <data name="AuctionFinishDatePlaceHolder" xml:space="preserve">
+    <value>Pick an auction finish date</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CategoryReq" xml:space="preserve">
+    <value>Category is required</value>
+  </data>
+  <data name="FinishDate" xml:space="preserve">
+    <value>Auction finish date</value>
+  </data>
+  <data name="FinishDateReq" xml:space="preserve">
+    <value>Auction finish date is required</value>
+  </data>
+  <data name="PleaseFillTheFollowingFormToAddaNewAuction" xml:space="preserve">
+    <value>Please fill the following form to add a new auction.</value>
+  </data>
+  <data name="ProductDescription" xml:space="preserve">
+    <value>Product description</value>
+  </data>
+  <data name="ProductDescriptionPlaceHolder" xml:space="preserve">
+    <value>Type product description</value>
+  </data>
+  <data name="ProductDescriptionReq" xml:space="preserve">
+    <value>Product description is required</value>
+  </data>
+  <data name="ProductImage" xml:space="preserve">
+    <value>Product Image</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Product name</value>
+  </data>
+  <data name="ProductNamePlaceHolder" xml:space="preserve">
+    <value>Enter a product name</value>
+  </data>
+  <data name="ProductNameReq" xml:space="preserve">
+    <value>Product name is required</value>
+  </data>
+  <data name="ProductPrice" xml:space="preserve">
+    <value>Product price</value>
+  </data>
+  <data name="ProductPriceCurrency" xml:space="preserve">
+    <value>Product price must be a currency value</value>
+  </data>
+  <data name="ProductPricePlaceHolder" xml:space="preserve">
+    <value>Enter product price (Openning price)</value>
+  </data>
+  <data name="ProductPriceReq" xml:space="preserve">
+    <value>Product price is required</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Select category</value>
+  </data>
+  <data name="UploadFile" xml:space="preserve">
+    <value>Choose images</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="AddCategory" xml:space="preserve">
+    <value>Add category</value>
+  </data>
+  <data name="AddNewCategory" xml:space="preserve">
+    <value>Add new category</value>
+  </data>
+  <data name="CategoryImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="CategoryNamePlaceHolder" xml:space="preserve">
+    <value>Enter category name in English</value>
+  </data>
+  <data name="PleaseFillThisFormToAddNewCategory" xml:space="preserve">
+    <value>Please fill this form to add a new category.</value>
+  </data>
+  <data name="AuctionFinishTime" xml:space="preserve">
+    <value>Auction finish time</value>
+  </data>
+  <data name="DurationDays" xml:space="preserve">
+    <value>Auction duration (Days)</value>
+  </data>
+  <data name="DurationDaysPlaceHolder" xml:space="preserve">
+    <value>Enter duration in days</value>
+  </data>
+  <data name="DurationDaysRange" xml:space="preserve">
+    <value>Auction duration (Days) must be greater or equal (0)</value>
+  </data>
+  <data name="DurationDaysReq" xml:space="preserve">
+    <value>Auction duration (Days) is required</value>
+  </data>
+  <data name="DurationHrs" xml:space="preserve">
+    <value>Auction duration (Hours)</value>
+  </data>
+  <data name="DurationHrsPlaceHolder" xml:space="preserve">
+    <value>Enter duration in hours</value>
+  </data>
+  <data name="DurationHrsRange" xml:space="preserve">
+    <value>Auction duration (Hours) must be greater or equal (0)</value>
+  </data>
+  <data name="DurationHrsReq" xml:space="preserve">
+    <value>Auction duration (Hours) is required</value>
+  </data>
+  <data name="LoginFail" xml:space="preserve">
+    <value>Invalid login attempt</value>
+  </data>
+  <data name="BadAccessMsg" xml:space="preserve">
+    <value>Sorry, it seems you have tried to access an unauthorized page. Please Login.</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Website administration</value>
+  </data>
+  <data name="ChooseACategoryAndCheckTheOfferdAuctions" xml:space="preserve">
+    <value>Choose a category and check the offered auctions:</value>
+  </data>
+  <data name="StyleSheet" xml:space="preserve">
+    <value>~/Content/SiteLeft.css</value>
+  </data>
+  <data name="EnableJS" xml:space="preserve">
+    <value>Please enable JavaScript in your web browser!</value>
+  </data>
+  <data name="AuctionPreview" xml:space="preserve">
+    <value>Auctions preview</value>
+  </data>
+  <data name="ChooseCurrency" xml:space="preserve">
+    <value>Choose a currency</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="CurrencyReq" xml:space="preserve">
+    <value>Currency is required</value>
+  </data>
+  <data name="CurrentBid" xml:space="preserve">
+    <value>Current bid</value>
+  </data>
+  <data name="DetailsAndBidding" xml:space="preserve">
+    <value>Details and bidding</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="DontHaveAccount" xml:space="preserve">
+    <value>Don't have an account? </value>
+  </data>
+  <data name="RegisterNow" xml:space="preserve">
+    <value>Register now.</value>
+  </data>
+  <data name="AddCountry" xml:space="preserve">
+    <value>Add a new country</value>
+  </data>
+  <data name="AddCountryInfo" xml:space="preserve">
+    <value>Add a country to the available countries.</value>
+  </data>
+  <data name="AddCountryPlaceHolder" xml:space="preserve">
+    <value>Enter country name in English</value>
+  </data>
+  <data name="BackToAdminPage" xml:space="preserve">
+    <value>Back to website administration.</value>
+  </data>
+  <data name="BackToAdminPageGlyph" xml:space="preserve">
+    <value>glyphicon glyphicon-backward</value>
+  </data>
+  <data name="LoginAndStartBidding" xml:space="preserve">
+    <value>Login now and start bidding!</value>
+  </data>
+  <data name="PlaceBid" xml:space="preserve">
+    <value>Place your bid</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Time left</value>
+  </data>
+  <data name="SelectedAuction" xml:space="preserve">
+    <value>Your selected auction. Start bidding now !!</value>
+  </data>
+  <data name="AuctionFinished" xml:space="preserve">
+    <value>Auction finished.</value>
+  </data>
+  <data name="BidErrorMsg" xml:space="preserve">
+    <value>Your bid must be greater than the current bid.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="ViewAuction" xml:space="preserve">
+    <value>View auction</value>
+  </data>
+  <data name="AdminOptions" xml:space="preserve">
+    <value>Admin options</value>
+  </data>
+  <data name="RemoveAuction" xml:space="preserve">
+    <value>Remove auction</value>
+  </data>
+  <data name="RemoveAuctionConfirmMsg" xml:space="preserve">
+    <value>Remove this auction from website ? </value>
+  </data>
+  <data name="NoAuction" xml:space="preserve">
+    <value>Sorry, there aren't any auctions in this category.</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ProductStatus" xml:space="preserve">
+    <value>Product status</value>
+  </data>
+  <data name="ProductStatusReq" xml:space="preserve">
+    <value>Product status is required</value>
+  </data>
+  <data name="Used" xml:space="preserve">
+    <value>Used</value>
+  </data>
+  <data name="CurrentBidder" xml:space="preserve">
+    <value>Current bidder</value>
+  </data>
+  <data name="AddCurrency" xml:space="preserve">
+    <value>Add new currency</value>
+  </data>
+  <data name="AddCurrencyInfo" xml:space="preserve">
+    <value>Please add a currency to add a new currency to the database.</value>
+  </data>
+  <data name="AddCurrencyPlaceHolder" xml:space="preserve">
+    <value>Enter new currency name</value>
+  </data>
+  <data name="AuctionStatus" xml:space="preserve">
+    <value>Auction status</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="MyAuctions" xml:space="preserve">
+    <value>My auctions</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Ongoing" xml:space="preserve">
+    <value>Ongoing</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Invalid email address</value>
+  </data>
+  <data name="MessageText" xml:space="preserve">
+    <value>Message text</value>
+  </data>
+  <data name="MessageTextReq" xml:space="preserve">
+    <value>Message text is required</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="UserMessageTextInfo" xml:space="preserve">
+    <value>Please Enter your message and press "Send" and we will response to your message by sending you an email to your emaill address as soon as possible.</value>
+  </data>
+  <data name="VisitorMessageTextInfo" xml:space="preserve">
+    <value>Please Enter your email address and your message and press "Send" and we will response to your message by sending you an email to your emaill address as soon as possible.</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="Project1" xml:space="preserve">
+    <value>InternetAuction</value>
+  </data>
+  <data name="Authors" xml:space="preserve">
+    <value>Strelets and Chekhovich</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="CannotDeleteCategory" xml:space="preserve">
+    <value>Cannot delete category because it's related to some products</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>Delete category</value>
+  </data>
+  <data name="DeleteCategoryInfo" xml:space="preserve">
+    <value>Please select a category to delete from database.</value>
+  </data>
+  <data name="DeleteCountry" xml:space="preserve">
+    <value>Delete country</value>
+  </data>
+  <data name="DeleteCurrency" xml:space="preserve">
+    <value>Delete currency</value>
+  </data>
+  <data name="EditProfile" xml:space="preserve">
+    <value>Edit profile</value>
+  </data>
+  <data name="EmailUsed" xml:space="preserve">
+    <value>This email is already registered</value>
+  </data>
+  <data name="UsernameUsed" xml:space="preserve">
+    <value>This username is already taken</value>
+  </data>
+  <data name="UserOptions" xml:space="preserve">
+    <value>User options</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm new password</value>
+  </data>
+  <data name="ConfirmNewPasswordPlaceHolder" xml:space="preserve">
+    <value>Repeat your new password</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Current password</value>
+  </data>
+  <data name="CurrentPasswordPlaceHolder" xml:space="preserve">
+    <value>Enter your current password</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="NewPasswordPlaceHolder" xml:space="preserve">
+    <value>Enter a new password</value>
+  </data>
+  <data name="NewPasswordReq" xml:space="preserve">
+    <value>New password is required.</value>
+  </data>
+  <data name="PasswordLength" xml:space="preserve">
+    <value>The {0} must be at least {2} characters long.</value>
+  </data>
+  <data name="Bid" xml:space="preserve">
+    <value>Bid</value>
+  </data>
+  <data name="AuctionsManagement" xml:space="preserve">
+    <value>Auctions management</value>
+  </data>
+  <data name="CannotDeleteCurrency" xml:space="preserve">
+    <value>Cannot delete a currently using currency</value>
+  </data>
+  <data name="DeleteCountryInfo" xml:space="preserve">
+    <value>Please select a country to delete from database.</value>
+  </data>
+  <data name="DeleteCurrencyInfo" xml:space="preserve">
+    <value>Please select a currency to delete from database.</value>
+  </data>
+  <data name="EditProfileInfo" xml:space="preserve">
+    <value>Please change the information you wish to update and press save.</value>
+  </data>
+  <data name="MyOngoingBiddings" xml:space="preserve">
+    <value>My ongoing biddings</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SelectCountry" xml:space="preserve">
+    <value>Select a country</value>
+  </data>
+  <data name="SelectCurrency" xml:space="preserve">
+    <value>Select a currency</value>
+  </data>
+  <data name="BidsCount" xml:space="preserve">
+    <value>Bids count</value>
+  </data>
+  <data name="MyWinningAuctions" xml:space="preserve">
+    <value>My winning auctions</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Keyword</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchPlaceHolder" xml:space="preserve">
+    <value>Enter a keyword to search in the website</value>
+  </data>
+  <data name="KeywordEmptyError" xml:space="preserve">
+    <value>Please enter a keyword.</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Viewing results for</value>
+  </data>
+  <data name="BackToMessagesList" xml:space="preserve">
+    <value>Back to messages list</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="ViewMessage" xml:space="preserve">
+    <value>View message</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="NoRecordsFound" xml:space="preserve">
+    <value>No records found</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Blocked" xml:space="preserve">
+    <value>Blocked</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="ManageRoles" xml:space="preserve">
+    <value>Manage user roles</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>Manage users</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="UserInfoFor" xml:space="preserve">
+    <value>User information for</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CurrentUserRoles" xml:space="preserve">
+    <value>Current user roles</value>
+  </data>
+  <data name="RemoveFromRole" xml:space="preserve">
+    <value>Remove from role</value>
+  </data>
+  <data name="RemoveFromRoleConfirmation" xml:space="preserve">
+    <value>Remove this user from this role?</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="SelectRole" xml:space="preserve">
+    <value>Select role</value>
+  </data>
+  <data name="ToRole" xml:space="preserve">
+    <value>To role</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>An error has occurred.</value>
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Your password has been changed.</value>
+  </data>
+  <data name="EmailSubjectOnlineAuctionsPasswordChanged" xml:space="preserve">
+    <value>Online Auctions: Password Changed!</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot my password</value>
+  </data>
+  <data name="ForgotPasswordEnterEmail" xml:space="preserve">
+    <value>Please enter your email address and a new password will be sent to your email address.</value>
+  </data>
+  <data name="ForgotYourPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="PasswordChangedMsg" xml:space="preserve">
+    <value>An email contains your new password was sent to your email address.</value>
+  </data>
+  <data name="PasswordChangedMsgEmailNotFound" xml:space="preserve">
+    <value>Email not found.</value>
+  </data>
+  <data name="RecoverPassword" xml:space="preserve">
+    <value>Recover password</value>
+  </data>
+  <data name="SendPassword" xml:space="preserve">
+    <value>Send new password</value>
+  </data>
+  <data name="AuctionAlreadyFinished" xml:space="preserve">
+    <value>Error, Auction already finished</value>
+  </data>
+  <data name="CloseAuction" xml:space="preserve">
+    <value>Close auction</value>
+  </data>
+  <data name="CloseAuctionConfirmation" xml:space="preserve">
+    <value>Close this auction</value>
+  </data>
+  <data name="DaysToAdd" xml:space="preserve">
+    <value>Days to add</value>
+  </data>
+  <data name="ExtendAuctionTime" xml:space="preserve">
+    <value>Extend auction time</value>
+  </data>
+  <data name="HoursToAdd" xml:space="preserve">
+    <value>Hours to add</value>
+  </data>
+  <data name="OpenningPrice" xml:space="preserve">
+    <value>Openning price</value>
+  </data>
+  <data name="ErrorExtending" xml:space="preserve">
+    <value>Please enter correct data</value>
+  </data>
+  <data name="Me" xml:space="preserve">
+    <value>Me</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="UserAuctionsCount" xml:space="preserve">
+    <value>Auctions count</value>
+  </data>
+  <data name="UserBiddingsCount" xml:space="preserve">
+    <value>Biddings count</value>
+  </data>
+  <data name="UserInfo" xml:space="preserve">
+    <value>User information</value>
+  </data>
+  <data name="UserWinningAuctionsCount" xml:space="preserve">
+    <value>Winning auctions count</value>
+  </data>
+  <data name="Bidding" xml:space="preserve">
+    <value>Bid</value>
+  </data>
+  <data name="BrowseAuctions" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="BrowseTheAuctionsByCategories" xml:space="preserve">
+    <value>Browse the auctions by categories</value>
+  </data>
+  <data name="CheckYourPurchasedItems" xml:space="preserve">
+    <value>Check your purchased items</value>
+  </data>
+  <data name="Congrats" xml:space="preserve">
+    <value>Congrats</value>
+  </data>
+  <data name="SearchForAuctions" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchForAuctionsByProductNameProductDescriptionOrByCurrency" xml:space="preserve">
+    <value>Search for auctions by product name, product description or by currency</value>
+  </data>
+  <data name="StartBiddingOnTheItemUWishToBUY" xml:space="preserve">
+    <value>Start bidding on the item you wish to buy!</value>
+  </data>
+  <data name="FindUsOnFB" xml:space="preserve">
+    <value>Find us on Facebook</value>
+  </data>
+  <data name="MessagesFromVisitorsAndUsers" xml:space="preserve">
+    <value>Messages from visitors and users</value>
+  </data>
+  <data name="Visitor" xml:space="preserve">
+    <value>Visitor</value>
+  </data>
+  <data name="SenderType" xml:space="preserve">
+    <value>Sender Type</value>
+  </data>
+  <data name="TextAlignLeft" xml:space="preserve">
+    <value>Text-align: Left</value>
+  </data>
+  <data name="TextAlignRight" xml:space="preserve">
+    <value>Text-align: Right</value>
+  </data>
+  <data name="CurrentAdmin" xml:space="preserve">
+    <value>Current Admin</value>
+  </data>
+  <data name="ContentMng" xml:space="preserve">
+    <value>Content management</value>
+  </data>
+  <data name="CategoryNamePlaceHolderAr" xml:space="preserve">
+    <value>Enter category name</value>
+  </data>
+  <data name="ChangeAuctionOpeningBid" xml:space="preserve">
+    <value>Change opening bid</value>
+  </data>
+  <data name="ReportToAdmin" xml:space="preserve">
+    <value>Report to admin</value>
+  </data>
+  <data name="Auction" xml:space="preserve">
+    <value>Auction</value>
+  </data>
+  <data name="MarkAsSeen" xml:space="preserve">
+    <value>Mark as seen</value>
+  </data>
+  <data name="ReportDateTime" xml:space="preserve">
+    <value>Report date and time</value>
+  </data>
+  <data name="ReportedBy" xml:space="preserve">
+    <value>Reported by</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="ReportsCount" xml:space="preserve">
+    <value>Reports count</value>
+  </data>
+  <data name="Reporters" xml:space="preserve">
+    <value>Reporters</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ViewList" xml:space="preserve">
+    <value>View list</value>
+  </data>
+  <data name="CannotDelete" xml:space="preserve">
+    <value>Cannot delete</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories Management</value>
+  </data>
+  <data name="CategoriesList" xml:space="preserve">
+    <value>Categories list</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditCategory" xml:space="preserve">
+    <value>Edit category</value>
+  </data>
+  <data name="Ex" xml:space="preserve">
+    <value>Ex</value>
+  </data>
+  <data name="SearchEx" xml:space="preserve">
+    <value>Product name, Description, Product Status, Currency</value>
+  </data>
+  <data name="AddCountryPlaceHolderAr" xml:space="preserve">
+    <value>Enter country name</value>
+  </data>
+  <data name="CategoryAlreadyExists" xml:space="preserve">
+    <value>Category already exists</value>
+  </data>
+  <data name="Countries" xml:space="preserve">
+    <value>Countries Management</value>
+  </data>
+  <data name="CountriesList" xml:space="preserve">
+    <value>Countries list</value>
+  </data>
+  <data name="CountryAlreadyExists" xml:space="preserve">
+    <value>Country already exists</value>
+  </data>
+  <data name="EditCountry" xml:space="preserve">
+    <value>Edit country</value>
+  </data>
+  <data name="EditCountryInfo" xml:space="preserve">
+    <value>Change country name to complete editing</value>
+  </data>
+  <data name="Currencies" xml:space="preserve">
+    <value>Currencies Management</value>
+  </data>
+  <data name="CurrenciesList" xml:space="preserve">
+    <value>Currencies list</value>
+  </data>
+  <data name="CurrencyAlreadyExists" xml:space="preserve">
+    <value>Currency already exists</value>
+  </data>
+  <data name="EditCurrency" xml:space="preserve">
+    <value>Edit currency</value>
+  </data>
+  <data name="EditCurrencyInfo" xml:space="preserve">
+    <value>Change currency name to complete editing</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Report details</value>
+  </data>
+  <data name="ReportedAuction" xml:space="preserve">
+    <value>Reported auction</value>
+  </data>
+  <data name="LoginsCount" xml:space="preserve">
+    <value>Logins count</value>
+  </data>
+  <data name="UsersCount" xml:space="preserve">
+    <value>Users count</value>
+  </data>
+  <data name="CardExpirationDate" xml:space="preserve">
+    <value>Card expiration date</value>
+  </data>
+  <data name="CardExpirationDateReq" xml:space="preserve">
+    <value>Card expiration date is required</value>
+  </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>Card number</value>
+  </data>
+  <data name="CardNumberPlaceholder" xml:space="preserve">
+    <value>Enter card number</value>
+  </data>
+  <data name="CardNumberReq" xml:space="preserve">
+    <value>Card number is required</value>
+  </data>
+  <data name="CardVerificationCode" xml:space="preserve">
+    <value>Card verification code (CVC)</value>
+  </data>
+  <data name="CardVerificationCodePlaceholder" xml:space="preserve">
+    <value>Enter Card verification code (CVC)</value>
+  </data>
+  <data name="CardVerificationCodeReq" xml:space="preserve">
+    <value>Card verification code (CVC) is required</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="NameOnCard" xml:space="preserve">
+    <value>Name on card</value>
+  </data>
+  <data name="NameOnCardPlaceholder" xml:space="preserve">
+    <value>Enter name on card</value>
+  </data>
+  <data name="NameOnCardReq" xml:space="preserve">
+    <value>Name on card is required</value>
+  </data>
+  <data name="NoPayments" xml:space="preserve">
+    <value>No payments</value>
+  </data>
+  <data name="NotPaid" xml:space="preserve">
+    <value>Not paid</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="Pay" xml:space="preserve">
+    <value>Pay</value>
+  </data>
+  <data name="PayBill" xml:space="preserve">
+    <value>Pay bill</value>
+  </data>
+  <data name="PayBillInfo" xml:space="preserve">
+    <value>Enter the following data to complete the payment operation</value>
+  </data>
+  <data name="PaymentsByCurrency" xml:space="preserve">
+    <value>Payments by currency</value>
+  </data>
+  <data name="PaymentStatus" xml:space="preserve">
+    <value>payment status</value>
+  </data>
+  <data name="PaymentValue" xml:space="preserve">
+    <value>Payment value</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="YourPayments" xml:space="preserve">
+    <value>Your payments</value>
+  </data>
+  <data name="PaidAuctions" xml:space="preserve">
+    <value>Paid auctions</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>in</value>
+  </data>
+  <data name="NoBiddingPrivilege" xml:space="preserve">
+    <value>You don't have the privilege to bid on auctions</value>
+  </data>
+  <data name="LastLoginDateTime" xml:space="preserve">
+    <value>Last login</value>
+  </data>
+  <data name="RegistrationDateTime" xml:space="preserve">
+    <value>Registration date and time</value>
+  </data>
+  <data name="AreYouSureYouWantTo" xml:space="preserve">
+    <value>Are you sure you want to</value>
+  </data>
+  <data name="DeleteMessage" xml:space="preserve">
+    <value>Delete message</value>
+  </data>
+  <data name="SelectMessagesToDelete" xml:space="preserve">
+    <value>Please select messages to delete</value>
+  </data>
+  <data name="PaymentFailed" xml:space="preserve">
+    <value>Sorry, payment operation failed. Please try again later.</value>
+  </data>
+  <data name="ProccessSuccess" xml:space="preserve">
+    <value>Process Success.</value>
+  </data>
+  <data name="Redirectingtothepreviouspagein3seconds" xml:space="preserve">
+    <value>Redirecting to the previous page in</value>
+  </data>
+  <data name="RedirectToPage" xml:space="preserve">
+    <value>Redirect to page</value>
+  </data>
+  <data name="ThankYouforusingourwebsite" xml:space="preserve">
+    <value>Thank you for using our website.</value>
+  </data>
+  <data name="ErrorSendingEmail" xml:space="preserve">
+    <value>Admin will contact your soon as it possible</value>
+  </data>
+  <data name="DeleteSelceted" xml:space="preserve">
+    <value>Delete selected</value>
+  </data>
+  <data name="RepliedBy" xml:space="preserve">
+    <value>Replied by</value>
+  </data>
+  <data name="ContactInfo" xml:space="preserve">
+    <value>Contact information</value>
+  </data>
+  <data name="FBProfile" xml:space="preserve">
+    <value>Facebook profile</value>
+  </data>
+  <data name="PayForYourItemsByCurrency" xml:space="preserve">
+    <value>Pay for your items by their currency</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Visible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="ListOfYourPurchasedItems" xml:space="preserve">
+    <value>List of your purchased items</value>
+  </data>
+  <data name="Seller" xml:space="preserve">
+    <value>Seller</value>
+  </data>
+  <data name="TheAuction" xml:space="preserve">
+    <value>The auction:</value>
+  </data>
+  <data name="WasAutomaticallyRemovedFromWebsite" xml:space="preserve">
+    <value>was automatically removed from website after getting 50 reports from users.</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="PayOnline" xml:space="preserve">
+    <value>Pay for your items online.</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="GenderReq" xml:space="preserve">
+    <value>Gender is required</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="CardType" xml:space="preserve">
+    <value>Credit card type</value>
+  </data>
+  <data name="UsernameLength" xml:space="preserve">
+    <value>Username must be between 5 - {1} characters</value>
+  </data>
+  <data name="CardTypeReq" xml:space="preserve">
+    <value>Credit card type is required</value>
+  </data>
+  <data name="PaymentDateTime" xml:space="preserve">
+    <value>Payment date and time</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Proceed</value>
+  </data>
+  <data name="SelectCardType" xml:space="preserve">
+    <value>Select card type</value>
+  </data>
+  <data name="BidDateTime" xml:space="preserve">
+    <value>Bid date and time</value>
+  </data>
+  <data name="Bidder" xml:space="preserve">
+    <value>Bidder</value>
+  </data>
+  <data name="BidValue" xml:space="preserve">
+    <value>Bid value</value>
+  </data>
+  <data name="BidsDetails" xml:space="preserve">
+    <value>Bids details</value>
+  </data>
+  <data name="AuctionDetails" xml:space="preserve">
+    <value>Auction details</value>
+  </data>
+  <data name="AuctionsCount" xml:space="preserve">
+    <value>Auctions count:</value>
+  </data>
+  <data name="NoReports" xml:space="preserve">
+    <value>There aren't any reports on this auction.</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date and time</value>
+  </data>
+  <data name="ChangeCategory" xml:space="preserve">
+    <value>Change category</value>
+  </data>
+  <data name="FinishDateTime" xml:space="preserve">
+    <value>Finish date and time</value>
+  </data>
+  <data name="DayAbbr" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="HourAbbr" xml:space="preserve">
+    <value>H</value>
+  </data>
+  <data name="MinuteAbbr" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="SecondAbbr" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="EmailText" xml:space="preserve">
+    <value>Email text</value>
+  </data>
+  <data name="EmailTextReq" xml:space="preserve">
+    <value>Email text is required</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="SubjectReq" xml:space="preserve">
+    <value>Subject is required</value>
+  </data>
+  <data name="SendEmailToAllUsers" xml:space="preserve">
+    <value>Send an email to all website users</value>
+  </data>
+  <data name="AAdmin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="ASupervisor" xml:space="preserve">
+    <value>Supervisor</value>
+  </data>
+  <data name="ASupport" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="AUser" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="EmailSubjectPlaceHolder" xml:space="preserve">
+    <value>Enter email subject</value>
+  </data>
+  <data name="EmailTextPlaceHolder" xml:space="preserve">
+    <value>Enter email text</value>
+  </data>
+  <data name="ErrorSelectSendTo" xml:space="preserve">
+    <value>Please choose email receivers</value>
+  </data>
+  <data name="ResetFields" xml:space="preserve">
+    <value>reset fields</value>
+  </data>
+  <data name="SendTo" xml:space="preserve">
+    <value>Send to</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>Bank account number</value>
+  </data>
+  <data name="AccountNumberPlaceHolder" xml:space="preserve">
+    <value>Enter your bank account number</value>
+  </data>
+  <data name="AccountNumberReq" xml:space="preserve">
+    <value>bank account number is required</value>
+  </data>
+  <data name="AccountNumberTitle" xml:space="preserve">
+    <value>Enter your bank account number that you wish to transfer money to it when your item is sold</value>
+  </data>
+  <data name="AuctionsToPayCount" xml:space="preserve">
+    <value>Unpaid auctions count</value>
+  </data>
+  <data name="BiddersPayments" xml:space="preserve">
+    <value>Unpaid bidders payments</value>
+  </data>
+  <data name="SetAsPaid" xml:space="preserve">
+    <value>Set as paid</value>
+  </data>
+  <data name="Proceed2" xml:space="preserve">
+    <value>proceed</value>
+  </data>
+  <data name="BootstrapScripts" xml:space="preserve">
+    <value>~/Scripts/bootstrap.js</value>
+  </data>
+  <data name="LikeUs" xml:space="preserve">
+    <value>Like us on</value>
+  </data>
+  <data name="OptionalField" xml:space="preserve">
+    <value>(Optional)</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Not available</value>
+  </data>
+  <data name="EditCategoryInfo" xml:space="preserve">
+    <value>Change category data and click save</value>
+  </data>
+  <data name="Biddings" xml:space="preserve">
+    <value>Bidding</value>
+  </data>
+  <data name="BrowseAndSearchForAuctions" xml:space="preserve">
+    <value>Browse and search for auctions</value>
+  </data>
+  <data name="ManageCategories" xml:space="preserve">
+    <value>Manage categories</value>
+  </data>
+  <data name="ManageCountries" xml:space="preserve">
+    <value>Manage countries</value>
+  </data>
+  <data name="ManageCurrencies" xml:space="preserve">
+    <value>Manage currencies</value>
+  </data>
+  <data name="ManageWebsiteMessages" xml:space="preserve">
+    <value>Manage website messages</value>
+  </data>
+  <data name="OnlinePaymentForAuctions" xml:space="preserve">
+    <value>Online payment for auctions</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="ReviewOngoingBiddings" xml:space="preserve">
+    <value>Review ongoing biddings</value>
+  </data>
+  <data name="ReviewPaidAuctions" xml:space="preserve">
+    <value>Review paid auctions</value>
+  </data>
+  <data name="ReviewPersonalAuctions" xml:space="preserve">
+    <value>Review personal auctions</value>
+  </data>
+  <data name="ReviewReports" xml:space="preserve">
+    <value>Review reports</value>
+  </data>
+  <data name="ReviewStatistics" xml:space="preserve">
+    <value>Review statistics</value>
+  </data>
+  <data name="ReviewWinningAuctions" xml:space="preserve">
+    <value>Review winning auctions</value>
+  </data>
+  <data name="RoleAdminDesc" xml:space="preserve">
+    <value>Website administrator</value>
+  </data>
+  <data name="RoleDescription" xml:space="preserve">
+    <value>Role description</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Role name</value>
+  </data>
+  <data name="RolesExplanation" xml:space="preserve">
+    <value>Roles Explanation</value>
+  </data>
+  <data name="RoleSupervisorDesc" xml:space="preserve">
+    <value>Website supervisor</value>
+  </data>
+  <data name="RoleSupportDesc" xml:space="preserve">
+    <value>Customers support</value>
+  </data>
+  <data name="RoleUserDesc" xml:space="preserve">
+    <value>Website normal user</value>
+  </data>
+  <data name="SendingMessagesToWebsiteAdministration" xml:space="preserve">
+    <value>Sending messages to website administration</value>
+  </data>
+  <data name="ClickOnAuctionToManage" xml:space="preserve">
+    <value>Click on an auction to manage</value>
+  </data>
+  <data name="ProductNameLength" xml:space="preserve">
+    <value>Product name must be 25 letters max</value>
+  </data>
+  <data name="SearchUserTitle" xml:space="preserve">
+    <value>Search by Username, First name, Last name, Email or Phone number.</value>
+  </data>
+  <data name="AdminSearchAuctionBoxPlaceHolder" xml:space="preserve">
+    <value>Search (By product name)</value>
+  </data>
+  <data name="BackToTop" xml:space="preserve">
+    <value>Back to top</value>
+  </data>
+  <data name="OurPageOnFacebook" xml:space="preserve">
+    <value>Our page on Facebook</value>
+  </data>
+  <data name="ImageUploadError" xml:space="preserve">
+    <value>Upload failed. Please check image size.</value>
+  </data>
+  <data name="ResultsCount" xml:space="preserve">
+    <value>Results count</value>
+  </data>
+  <data name="No-Description" xml:space="preserve">
+    <value>No-Description</value>
+  </data>
+  <data name="ShowHide" xml:space="preserve">
+    <value>Show/Hide</value>
+  </data>
+  <data name="AdminEmail" xml:space="preserve">
+    <value>onlineauctiontst@gmail.com</value>
+  </data>
+  <data name="AdminPassword" xml:space="preserve">
+    <value>12345678-A</value>
+  </data>
+  <data name="ThumbnailPath" xml:space="preserve">
+    <value>~/Images/Items/no-thumbnail.png</value>
+  </data>
+  <data name="PayPal" xml:space="preserve">
+    <value>PayPal Pay</value>
+  </data>
+</root>

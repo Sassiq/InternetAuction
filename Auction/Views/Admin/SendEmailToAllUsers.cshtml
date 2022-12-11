@@ -1,0 +1,89 @@
+﻿@using OnlineAuctionProject.Resources
+@model OnlineAuctionProject.Models.EmailToAllUsers
+@{
+    ViewBag.Title = Resource.SendEmailToAllUsers;
+}
+
+<h3>
+    <span class="glyphicon glyphicon-envelope"></span>
+    @Resource.SendEmailToAllUsers
+</h3>
+
+<hr />
+
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-8">
+            @using (Html.BeginForm("SendEmailToAllUsers", "Admin", FormMethod.Post)) 
+            {
+                <div class="form-horizontal">
+                    <div class="alert-danger text-center">
+                        <p>
+                            @ViewBag.ErrorSendingEmail
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Subject, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", placeholder = Resource.EmailSubjectPlaceHolder })
+                            @Html.ValidationMessageFor(model => model.Subject)
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmailText, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.EmailText, new { @class = "form-control messageTextArea" , placeholder = Resource.EmailTextPlaceHolder})
+                            @Html.ValidationMessageFor(model => model.EmailText)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("lblSelect", Resource.SendTo + ":", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="Admin" name="roles"> &nbsp; &nbsp; @Resource.AAdmin
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="User" name="roles"> &nbsp; &nbsp; @Resource.AUser
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="Support" name="roles"> &nbsp; &nbsp; @Resource.ASupport
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="Supervisor" name="roles"> &nbsp; &nbsp; @Resource.ASupervisor
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="reset" class="btn btn-default"
+                                    onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.ResetFields ?')">
+                                @Resource.Reset
+                            </button>
+                            <button type="submit" class="btn btn-default">
+                                @Resource.Send
+                                <span class="glyphicon glyphicon-send"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-lg-4">
+            <img src="~/Images/email-logo-png.png" class="img-responsive hidden-xs EmailImg" width="250" alt="@Resource.Image" />
+        </div>
+    </div>
+    <br />
+    <a href="@Url.Action("Messages", "Admin")" class="btn btn-default">
+        <span class="@Resource.BackToAdminPageGlyph"></span>
+    </a>
+</div>
+
+<script>
+   
+</script>

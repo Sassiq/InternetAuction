@@ -1,0 +1,1053 @@
+﻿body {
+    position: relative;
+    overflow-x: hidden;
+   
+    padding-top:20px;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.Box{
+    background-color:aliceblue;
+    border-radius:10px;
+    padding:15px;
+}
+
+footer{
+    padding-bottom:20px;
+}
+
+.header{
+    width:100%;
+    height:100px;
+    background: url(../Images/headerBG.jpg) lightgray;
+    border-radius:10px;
+    margin-top:30px;
+}
+
+.header h1{
+    padding-top:25px;
+    font-weight:bolder;
+}
+
+
+body,
+html {
+  background-color: #583e7e;
+  background: #414546 url(../Images/BG9.jpg) fixed;
+}
+body h1,
+body h2,
+body h3,
+body h4,
+footer {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration:none;
+}
+body a:hover {
+  color: #fff;
+}
+
+#addAuctionForm  label, p{
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.Box p{
+    color:black;
+}
+.Box h2{
+    color:black;
+}
+
+.CategoryBox{
+    padding:5px;
+    border:1px solid black;
+    width:250px;
+    height:225px;
+    margin-bottom:20px;
+    border-radius:10px;
+    background-color:lightgray;
+}
+
+.CategoryBox a{
+    display:block;
+}
+
+.CategoryImg{
+    width:240px;
+    height:180px;
+}
+
+.AuctionBox p{
+    color:black;
+}
+
+.AuctionBox{
+    padding:5px;
+    border:1px solid black;
+    width:250px;
+    height:315px;
+    margin-bottom:20px;
+    border-radius:10px;
+    background-color:lightgray;
+}
+
+.AuctionBox a
+{
+    display:block;
+    border-radius:10px;
+    text-decoration:none;
+}
+
+.AuctionImg{
+    width:240px;
+    height:180px;
+    margin-bottom:5px;
+}
+
+.MyAuctionImg{
+    width:190px;
+    height:165px;
+}
+
+#loginModal a{
+    color:blueviolet;
+}
+
+#loginModal a:hover{
+    color:blueviolet;
+    text-decoration:underline;
+}
+
+#loginModal p{
+    color:black;
+}
+
+.ViewAuctionImg{
+    width:300px;
+    height:250px;
+    margin:10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ViewAuctiontextarea{
+    min-width:85%;
+    min-height:180px;
+    cursor: default;
+}
+
+#ProdImg{
+    margin:0 0 5px 0;
+}
+
+#ProdImg:hover 
+{
+   opacity: 0.7;
+}
+
+
+/*View Image Modal Style*/
+/* The Modal (background) */
+.ProdImgmodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.ProdImgmodal .modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.ProdImgmodal .modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.ProdImgmodal .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.ProdImgmodal .close:hover,
+.ProdImgmodal .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*  Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+    h1{
+        font-size:210%;
+        font-weight:bold;
+    }
+    h2{
+        
+    }
+    h3{
+        font-size:115%;
+        font-weight:bold;
+    }
+    h4{
+        font-size:100%;
+    }
+    h5{
+
+    }
+    h6{
+
+    }
+    .hamburger.is-closed .hamb-top, .hamburger.is-closed .hamb-middle, .hamburger.is-closed .hamb-bottom{
+        background-color:#414546;
+    }
+    .hamburger.is-open .hamb-top, .hamburger.is-open .hamb-middle, .hamburger.is-open .hamb-bottom{
+        background-color:#414546;
+    } 
+
+    p{
+        font-size:10pt;
+    }
+
+    #MessagesAdminBtn{
+    width:130px;
+    height:130px;
+    background: url(../Images/email.png) no-repeat;
+    background-size: 120px 120px;
+    }
+
+    #UsersAdminBtn{
+        width:130px;
+        height:130px;
+        background: url(../Images/users.ico) no-repeat;
+        background-size: 110px 110px;
+        margin-top:10px;
+    }
+
+    #StatisticsAdminBtn{
+        width:130px;
+        height:130px;
+        background: url(../Images/Statistics_logo.png) no-repeat;
+        background-size: 110px 110px;
+        margin-top:15px;
+
+    }
+    #ReportsAdminBtn{
+        width:130px;
+        height:130px;
+        background: url(../Images/report3.png) no-repeat;
+        background-size: 120px 120px;
+        margin-top:10px;
+    }
+
+    #AuctionsManagementAdminBtn{
+        width:130px;
+        height:130px;
+        background: url(../Images/MetroUI.png) no-repeat;
+        background-size: 130px 130px;
+        margin-top:0px;
+    }
+
+    .AdminOptionsBtn{
+        font-weight:bold;
+        font-size:7.5pt;
+        margin:10px;
+    }
+
+}
+
+@media only screen and (min-width: 700px) {
+     h1{
+        font-size:320%;
+    }
+     #MessagesAdminBtn{
+        width:180px;
+        height:180px;
+        background: url(../Images/email.png) no-repeat;
+        background-size: 180px 175px;
+        
+    }
+
+    #UsersAdminBtn{
+        width:180px;
+        height:180px;
+        background: url(../Images/users.ico) no-repeat;
+        background-size: 170px 170px;
+        margin-top:15px;
+    }
+
+    #StatisticsAdminBtn{
+        width:180px;
+        height:180px;
+        background: url(../Images/Statistics_logo.png) no-repeat;
+        background-size: 160px 160px;
+        margin-top:20px;
+
+    }
+
+    #ReportsAdminBtn{
+        width:180px;
+        height:180px;
+        background: url(../Images/report3.png) no-repeat;
+        background-size: 180px 175px;
+        margin-top:15px;
+    }
+
+    #AuctionsManagementAdminBtn{
+        width:180px;
+        height:180px;
+        background: url(../Images/MetroUI.png) no-repeat;
+        background-size: 190px 190px;
+        margin-top:5px;
+    }
+
+    .AdminOptionsBtn{
+        font-weight:bold;
+        font-size:10pt;
+        margin:15px;
+    }
+
+   
+}
+
+#errorModal .modal-header{
+    background-color:red;
+}
+
+.adminBox{
+    margin-top:10px;
+    border:1px solid black; 
+    border-radius:10px;
+}
+
+.RemoveAuctionBtn{
+    text-decoration:none;
+    margin-bottom:10px;
+}
+
+body a:hover{
+    text-decoration:none;
+}
+
+body a:active{
+    text-decoration:none;
+}
+
+
+.messageTextArea{
+   min-width:90%;
+   min-height:300px;
+   resize:none;
+}
+
+.pargh{
+    padding:10px;
+    text-align:justify;
+    font-size:12pt;
+}
+
+.ContactUsImg{
+    margin-top:140px;
+}
+
+.facebookImg{
+    width:20px;
+    height:20px;
+
+}
+
+table td{
+    padding:5px;
+}
+
+table td:first-child h5{
+    font-weight:bold;
+}
+
+table a{
+    color:blue;
+}
+
+table a:hover{
+    text-decoration:underline;
+    color:blue;
+}
+
+.Logo{
+    color:#414546;
+}
+
+.Logo:hover{
+    color:grey;
+}
+
+
+.header .Logo:active{
+    text-decoration:none;
+    color:grey;
+}
+
+
+.searchBtn{
+    font-size:20pt;
+    background-color:lightslategrey;
+    color:white;
+    width:42px;
+    height:36px;
+    opacity:0.6;
+}
+
+.searchBtn:hover{
+  opacity:1;
+}
+
+.MsgViewBox{
+   min-width:80%;
+   min-height:300px;
+   background-color:whitesmoke;
+   padding:15px;
+   border-radius:10px;
+}
+
+.ReplyMsgBox{
+   min-width:100%;
+   min-height:300px;
+   padding:15px;
+   border-radius:10px;
+}
+
+.ReplyMsgImg{
+    margin-top:350px;
+}
+
+.EmailImg{
+    margin-top:220px;
+}
+
+.UserDetailsTable{
+    font-size:13pt;
+    margin:20px;
+}
+
+.UserDetailsTable td{
+    padding:5px;
+}
+
+.UserDetailsImg{
+    margin-top:250px;
+}
+
+
+.AnimatedBtn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.AnimatedBtn span:after {
+  content: '»';
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.AnimatedBtn:hover span {
+  
+}
+
+.AnimatedBtn:hover span:after {
+  opacity: 1;
+  right: 0;
+
+}
+
+
+
+.OngoingAuctionBox{
+    padding:5px;
+    border:1px solid black;
+    width:250px;
+    height:375px;
+    margin-bottom:20px;
+    border-radius:10px;
+    background-color:lightgray;
+}
+
+.OngoingAuctionBox a:hover{
+    text-decoration:underline;
+}
+
+.MyAuctionsBox{
+    padding:5px;
+    border:1px solid black;
+    width:100%;
+    margin-bottom:20px;
+    border-radius:10px;
+}
+
+.MyAuctionsBox:hover{
+    background-color:#e5d2d2;
+}
+
+.MyAuctionsBox td:first-child h5{
+font-weight:bold;}
+
+.MyAuctionsBox table td {
+    padding:1px 5px 1px 5px;
+}
+
+.MyAuctionsBox .optionsBtn{
+    color:white;
+    text-decoration:none;
+    margin-bottom:2px;
+    display:block;
+}
+
+.MyAuctionsBox .optionsBtn:hover{
+    color:white;
+    text-decoration:none;
+}
+
+
+.MyAuctionsBox a{
+    color:blue;
+}
+
+.MyAuctionsBox a:hover{
+    color:blue;
+    text-decoration:underline;
+}
+
+#pImage{
+    opacity:0.7;
+    cursor:pointer;
+    width:25px;
+    height:25px;
+    margin:3px;
+}
+
+#pImage:hover{
+    opacity:1;
+}
+
+#productImagesPanel{
+}
+
+#HomePagePanel{
+    margin: 20px;
+    color:black;
+}
+
+#HomePagePanel a{
+    color:black;
+}
+
+#HomePagePanel h3{
+    color:black;
+}
+
+.ClockImg{
+    width:150px;
+    height:150px;
+}
+
+.Box h4, .Box h3{
+    color:black;
+}
+
+#FacebookPagePanel{
+
+}
+
+.Box hr{
+   border-color:#949191;
+}
+
+.panel-heading h5{
+    color:white;
+}
+
+
+#ClickToLogin {
+    color: blueviolet;
+    cursor:pointer;
+}
+
+#ClickToLogin:hover{
+    text-decoration:underline;
+}
+
+.alert-info{
+}
+
+#ReportersPanel{
+    padding:10px;
+    height:150px;
+    background-color:aqua;
+    border-radius:10px;
+    overflow-y:scroll;
+}
+
+#creditCardsImg{
+    margin:0 auto;
+    width:400px;
+}
+
+
+.AdminOptionsBtn:hover{
+   opacity:0.8;
+}
+
+.AdminOptionsBtn:active{
+   opacity:1;
+}
+
+#HeaderAdminBtn{
+    font-size:20pt;
+    background-color:lightslategrey;
+    color:white;
+    width:42px;
+    height:36px;
+    opacity:0.6;
+}
+
+#HeaderAdminBtn:hover{
+    opacity:1;
+}
+
+.LogBtn{
+    font-size:18pt;
+    position:absolute;
+    top:22px;
+}
+
+.badgeAqua{
+    background-color:aqua;
+    color:black;
+}
+
+.aboutBox{
+    width:300px;
+    height:150px;
+    background-color:aqua;
+    padding-top:35px;
+    border-radius:10px;
+}
+.panel-body a{
+    color:black;
+}
+.panel-body a:hover{
+    color:black;
+    text-decoration:underline;
+}
+
+#aboutImg{
+    margin:0 auto;
+    width:300px;
+    height:200px;
+}
+
+.PaidAuctionImage{
+    width:250px;
+    height:200px;
+}
+
+.paidAuctionTextArea{
+     min-width:100%;
+    min-height:180px;
+    max-height:180px;
+    cursor: default;
+}
+
+
+.phoneNumber{
+    direction:ltr;
+}
+
+.DateTime{
+    direction:ltr;
+}
+
+#loginWaitingBox{
+    height:5px;
+}
+
+.DescriptionTextArea{
+    min-height:130px;
+    max-height:130px;
+    min-width:180px;
+    max-width:180px;
+    resize:none;
+}
+
+#AdminAuctionDetailsProdImages{
+    width:80px;
+    height:80px;
+    cursor:pointer;
+     margin:0 15px 0 15px;
+}
+
+#AdminAuctionDetailsProdImages:hover{
+    width:250px;
+    height:250px;
+    margin:0 15px 0 15px;
+}
+
+
+.AdminAuctionBoxImg{
+    width:200px;
+    height:150px;
+    margin-bottom:5px;
+}
+
+
+.AdminAuctionBox{
+    padding:5px;
+    border:1px solid black;
+    width:210px;
+    height:210px;
+    margin-bottom:20px;
+    border-radius:10px;
+    background-color:lightgray;
+}
+
+.AdminAuctionBox p{
+    font-size:9pt;
+}
+
+.AdminAuctionBox:hover{
+    opacity:0.8;
+}
+
+.customTable1 {
+    background: #f5f5f5;
+    border-collapse: separate;
+    box-shadow: inset 0 1px 0 #fff;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 30px auto;
+    text-align: left;
+}   
+
+.customTable1 th {
+    background:linear-gradient(#777, #444);
+    border-left: 1px solid #555;
+    border-right: 1px solid #777;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #333;
+    box-shadow: inset 0 1px 0 #999;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 #000;  
+}
+
+.customTable1 th:after {
+    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
+    content: '';
+    display: block;
+    height: 25%;
+    left: 0;
+    margin: 1px 0 0 0;
+    position: absolute;
+    top: 25%;
+    width: 100%;
+}
+
+.customTable1 th:first-child {
+    border-left: 1px solid #777;    
+    box-shadow: inset 1px 1px 0 #999;
+}
+
+.customTable1 th:last-child {
+    box-shadow: inset -1px 1px 0 #999;
+}
+
+.customTable1 td {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #e8e8e8;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 10px 15px;
+    position: relative;
+    transition: all 300ms;
+}
+
+.customTable1 td:first-child {
+    box-shadow: inset 1px 0 0 #fff;
+}   
+
+.customTable1 td:last-child {
+    border-right: 1px solid #e8e8e8;
+    box-shadow: inset -1px 0 0 #fff;
+}   
+
+
+.customTable1 tr:nth-child(odd) td {
+    background: #f1f1f1;
+}
+
+.customTable1 tr:last-of-type td {
+    box-shadow: inset 0 -1px 0 #fff; 
+}
+
+.customTable1 tr:last-of-type td:first-child {
+    box-shadow: inset 1px -1px 0 #fff;
+}   
+
+.customTable1 tr:last-of-type td:last-child {
+    box-shadow: inset -1px -1px 0 #fff;
+}   
+
+.customTable1Hover tbody:hover td {
+    color: transparent;
+    text-shadow: 0 0 3px #aaa;
+}
+
+.customTable1Hover tbody:hover tr:hover td {
+    color: #444;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.customTable1 td, th{
+    text-align:center;
+}
+
+input[type="checkbox"]:hover{
+    cursor:pointer;
+}
+
+.AuctioncountDownTimer{
+    margin-bottom:5px;
+}
+
+
+.cat-title {
+    background: blue none repeat scroll 0 0;
+    border-radius: .2em .2em 0 0;
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: .3em .5em;
+    font-size: 1em;
+    font-weight:bold;
+}
+.cat-title-after {
+    border: 2px solid blue;
+    display: block;
+    height: .1em;
+    padding: 0;
+    margin: 0 0 .5em;
+}
+
+.AjaxLoadingBox{
+    height:5px;
+}
+
+.dropDownList{
+    cursor:pointer;
+}
+
+
+ /*Page PreLoader */
+.loader-wrapper {
+    position: fixed;
+    background-color: rgba(34,34,34,0.8);
+    width: 100%;
+    height: 100%;
+    z-index:9000;
+    top:0;
+    left:0;
+}
+
+.loader {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -75px;
+    margin-left: -75px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0);
+}
+
+.spunner {
+    border-top-color: #2ca0ec;
+     
+    animation: run 3s cubic-bezier(.73,.19,.6,.67) infinite;    
+}
+
+.loader:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent; 
+}
+
+.spunner:before {
+    border-top-color: #1980b3; 
+       
+    animation: run 2s cubic-bezier(.73,.19,.6,.67) infinite;       
+}
+
+.loader:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;      
+}
+
+.spunner:after {
+    border-top-color: #70b7da;    
+       
+    animation: run 1.5s cubic-bezier(.73,.19,.6,.67) infinite;     
+}
+
+@keyframes run {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }    
+}
+
+
+.reportBtn{
+    font-size:20pt;
+    opacity:0.8;
+}
+
+.reportBtn:hover{
+    opacity:1;
+}
+
+a.backToTop {
+	display: none;
+	width: 40px;
+	height: 40px;
+	text-indent: -9999px;
+	position: fixed;
+	z-index: 999;
+	right: 20px;
+	bottom: 20px;
+	background: #949191 url("../Images/up-arrow.png") no-repeat center 30%;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+    opacity:0.7;
+}
+a:hover.backToTop {
+	background-color: #414546;
+}
+
+
+.headerUserWelcome {
+    margin-bottom: -20px;
+    margin-top: -18px;
+    cursor:default;
+}
+
+.clearFloat{
+    clear:both;
+}
+
+.languageChoices{
+    padding:5px;
+}

@@ -1,0 +1,70 @@
+﻿@model OnlineAuctionProject.Models.Category
+@using OnlineAuctionProject.Resources
+
+@{
+    ViewBag.Title = @Resource.AddNewCategory;
+}
+
+<h3>
+    <span class="glyphicon glyphicon-plus"> </span>
+    @Resource.AddNewCategory
+</h3>
+<hr />
+
+@using (Html.BeginForm("AddCategory", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="Box">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-horizontal">
+                    <p>
+                        <span class="glyphicon glyphicon-list-alt"> </span>
+                        @Resource.PleaseFillThisFormToAddNewCategory
+                    </p>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Category_Name, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Category_Name, new { @class = "form-control", placeholder = Resource.CategoryNamePlaceHolder })
+                            @Html.ValidationMessageFor(model => model.Category_Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="file" id="uploadFile" name="uploadFile" class="hidden" />
+                            <input type="button" id="btnUploadProductImage" value=@Resource.UploadFile class="btn btn-default"
+                                   onclick="document.getElementById('uploadFile').click()" />
+                            <br />
+                            <div id="ImageHolder">
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Image)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="@Resource.Add" class="btn btn-success" />
+                        </div>
+                    </div>
+                    <div class="alert-danger">
+                        <p>
+                            @ViewBag.CategoryAlreadyExists
+                        </p>
+                    </div>
+                    @Html.ValidationSummary(true)
+                </div>
+            </div>
+        </div>
+        <br />
+        <a href="@Url.Action("Categories","Admin")" class="btn btn-default">
+            <span class="@Resource.BackToAdminPageGlyph"> </span>
+        </a>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

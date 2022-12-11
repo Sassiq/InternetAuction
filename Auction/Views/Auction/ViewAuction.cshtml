@@ -1,0 +1,238 @@
+﻿@using OnlineAuctionProject.Models
+@model Auction
+@using OnlineAuctionProject.Resources
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = Resource.ViewAuction;
+
+    var db = new AuctionContext();
+    Report report = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+        report = db.Reports.SingleOrDefault(x => x.auction.Id == Model.Id && x.Reporter.Id == user.Id);
+    }
+
+}
+<input type="hidden" value="@User.Identity.IsAuthenticated.ToString()" id="Auth" />
+
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script src="~/Scripts/jquery.countdownTimer.min.js"></script>
+
+
+<h3>
+    <span class="glyphicon glyphicon-pushpin"></span>
+    @Resource.SelectedAuction
+</h3>
+<br />
+
+<div class="Box">
+    <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (!User.IsInRole("Admin") && !User.IsInRole("Supervisor") && !User.IsInRole("Support") && User.IsInRole("User"))
+            {
+                if (report == null && Model.Seller.Id != User.Identity.GetUserId())
+                {
+                    <div class="reportBtn">
+                        <a href="@Url.Action("ReportToAdmin", "Auction", new { Id = Model.Id })" title="@Resource.ReportToAdmin"
+                           onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.ReportToAdmin ?');">
+                            <span class="glyphicon glyphicon-exclamation-sign text-danger"></span>
+                        </a>
+                    </div>
+                }
+            }
+            else if(User.IsInRole("Admin") || User.IsInRole("Supervisor"))
+            {
+                <div class="reportBtn">
+                        <a href="@Url.Action("BidsDetails", "Admin", new { Id = Model.Id })" title="@Resource.BidsDetails">
+                            <span class="glyphicon glyphicon-asterisk text-danger"></span>
+                        </a>
+               </div>
+            }
+        }
+        <div class="text-center">
+            <div id="countdowntimer">
+                <span id="future_date"></span>
+            </div>
+            <script>
+                //countdown
+                $("#future_date").countdowntimer({
+                    startDate: '@DateTime.Now.ToString(new System.Globalization.CultureInfo("en-US"))',
+                    dateAndTime: '@Model.Finish_Date.Value.ToString(new System.Globalization.CultureInfo("en-US"))',
+                    size: "md",
+                    timeUp: timeIsUp,
+                    regexpMatchFormat: "([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",
+                    regexpReplaceWith: "$1<sup><small>@Resource.DayAbbr</small></sup> / $2<sup><small>@Resource.HourAbbr</small></sup> / $3<sup><small>@Resource.MinuteAbbr</small></sup> / $4<sup><small>@Resource.SecondAbbr</small></sup>",
+                    backgroundColor: '#515252',
+                    borderColor: "#515252"
+                });
+
+                function timeIsUp() {
+                    $("#bidInput").addClass("hidden");
+                    $("#Finished").removeClass("hidden");
+                }
+            </script>
+        </div>
+
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="text-center">
+                <img id="ProdImg" src="@Url.Content(Model.Product.Images.Take(1).SingleOrDefault().Path)"
+                     class="img-thumbnail img-responsive ViewAuctionImg"
+                     alt="@Model.Product.Name (@Resource.Image)" />
+                <br />
+                <div id="productImagesPanel" class="text-center">
+                    @if (Model.Product.Images.Count > 1)
+                    {
+                        foreach (var p in Model.Product.Images)
+                        {
+                            <img src="@Url.Content(p.Path)"
+                                 onmouseover="$('#ProdImg').attr('src', '@Url.Content(p.Path)');"
+                                 onclick="$('#ProdImg').attr('src', '@Url.Content(p.Path)');"
+                                 id="pImage" />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <h4>
+                @Html.DisplayNameFor(x => x.Product.Name): @Model.Product.Name
+            </h4>
+            <h4>
+                @Html.DisplayNameFor(x => x.Product.Status) :
+                @(Model.Product.Status == "Used" ? Resource.Used : Resource.New)
+            </h4>
+            <h4>
+                @Html.DisplayNameFor(x => x.Product.Description):
+            </h4>
+            <p>
+                <ul class="ProductDescriptionList">
+                    @foreach (var line in Model.Product.Description.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        <li>
+                            @line
+                        </li>
+                    }
+                </ul>
+            </p>
+           
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <h4>
+                @Html.DisplayNameFor(x => x.Current_Bid):
+                <span class="label label-primary">  @Model.Current_Bid @Model.Product.Currency.Name </span>
+                <input id="currentBid" type="hidden" value="@Model.Current_Bid" />
+            </h4>
+            <h4>
+                @Resource.BidsCount : @Model.Bids.Where(x => x.Auction.Id == Model.Id).Count()
+            </h4>
+
+            @if (Model.Buyer != null && User.Identity.IsAuthenticated)
+            {
+                <h4>
+                    @Resource.CurrentBidder : @(Model.Buyer.UserName == User.Identity.Name ? Resource.Me : (Model.Buyer.UserName == null ? Resource.None : Model.Buyer.UserName))
+                </h4>
+            }
+            @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
+            {
+                <h4>
+                    @Resource.Seller : @Model.Seller.UserName
+                </h4>
+            }
+            @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+            {
+                using (Html.BeginForm("Bid", "Auction", new { Id = Model.Id, value = Model.Current_Bid, returnUrl = "/Auction/ViewAuction/" + Model.Id }, FormMethod.Post, null))
+                {
+                    <div id="bidInput">
+                        <h4>
+                            @Resource.PlaceBid:
+                        </h4>
+                        <div class="form-inline form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span style="display:inline; font-weight:bold;">@Model.Product.Currency.Name</span>
+                                </span>
+                                @if ((Model.Buyer != null && Model.Buyer.Id == User.Identity.GetUserId()) || Model.Seller.Id == User.Identity.GetUserId())
+                                {
+                                    @Html.TextBoxFor(x => x.Current_Bid, new { @class = "form-control", type = "number", min = Model.Current_Bid, disabled = "disabled" })
+                                    <span class="input-group-btn">
+                                        <input type="submit" value="@Resource.Bid" class="btn btn-success" onclick="return canBid()" disabled="disabled" />
+                                    </span>
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.Current_Bid, new { @class = "form-control", type = "number", min = Model.Current_Bid })
+                                    <span class="input-group-btn">
+                                        <input type="submit" value="@Resource.Bid" class="btn btn-success" onclick="return canBid()" />
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <div class="alert-danger">
+                            <p>@ViewBag.ErrorBidding</p>
+                        </div>
+                    </div>
+                    <div id="Finished" class="hidden alert alert-danger">
+                        <h4 class="text-danger text-center">
+                            @Resource.AuctionFinished
+                        </h4>
+                    </div>
+                }
+            }
+            else if (User.Identity.IsAuthenticated && !User.IsInRole("User"))
+            {
+                <h4 style="color:red;" class="alert-danger">
+                    @Resource.NoBiddingPrivilege .
+                </h4>
+            }
+            else
+            {
+                <h4 onclick="$('#loginLink').click();" id="ClickToLogin" class="alert-link">
+                    @Resource.LoginAndStartBidding
+                </h4>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Image Modal -->
+<div id="ImgModal" class="modal ProdImgmodal" style="z-index:1000;">
+
+    <!-- The Close Button -->
+    <span class="close" onclick="document.getElementById('ImgModal').style.display = 'none'">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
+
+<!-- Errors Modal -->
+<div id="errorModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-remove-circle"> </span>
+                    @Resource.Error
+                </h4>
+            </div>
+            <div class="modal-body">
+                @Resource.BidErrorMsg
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@Resource.Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

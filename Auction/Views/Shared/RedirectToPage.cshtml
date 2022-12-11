@@ -1,0 +1,24 @@
+﻿@using OnlineAuctionProject.Resources
+@{
+    ViewBag.Title = Resource.RedirectToPage;
+}
+<br /><br />
+<h3>
+    @Resource.ProccessSuccess
+    <br /><br />
+    @Resource.ThankYouforusingourwebsite
+    <br /><br />
+    @Resource.Redirectingtothepreviouspagein3seconds
+    <span id="future_date"></span>
+</h3>
+
+<script>
+    //countdown
+    $("#future_date").countdowntimer({
+        seconds: 3,
+        size: "sm",
+        borderColor: "transparent",
+        backgroundColor: "transparent",
+        expiryUrl: "@Url.Content(ViewBag.ReturnUrl)"
+    });
+</script>

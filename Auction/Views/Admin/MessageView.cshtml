@@ -1,0 +1,100 @@
+﻿@using OnlineAuctionProject.Resources
+@model OnlineAuctionProject.Models.Message
+@{
+    ViewBag.Title = Resource.Message;
+    System.Globalization.CultureInfo en = new System.Globalization.CultureInfo("en-US");
+    System.Threading.Thread.CurrentThread.CurrentCulture = en;
+    TimeZoneInfo tzi = TimeZoneInfo.Local;}
+
+<h3>
+    <span class="glyphicon glyphicon-envelope"></span>
+    @Resource.Message
+</h3>
+
+<hr />
+
+<div class="Box">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert-info">
+                <h4 class="text-center">
+                    @Resource.Options
+                </h4>
+            </div>
+            <div class="btn-group btn-group-justified">
+                @using (Html.BeginForm("DeleteSingleMessage", "Admin", new { Id = Model.Id }, FormMethod.Post))
+                {
+                    if (Model.Email != "Automatic@Email.website")
+                    { 
+                    <a href="@Url.Action("Reply", "Admin", new { ToEmail = Model.Email, Id = Model.Id })" class="btn btn-default">
+                        <span class="glyphicon glyphicon-share-alt"></span>
+                        @Resource.Reply
+                    </a>
+                    }
+                    <button type="submit" class="btn btn-default" onclick="return confirm('@Resource.AreYouSureYouWantTo @Resource.DeleteMessage ?');">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                        @Resource.Delete
+                    </button>
+                }
+
+            </div>
+            <hr />
+            <h4 class="text-info">
+                @Html.DisplayNameFor(model => model.Email) : @Model.Email
+            </h4>
+            <h4 class="text-info">
+                @Html.DisplayNameFor(model => model.SenderType) :
+                @if (Model.SenderType == "Visitor")
+                {
+                    @:@Resource.Visitor
+                                        }
+                else if (Model.SenderType == "User")
+                {
+                    @:@Resource.User
+                                        }
+                else if (Model.SenderType == "Website")
+                {
+                    @:@Resource.Website
+                                        }
+            </h4>
+            <h4 class="text-info">
+                @Resource.Date: @TimeZoneInfo.ConvertTimeFromUtc(Model.MessageDateAndTime.Value.ToUniversalTime(), tzi).ToShortDateString()
+            </h4>
+            <h4 class="text-info">
+                @Resource.Time: @TimeZoneInfo.ConvertTimeFromUtc(Model.MessageDateAndTime.Value.ToUniversalTime(), tzi).ToShortTimeString()
+            </h4>
+            @if (User.IsInRole("Admin"))
+            {
+                <h4 class="text-info">
+                    @Resource.RepliedBy: @(Model.RepliedBy != null ? Model.RepliedBy.UserName : Resource.None)
+                </h4>
+            }
+            <hr />
+            <h4 class="text-info">
+                @Html.DisplayNameFor(model => model.MessageText)
+            </h4>
+            @Html.TextAreaFor(model => model.MessageText, new { @class = "MsgViewBox", @readonly = "readonly" })
+            <br />
+
+            <div class="btn-group">
+                <button onclick="$('#MessageText').css('text-align', 'right');" class="btn btn-default"
+                        title="@Resource.TextAlignRight">
+                    <span class="glyphicon glyphicon-align-right"></span>
+                </button>
+                <button onclick="$('#MessageText').css('text-align', 'left');" class="btn btn-default"
+                        title="@Resource.TextAlignLeft">
+                    <span class="glyphicon glyphicon-align-left"></span>
+                </button>
+            </div>
+
+
+            <br /><br />
+            <a href="@Url.Action("Messages","Admin")" class="btn btn-default">
+                <span class="@Resource.BackToAdminPageGlyph"> </span>
+                @Resource.BackToMessagesList
+            </a>
+
+        </div>
+
+    </div>
+</div>
