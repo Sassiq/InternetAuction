@@ -26,7 +26,6 @@ namespace OnlineAuctionProject.Services
         private static List<Transaction> GetTransactionsList(Models.Payment paymentData)
         {
             var transactionList = new List<Transaction>();
-            paymentData.PaymentValue = "100";
             var total = paymentData.PaymentValue;
             var tax = (double.Parse(paymentData.PaymentValue) * 0.1).ToString();
             var shipping = (double.Parse(paymentData.PaymentValue) * 0.1).ToString();

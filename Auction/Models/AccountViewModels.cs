@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using OnlineAuctionProject.Resources;
-using System.ComponentModel;
+﻿using OnlineAuctionProject.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineAuctionProject.Models
 {
