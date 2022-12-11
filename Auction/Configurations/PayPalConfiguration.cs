@@ -15,12 +15,7 @@ namespace OnlineAuctionProject.Configurations
             ClientSecret = config["clientSecret"];
         }
 
-        public static Dictionary<string, string> GetConfig() => new Dictionary<string, string>() {
-                { "clientId", "AUHD4rAKVwhBOSgvLyoZA2p7Q4R8i9pwjqoQvcJfaNS8-lcHC1gYAcpjBBrBF3ZkRhueSr91wL6uRy6G" },
-                { "clientSecret", "EL7_W8C_ROmWeh9Jw5mgI3XtXSnDWhyQzqGRI2HL2NE_e_Xblm2iGbX2EnUScdqnFaIMApflS97Aw-Rk" }
-            };
-
-        private static string GetAccessToken() => new OAuthTokenCredential(ClientId, ClientSecret, GetConfig()).GetAccessToken();
+        public static Dictionary<string, string> GetConfig() => ConfigManager.Instance.GetProperties();
 
         public static APIContext GetAPIContext()
         {
@@ -29,5 +24,7 @@ namespace OnlineAuctionProject.Configurations
 
             return apiContext;
         }
+
+        private static string GetAccessToken() => new OAuthTokenCredential(ClientId, ClientSecret, GetConfig()).GetAccessToken();
     }
 }

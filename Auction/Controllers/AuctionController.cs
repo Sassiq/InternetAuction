@@ -420,7 +420,6 @@ namespace OnlineAuctionProject.Controllers
         [HttpPost]
         public async Task<ActionResult> PayBill(Payment payment)
         {
-            bool paymentSuccess = false;
             List<Auction> auctions;
             if (Session["AuctionsToPay"] != null)
             {
@@ -431,70 +430,20 @@ namespace OnlineAuctionProject.Controllers
                 return RedirectToAction("MyWinningAuctions");
             }
 
-            var cardsList = new List<string>();
-            cardsList.Add("Visa");
-            cardsList.Add("Master Card");
-            cardsList.Add("American Express");
-            cardsList.Add("Discover Network");
-
-            List<int> months = new List<int>();
-            for (int i = 01; i <= 12; i++)
-                months.Add(i);
-
-            List<int> years = new List<int>();
-            for (int i = DateTime.Now.Year; i <= DateTime.Now.AddYears(10).Year; i++)
-                years.Add(i);
-
-            payment.PaymentValue = auctions.Sum(x => x.Current_Bid).ToString();
-
-            var redirectUrl = Request.Url.ToString().Replace("PayBill", "PaidAuctions");
-
-            var paymentPayPal = PayPalPaymentService.CreatePayment(redirectUrl, payment);
-
-            var url = paymentPayPal.GetApprovalUrl();
-
-            return Redirect(url);
-
             try
             {
-                foreach (Auction auction in auctions)
-                {
-                    Auction auc = _dbContext.Auctions.Include("Seller").SingleOrDefault(x => x.Id == auction.Id);
-                    payment.SellerAccountNumber = auc.Seller.AccountNumber;
+                payment.PaymentValue = auctions.Sum(x => x.Current_Bid).ToString();
 
-                    /*
-                        Payment Proccess goes here
-                     */
-                    paymentSuccess = true;
-                    if (paymentSuccess)
-                    {
-                        auction.IsPaid = true;
-                        auction.PaymentDateTime = DateTime.Now;
-                        (await _dbContext.Auctions.FindAsync(auction.Id)).IsPaid = auction.IsPaid;
-                        (await _dbContext.Auctions.FindAsync(auction.Id)).PaymentDateTime = auction.PaymentDateTime;
-                        await _dbContext.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        ViewBag.CardTypes = new SelectList(cardsList);
-                        ViewBag.Month = new SelectList(months);
-                        ViewBag.Year = new SelectList(years);
-                        ViewBag.PaymentFailed = Resource.PaymentFailed;
-                        return View(payment);
-                    }
-                }
-                return RedirectToAction("RedirectToPage", "Base", new { returnUrl = "/Auction/MyWinningAuctions" });
+                var redirectUrl = Request.Url.ToString().Replace("PayBill", "PaidAuctions");
 
+                var paymentPayPal = PayPalPaymentService.CreatePayment(redirectUrl, payment);
+
+                var url = paymentPayPal.GetApprovalUrl();
+
+                return Redirect(url);
             }
-            catch
-            {
+            catch { }
 
-            }
-            
-
-            ViewBag.CardTypes = new SelectList(cardsList);
-            ViewBag.Month = new SelectList(months);
-            ViewBag.Year = new SelectList(years);
             return View(payment);
         }
 
@@ -625,12 +574,32 @@ namespace OnlineAuctionProject.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult> PaidAuctions(string paymentId)
+        public async Task<ActionResult> PaidAuctions(string paymentId, string payerId)
         {
-            //FAWSFN48H8LJ8
-            var payment = PayPalPaymentService.ExecutePayment(paymentId, "FAWSFN48H8LJ8");
-
-
+            if (payerId != null && paymentId != null)
+            {
+                try
+                {
+                    var payment = PayPalPaymentService.ExecutePayment(paymentId, payerId);
+                    if (payment != null && payment.state == "approved" && Session["AuctionsToPay"] != null)
+                    {
+                        var auctions = Session["AuctionsToPay"] as List<Auction>;
+                        for (int i = 0; i < auctions.Count; i++)
+                        {
+                            auctions[i].IsPaid = true;
+                            auctions[i].PaymentDateTime = DateTime.Now;
+                            (await _dbContext.Auctions.FindAsync(auctions[i].Id)).IsPaid = auctions[i].IsPaid;
+                            (await _dbContext.Auctions.FindAsync(auctions[i].Id)).PaymentDateTime = auctions[i].PaymentDateTime;
+                            (await _dbContext.Auctions.FindAsync(auctions[i].Id)).Buyer = _dbContext.Users.Find(User.Identity.GetUserId());
+                            await _dbContext.SaveChangesAsync();
+                        }
+                    }
+                }
+                catch
+                {
+                    return RedirectToAction("MyWinningAuctions");
+                }
+            }
 
             var user = _dbContext.Users.Find(User.Identity.GetUserId());
             var paidAuctions = await _dbContext.Auctions
@@ -638,10 +607,12 @@ namespace OnlineAuctionProject.Controllers
                 .Include("Product")
                 .Include("Product.Currency")
                 .Include("Product.Category")
+                .Include("Buyer")
                 .Where(x => x.Buyer.Id == user.Id && x.IsPaid)
                 .ToListAsync();
 
             return View(paidAuctions.ToPagedList(1, 6));
+
         }
 
         private Uri GetBaseUrl()
